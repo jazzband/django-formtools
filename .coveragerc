@@ -1,0 +1,6 @@
+[run]
+source = formtools
+branch = 1
+
+[report]
+omit = localflavor/*tests*

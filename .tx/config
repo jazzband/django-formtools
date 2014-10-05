@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+lang_map = sr@latin:sr_Latn
+type = PO
+
+[django-formtools.main]
+file_filter = formtools/locale/<lang>/LC_MESSAGES/django.po
+source_file = formtools/locale/en/LC_MESSAGES/django.po
+source_lang = en

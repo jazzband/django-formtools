@@ -1,0 +1,48 @@
+Authors
+=======
+
+* Adam Haney
+* Adrian Holovaty
+* Alasdair Nicol
+* Alex Gaynor
+* Andrew Godwin
+* Anubhav Joshi
+* Areski Belaid
+* Aymeric Augustin
+* Berker Peksag
+* Bouke Haarsma
+* Carl Meyer
+* Christopher Medrela
+* Claude Paroz
+* Curtis Maloney
+* Erik Romijn
+* Florian Apolloner
+* Gary Wilson Jr
+* Hiroki Kiyohara
+* Honza Král
+* Ian Clelland
+* Ilya Baryshev
+* Jacob Kaplan-Moss
+* James Jenkins
+* Jannis Leidel
+* Jason Myers
+* Julian Wachholz
+* Julien Phalip
+* Justin Bronn
+* Karen Tracey
+* Kathryn Killebrew
+* Kent Hauser
+* Loic Bistuer
+* Luke Plant
+* Malcolm Tredinnick
+* Maurycy
+* Preston Holmes
+* Preston Timmons
+* Ramiro Morales
+* Rodolfo Carvalho
+* Russell Keith-Magee
+* Simon Charette
+* Stephan Jaekel
+* Tim Graham
+* Trey Hunner
+* Vishal Lal
