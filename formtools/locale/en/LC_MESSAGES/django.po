@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-19 15:17+0200\n"
+"POT-Creation-Date: 2014-10-05 21:46+0200\n"
 "PO-Revision-Date: 2010-05-13 15:35+0200\n"
 "Last-Translator: Django team\n"
 "Language-Team: English <en@li.org>\n"
@@ -13,22 +13,47 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: contrib/formtools/apps.py:8
+#: apps.py:7
 msgid "Form Tools"
 msgstr ""
 
-#: contrib/formtools/templates/formtools/wizard/wizard_form.html:15
+#: templates/formtools/form.html:6
+msgid "Please correct the following errors"
+msgstr ""
+
+#: templates/formtools/form.html:6 templates/formtools/preview.html:24
+msgid "Submit"
+msgstr ""
+
+#: templates/formtools/form.html:13 templates/formtools/preview.html:34
+msgid "Preview"
+msgstr ""
+
+#: templates/formtools/preview.html:6
+msgid "Preview your submission"
+msgstr ""
+
+#: templates/formtools/preview.html:17
+#, python-format
+msgid "Security hash: %(hash_value)s"
+msgstr ""
+
+#: templates/formtools/preview.html:27
+msgid "Or edit it again"
+msgstr ""
+
+#: templates/formtools/wizard/wizard_form.html:15
 msgid "first step"
 msgstr ""
 
-#: contrib/formtools/templates/formtools/wizard/wizard_form.html:16
+#: templates/formtools/wizard/wizard_form.html:16
 msgid "prev step"
 msgstr ""
 
-#: contrib/formtools/templates/formtools/wizard/wizard_form.html:18
+#: templates/formtools/wizard/wizard_form.html:18
 msgid "submit"
 msgstr ""
 
-#: contrib/formtools/wizard/views.py:276
+#: wizard/views.py:276
 msgid "ManagementForm data is missing or has been tampered."
 msgstr ""
