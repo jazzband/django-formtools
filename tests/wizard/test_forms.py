@@ -10,9 +10,9 @@ from django.template.response import TemplateResponse
 
 from django.contrib.auth.models import User
 
-from django.contrib.formtools.wizard.views import (WizardView,
-                                                   SessionWizardView,
-                                                   CookieWizardView)
+from formtools.wizard.views import (WizardView,
+                                    SessionWizardView,
+                                    CookieWizardView)
 
 
 class DummyRequest(http.HttpRequest):
@@ -69,7 +69,7 @@ TestModelFormSet = forms.models.modelformset_factory(TestModel, form=TestModelFo
 
 
 class TestWizard(WizardView):
-    storage_name = 'django.contrib.formtools.wizard.storage.session.SessionStorage'
+    storage_name = 'formtools.wizard.storage.session.SessionStorage'
 
     def dispatch(self, request, *args, **kwargs):
         response = super(TestWizard, self).dispatch(request, *args, **kwargs)

@@ -9,10 +9,11 @@ from django.test.client import RequestFactory
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.tests.utils import skipIfCustomUser
-from django.contrib.formtools.wizard.views import CookieWizardView
 from django.utils._os import upath
-from django.contrib.formtools.tests.models import Poet, Poem
 
+from formtools.wizard.views import CookieWizardView
+
+from .models import Poet, Poem
 from .forms import temp_storage
 
 
@@ -233,7 +234,7 @@ class WizardTests(object):
 
 
 @skipIfCustomUser
-@override_settings(ROOT_URLCONF='django.contrib.formtools.tests.wizard.wizardtests.urls')
+@override_settings(ROOT_URLCONF='tests.wizard.wizardtests.urls')
 class SessionWizardTests(WizardTests, TestCase):
     wizard_url = '/wiz_session/'
     wizard_step_1_data = {
@@ -266,7 +267,7 @@ class SessionWizardTests(WizardTests, TestCase):
 
 
 @skipIfCustomUser
-@override_settings(ROOT_URLCONF='django.contrib.formtools.tests.wizard.wizardtests.urls')
+@override_settings(ROOT_URLCONF='tests.wizard.wizardtests.urls')
 class CookieWizardTests(WizardTests, TestCase):
     wizard_url = '/wiz_cookie/'
     wizard_step_1_data = {
@@ -299,7 +300,7 @@ class CookieWizardTests(WizardTests, TestCase):
 
 
 @skipIfCustomUser
-@override_settings(ROOT_URLCONF='django.contrib.formtools.tests.wizard.wizardtests.urls')
+@override_settings(ROOT_URLCONF='tests.wizard.wizardtests.urls')
 class WizardTestKwargs(TestCase):
     wizard_url = '/wiz_other_template/'
     wizard_step_1_data = {

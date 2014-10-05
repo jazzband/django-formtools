@@ -1,9 +1,9 @@
 import json
 
-from django.contrib.formtools.wizard import storage
+from .base import BaseStorage
 
 
-class CookieStorage(storage.BaseStorage):
+class CookieStorage(BaseStorage):
     encoder = json.JSONEncoder(separators=(',', ':'))
 
     def __init__(self, *args, **kwargs):
@@ -21,6 +21,7 @@ class CookieStorage(storage.BaseStorage):
     def update_response(self, response):
         super(CookieStorage, self).update_response(response)
         if self.data:
-            response.set_signed_cookie(self.prefix, self.encoder.encode(self.data))
+            response.set_signed_cookie(self.prefix,
+                                       self.encoder.encode(self.data))
         else:
             response.delete_cookie(self.prefix)

@@ -1,7 +1,7 @@
-from django.contrib.formtools.wizard import storage
+from .base import BaseStorage
 
 
-class SessionStorage(storage.BaseStorage):
+class SessionStorage(BaseStorage):
 
     def __init__(self, *args, **kwargs):
         super(SessionStorage, self).__init__(*args, **kwargs)

@@ -3,8 +3,9 @@ from django.core import signing
 from django.http import HttpResponse
 
 from django.contrib.auth.tests.utils import skipIfCustomUser
-from django.contrib.formtools.wizard.storage.cookie import CookieStorage
-from django.contrib.formtools.tests.wizard.storage import get_request, TestStorage
+from formtools.wizard.storage.cookie import CookieStorage
+
+from .storage import get_request, TestStorage
 
 
 @skipIfCustomUser

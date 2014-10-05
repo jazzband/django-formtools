@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from django.contrib.formtools.tests.wizard.wizardtests.forms import (
-    SessionContactWizard, CookieContactWizard, Page1, Page2, Page3, Page4)
+from .forms import (SessionContactWizard, CookieContactWizard,
+                    Page1, Page2, Page3, Page4)
 
 urlpatterns = [
     url(r'^wiz_session/$', SessionContactWizard.as_view(

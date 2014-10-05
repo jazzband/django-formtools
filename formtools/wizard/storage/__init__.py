@@ -1,8 +1,7 @@
 from django.utils.module_loading import import_string
 
-from django.contrib.formtools.wizard.storage.base import BaseStorage
-from django.contrib.formtools.wizard.storage.exceptions import (
-    MissingStorage, NoFileStorageConfigured)
+from .base import BaseStorage
+from .exceptions import MissingStorage, NoFileStorageConfigured
 
 __all__ = [
     "BaseStorage", "MissingStorage", "NoFileStorageConfigured", "get_storage",

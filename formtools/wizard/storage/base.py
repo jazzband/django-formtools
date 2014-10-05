@@ -3,7 +3,7 @@ from django.utils.datastructures import MultiValueDict
 from django.utils.functional import lazy_property
 from django.utils import six
 
-from django.contrib.formtools.wizard.storage.exceptions import NoFileStorageConfigured
+from .exceptions import NoFileStorageConfigured
 
 
 class BaseStorage(object):

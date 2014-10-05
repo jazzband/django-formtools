@@ -7,13 +7,12 @@ import unittest
 import warnings
 
 from django import http
-from django.contrib.formtools import preview, utils
 from django.test import TestCase, override_settings
 from django.utils._os import upath
 
-from django.contrib.formtools.tests.forms import (
-    HashTestBlankForm, HashTestForm, TestForm,
-)
+from formtools import preview, utils
+
+from .forms import HashTestBlankForm, HashTestForm, TestForm
 
 success_string = "Done was called!"
 success_string_encoded = success_string.encode()
@@ -36,7 +35,7 @@ class TestFormPreview(preview.FormPreview):
     TEMPLATE_DIRS=(
         os.path.join(os.path.dirname(upath(__file__)), 'templates'),
     ),
-    ROOT_URLCONF='django.contrib.formtools.tests.urls',
+    ROOT_URLCONF='tests.urls',
 )
 class PreviewTests(TestCase):
 

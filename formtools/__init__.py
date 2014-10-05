@@ -1,1 +1,3 @@
-default_app_config = 'django.contrib.formtools.apps.FormToolsConfig'
+__version__ = '1.0'
+
+default_app_config = 'formtools.apps.FormToolsConfig'
