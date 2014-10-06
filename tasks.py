@@ -30,7 +30,7 @@ def test():
 def translations(pull=False):
     if pull:
         run('tx pull -a')
-    run('cd formtools; django-admin.py makemessages -a; django-admin.py compilemessages; cd ..')
+    run('cd formtools; django-admin.py makemessages -a; django-admin compilemessages; cd ..')
 
 
 @task
