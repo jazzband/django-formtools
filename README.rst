@@ -15,7 +15,7 @@ This code used to live in Django proper -- in ``django.contrib.formtools``
 -- but was separated into a standalone package in Django 1.8 to keep the
 framework's core clean.
 
-For a full list of available formtoolss, see
+For a full list of available formtools, see
 http://django-formtools.readthedocs.org/
 
 django-formtools can also be found on and installed from the Python
