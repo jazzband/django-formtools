@@ -57,16 +57,15 @@ the internationalization system can find the catalog, as explained in
 Releases
 ========
 
-Due to django-formtools' history as a former contrib app, the app is
-required to be working with the actively maintained Django versions. See
-the documenation about `Django's release process`_ for more information.
-
-django-formtools releases are not tied to the release cycle of Django.
-Version numbers follow the appropriate Python standards, e.g. PEPs 386_ and 440_.
+New releases of django-formtools should always be compatible with the latest
+stable release of Django. If a new version of Django contains backwards
+incompatible changes that affect formtools, a new release of formtools will
+be issued shortly after the release of the new Django version.
+Version numbers follow the appropriate Python standards, e.g. PEPs 386_ and
+440_.
 
 .. _386: http://www.python.org/dev/peps/pep-0386/
 .. _440: http://www.python.org/dev/peps/pep-0440/
-.. _`Django's release process`: https://docs.djangoproject.com/en/dev/internals/release-process/
 
 How to migrate
 ==============
