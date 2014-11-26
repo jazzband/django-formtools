@@ -114,7 +114,7 @@ setup(
     url='http://django-formtools.readthedocs.org/en/latest/',
     license='BSD',
     description="A set of high-level abstractions for Django forms",
-    # long_description=read('README.rst'),
+    long_description=read('README.rst'),
     author='Django Software Foundation',
     author_email='foundation@djangoproject.com',
     packages=find_packages(exclude=['tests', 'tests.*']),
