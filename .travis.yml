@@ -4,12 +4,12 @@ install:
 script:
   - tox
 env:
-  - TOXENV=py27-1.7
-  - TOXENV=py32-1.7
-  - TOXENV=py33-1.7
-  - TOXENV=py34-1.7
-  - TOXENV=py27-master
-  - TOXENV=py32-master
-  - TOXENV=py33-master
-  - TOXENV=py34-master
+  - TOXENV=py27-django-17
+  - TOXENV=py27-django-master
+  - TOXENV=py32-django-17
+  - TOXENV=py32-django-master
+  - TOXENV=py33-django-17
+  - TOXENV=py33-django-master
+  - TOXENV=py34-django-17
+  - TOXENV=py34-django-master
 after_success: coveralls
