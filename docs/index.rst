@@ -16,6 +16,7 @@ view.
 
    preview
    wizard
+   releases
 
 Installation
 ============

@@ -416,7 +416,7 @@ Advanced ``WizardView`` methods
                 context.update({'another_var': True})
             return context
 
-.. method:: WizardView.get_prefix(*args, **kwargs)
+.. method:: WizardView.get_prefix(request, *args, **kwargs)
 
     This method returns a prefix for use by the storage backends. Backends use
     the prefix as a mechanism to allow data to be stored separately for each
@@ -428,9 +428,13 @@ Advanced ``WizardView`` methods
 
     Default implementation::
 
-        def get_prefix(self, *args, **kwargs):
+        def get_prefix(self, request, *args, **kwargs):
             # use the lowercase underscore version of the class name
             return normalize_name(self.__class__.__name__)
+
+    .. versionchanged:: 1.0
+
+        The ``request`` parameter was added.
 
 .. method:: WizardView.get_form(step=None, data=None, files=None)
 

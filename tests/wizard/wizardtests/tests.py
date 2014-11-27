@@ -391,6 +391,35 @@ class WizardTestGenericViewInterface(TestCase):
         self.assertEqual(response.context_data['another_key'], 'another_value')
 
 
+class WizardTestPrefix(TestCase):
+    def test_get_prefix(self):
+        class TestWizard(CookieWizardView):
+            def get_prefix(self, request, *args, **kwargs):
+                return 'sample_prefix'
+
+        factory = RequestFactory()
+        view = TestWizard.as_view([forms.Form])
+
+        response = view(factory.get('/'))
+        prefix = response.context_data['wizard']['management_form'].prefix
+        self.assertEqual(prefix, 'sample_prefix')
+
+    def test_get_prefix_using_request_object(self):
+        class TestWizard(CookieWizardView):
+            def get_prefix(self, request, *args, **kwargs):
+                return request.prefix_value
+
+        factory = RequestFactory()
+        view = TestWizard.as_view([forms.Form])
+
+        request = factory.get('/')
+        request.prefix_value = 'text_prefix'
+
+        response = view(request)
+        prefix = response.context_data['wizard']['management_form'].prefix
+        self.assertEqual(prefix, 'text_prefix')
+
+
 @skipIfCustomUser
 class WizardFormKwargsOverrideTests(TestCase):
     def setUp(self):
