@@ -35,18 +35,19 @@ The previous command will run the tests in different combinations of Python
 the ``-l`` option::
 
     $ tox -l
-    py26-1.5
-    py26-1.6
-    py27-1.5
-    py27-1.6
-    py32-1.5
-    py32-1.6
-    py33-1.5
-    py33-1.6
+    py27-django-17
+    py27-django-master
+    py32-django-17
+    py32-django-master
+    py33-django-17
+    py33-django-master
+    py34-django-17
+    py34-django-master
+
 
 You can run each environment with the ``-e`` option::
 
-    $ tox -e py27-1.6  # runs the tests only on Pyton 2.7 and Django 1.6.x
+    $ tox -e py27-django-17  # runs the tests only on Python 2.7 and Django 1.7.x
 
 Optionally you can also specify a country whose tests you want to run::
 
@@ -54,7 +55,7 @@ Optionally you can also specify a country whose tests you want to run::
 
 And combine both options::
 
-    $ COUNTRY=us tox -e py27-1.6
+    $ COUNTRY=us tox -e py27-django-17
 
 __ https://github.com/django/django-formtools/issues
 __ http://tox.readthedocs.org/en/latest/install.html
