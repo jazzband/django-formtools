@@ -35,3 +35,5 @@ SITE_ID = 1
 
 MEDIA_ROOT = 'media'
 STATIC_ROOT = 'static'
+
+TEST_NON_SERIALIZED_APPS = ['django.contrib.auth']
