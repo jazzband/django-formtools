@@ -1,0 +1,27 @@
+export DJANGO_SETTINGS_MODULE = tests.settings
+export PYTHONPATH := $(shell pwd)
+
+clean:
+	git clean -Xfd
+
+maketranslations:
+	cd formtools; django-admin.py makemessages -a -v2
+
+pulltranslations:
+	tx pull -a --minimum-perc=1
+
+compiletranslations:
+	cd formtools; django-admin.py compilemessages
+
+translations: pulltranslations maketranslations compiletranslations
+	@echo "Pulling, making and compiling translations"
+
+docs:
+	$(MAKE) -C docs clean html
+
+test:
+	@flake8 --ignore=W801,E128,E501,W402 formtools
+	@ coverage run `which django-admin.py` test tests
+	@coverage report
+
+.PHONY: clean docs test maketranslations pulltranslations compiletranslations

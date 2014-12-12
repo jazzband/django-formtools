@@ -32,3 +32,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 SITE_ID = 1
+
+MEDIA_ROOT = 'media'
+STATIC_ROOT = 'static'
