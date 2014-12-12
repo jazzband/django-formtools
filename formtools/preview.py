@@ -121,16 +121,16 @@ class FormPreview(object):
     def parse_params(self, *args, **kwargs):
         """
         Given captured args and kwargs from the URLconf, saves something in
-        self.state and/or raises Http404 if necessary.
+        self.state and/or raises :class:`~django.http.Http404` if necessary.
 
-        For example, this URLconf captures a user_id variable:
+        For example, this URLconf captures a user_id variable::
 
             (r'^contact/(?P<user_id>\d{1,6})/$', MyFormPreview(MyForm)),
 
         In this case, the kwargs variable in parse_params would be
-        {'user_id': 32} for a request to '/contact/32/'. You can use that
-        user_id to make sure it's a valid user and/or save it for later, for
-        use in done().
+        ``{'user_id': 32}`` for a request to ``'/contact/32/'``. You can use
+        that ``user_id`` to make sure it's a valid user and/or save it for
+        later, for use in :meth:`~formtools.preview.FormPreview.done()`.
         """
         pass
 
@@ -138,12 +138,17 @@ class FormPreview(object):
         """
         Given a validated form, performs any extra processing before displaying
         the preview page, and saves any extra data in context.
+
+        By default, this method is empty.  It is called after the form is
+        validated, but before the context is modified with hash information
+        and rendered.
         """
         pass
 
     def security_hash(self, request, form):
         """
-        Calculates the security hash for the given HttpRequest and Form
+        Calculates the security hash for the given
+        :class:`~django.http.HttpRequest` and :class:`~django.forms.Form`
         instances.
 
         Subclasses may want to take into account request-specific information,
@@ -152,15 +157,19 @@ class FormPreview(object):
         return form_hmac(form)
 
     def failed_hash(self, request):
-        "Returns an HttpResponse in the case of an invalid security hash."
+        """
+        Returns an :class:`~django.http.HttpResponse` in the case of
+        an invalid security hash.
+        """
         return self.preview_post(request)
 
     # METHODS SUBCLASSES MUST OVERRIDE ########################################
 
     def done(self, request, cleaned_data):
         """
-        Does something with the cleaned_data and returns an
-        HttpResponseRedirect.
+        Does something with the ``cleaned_data`` data and then needs to
+        return an :class:`~django.http.HttpResponseRedirect`, e.g. to a
+        success page.
         """
         raise NotImplementedError('You must define a done() method on your '
                                   '%s subclass.' % self.__class__.__name__)
