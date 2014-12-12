@@ -2,7 +2,7 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+        'NAME': '/tmp/django-formtools-tests.db',
     }
 }
 
@@ -10,6 +10,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'formtools',
     'tests.wizard.wizardtests',
 ]
