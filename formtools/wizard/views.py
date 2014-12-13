@@ -338,11 +338,17 @@ class WizardView(TemplateView):
         If everything is fine call `done`.
         """
         final_forms = OrderedDict()
-        # walk through the form list and try to validate the data again.
-        for form_key in self.get_form_list():
-            form_obj = self.get_form(step=form_key,
-                data=self.storage.get_step_data(form_key),
-                files=self.storage.get_step_files(form_key))
+        form_list = self.get_form_list()
+        last_index = len(form_list) - 1
+        # walk through the previous forms and ensure they still validate.
+        for index, form_key in enumerate(form_list):
+            # bind our previously validated final form
+            if index == last_index:
+                form_obj = form
+            else:
+                form_obj = self.get_form(step=form_key,
+                    data=self.storage.get_step_data(form_key),
+                    files=self.storage.get_step_files(form_key))
             if not form_obj.is_valid():
                 return self.render_revalidation_failure(form_key,
                                                         form_obj,
