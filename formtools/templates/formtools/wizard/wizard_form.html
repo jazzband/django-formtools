@@ -1,4 +1,5 @@
 {% load i18n %}
+<form method="post" enctype="multipart/form-data">
 {% csrf_token %}
 {{ wizard.form.media }}
 {{ wizard.management_form }}
@@ -16,3 +17,4 @@
 <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
 {% endif %}
 <input type="submit" name="submit" value="{% trans "submit" %}" />
+</form>
