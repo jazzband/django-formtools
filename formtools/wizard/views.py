@@ -643,8 +643,8 @@ class NamedUrlWizardView(WizardView):
                 query_string = "?%s" % self.request.GET.urlencode()
             else:
                 query_string = ""
-            return redirect(self.get_step_url(self.steps.current)
-                            + query_string)
+            return redirect(self.get_step_url(self.steps.current) +
+                            query_string)
 
         # is the current step the "done" name/view?
         elif step_url == self.done_step_name:
