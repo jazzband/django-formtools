@@ -314,7 +314,7 @@ The ``urls.py`` file would contain something like::
         url(r'^checkout/$', OrderWizard.as_view(FORMS, condition_dict={'cc': pay_by_credit_card})),
     ]
 
-The ``condition_dict`` can be passed as attribute for the ``as_view()`
+The ``condition_dict`` can be passed as attribute for the ``as_view()``
 method or as a class attribute named ``condition_dict``::
 
     class OrderWizard(WizardView):
