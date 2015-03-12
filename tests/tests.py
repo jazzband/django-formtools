@@ -55,7 +55,7 @@ class PreviewTests(TestCase):
 
     def test_form_get(self):
         """
-        Test contrib.formtools.preview form retrieval.
+        Test formtools.preview form retrieval.
 
         Use the client library to see if we can successfully retrieve
         the form (mostly testing the setup ROOT_URLCONF
@@ -71,7 +71,7 @@ class PreviewTests(TestCase):
 
     def test_form_preview(self):
         """
-        Test contrib.formtools.preview form preview rendering.
+        Test formtools.preview form preview rendering.
 
         Use the client library to POST to the form to see if a preview
         is returned.  If we do get a form back check that the hidden
@@ -88,7 +88,7 @@ class PreviewTests(TestCase):
 
     def test_form_submit(self):
         """
-        Test contrib.formtools.preview form submittal.
+        Test formtools.preview form submittal.
 
         Use the client library to POST to the form with stage set to 3
         to see if our forms done() method is called. Check first
@@ -108,7 +108,7 @@ class PreviewTests(TestCase):
 
     def test_bool_submit(self):
         """
-        Test contrib.formtools.preview form submittal when form contains:
+        Test formtools.preview form submittal when form contains:
         BooleanField(required=False)
 
         Ticket: #6209 - When an unchecked BooleanField is previewed, the preview
@@ -128,7 +128,7 @@ class PreviewTests(TestCase):
 
     def test_form_submit_good_hash(self):
         """
-        Test contrib.formtools.preview form submittal, using a correct
+        Test formtools.preview form submittal, using a correct
         hash
         """
         # Pass strings for form submittal and add stage variable to
@@ -143,7 +143,7 @@ class PreviewTests(TestCase):
 
     def test_form_submit_bad_hash(self):
         """
-        Test contrib.formtools.preview form submittal does not proceed
+        Test formtools.preview form submittal does not proceed
         if the hash is incorrect.
         """
         # Pass strings for form submittal and add stage variable to
