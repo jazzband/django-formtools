@@ -19,6 +19,9 @@ success_string_encoded = success_string.encode()
 
 
 class TestFormPreview(preview.FormPreview):
+    def parse_params(self, request, *args, **kwargs):
+        self.state['user'] = request.user
+
     def get_context(self, request, form):
         context = super(TestFormPreview, self).get_context(request, form)
         context.update({'custom_context': True})
@@ -46,6 +49,16 @@ class PreviewTests(TestCase):
         input_template = '<input type="hidden" name="%s" value="%s" />'
         self.input = input_template % (self.preview.unused_name('stage'), "%d")
         self.test_data = {'field1': 'foo', 'field1_': 'asdf'}
+
+    def test_parse_params_takes_request_object(self):
+        """
+        FormPreview.parse_params takes a request object as the first argument.
+        """
+        preview = TestFormPreview(TestForm)
+        response = self.client.get('/preview/')
+        state = response.context['state']
+        self.assertTrue(state.get('user') is not None, "Expected to find a "
+            "user key in response.context['state']")
 
     def test_unused_name(self):
         """

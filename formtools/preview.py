@@ -26,7 +26,7 @@ class FormPreview(object):
             '1': 'preview',
             '2': 'post',
         }.get(request.POST.get(self.unused_name('stage')), 'preview')
-        self.parse_params(*args, **kwargs)
+        self.parse_params(request, *args, **kwargs)
         try:
             method = getattr(self, stage + '_' + request.method.lower())
         except AttributeError:
@@ -118,7 +118,7 @@ class FormPreview(object):
             'state': self.state,
         }
 
-    def parse_params(self, *args, **kwargs):
+    def parse_params(self, request, *args, **kwargs):
         """
         Given captured args and kwargs from the URLconf, saves something in
         self.state and/or raises :class:`~django.http.Http404` if necessary.
