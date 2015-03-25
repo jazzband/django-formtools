@@ -8,7 +8,7 @@ maketranslations:
 	cd formtools; django-admin.py makemessages -a -v2
 
 pulltranslations:
-	tx pull -a --minimum-perc=1
+	tx pull -f -a --minimum-perc=1
 
 compiletranslations:
 	cd formtools; django-admin.py compilemessages

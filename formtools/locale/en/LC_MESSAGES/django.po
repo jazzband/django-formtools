@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Django\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-05 21:46+0200\n"
+"POT-Creation-Date: 2015-03-25 09:31-0500\n"
 "PO-Revision-Date: 2010-05-13 15:35+0200\n"
 "Last-Translator: Django team\n"
 "Language-Team: English <en@li.org>\n"
@@ -42,15 +42,15 @@ msgstr ""
 msgid "Or edit it again"
 msgstr ""
 
-#: templates/formtools/wizard/wizard_form.html:15
+#: templates/formtools/wizard/wizard_form.html:16
 msgid "first step"
 msgstr ""
 
-#: templates/formtools/wizard/wizard_form.html:16
+#: templates/formtools/wizard/wizard_form.html:17
 msgid "prev step"
 msgstr ""
 
-#: templates/formtools/wizard/wizard_form.html:18
+#: templates/formtools/wizard/wizard_form.html:19
 msgid "submit"
 msgstr ""
 

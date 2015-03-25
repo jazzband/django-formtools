@@ -6,36 +6,61 @@
 # Sergey Lysach <sergikoff88@gmail.com>, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: django\n"
+"Project-Id-Version: django-formtools\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-19 15:12+0200\n"
-"PO-Revision-Date: 2014-09-24 18:34+0000\n"
+"POT-Creation-Date: 2015-03-25 09:31-0500\n"
+"PO-Revision-Date: 2014-10-28 03:30+0000\n"
 "Last-Translator: Max V. Stotsky <transifex@ms.pereslavl.ru>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/django/"
-"language/uk/)\n"
+"Language-Team: Ukrainian (http://www.transifex.com/projects/p/django-"
+"formtools/language/uk/)\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: contrib/formtools/apps.py:8
+#: apps.py:7
 msgid "Form Tools"
-msgstr "Інструменти форми."
+msgstr "Інструменти форми"
 
-#: contrib/formtools/templates/formtools/wizard/wizard_form.html:15
+#: templates/formtools/form.html:6
+msgid "Please correct the following errors"
+msgstr "Будь ласка, виправте наступні помилки"
+
+#: templates/formtools/form.html:6 templates/formtools/preview.html:24
+msgid "Submit"
+msgstr "Відправити"
+
+#: templates/formtools/form.html:13 templates/formtools/preview.html:34
+msgid "Preview"
+msgstr "Попередній перегляд"
+
+#: templates/formtools/preview.html:6
+msgid "Preview your submission"
+msgstr ""
+
+#: templates/formtools/preview.html:17
+#, python-format
+msgid "Security hash: %(hash_value)s"
+msgstr ""
+
+#: templates/formtools/preview.html:27
+msgid "Or edit it again"
+msgstr ""
+
+#: templates/formtools/wizard/wizard_form.html:16
 msgid "first step"
 msgstr "перший крок"
 
-#: contrib/formtools/templates/formtools/wizard/wizard_form.html:16
+#: templates/formtools/wizard/wizard_form.html:17
 msgid "prev step"
 msgstr "попередній крок"
 
-#: contrib/formtools/templates/formtools/wizard/wizard_form.html:18
+#: templates/formtools/wizard/wizard_form.html:19
 msgid "submit"
 msgstr "відправити"
 
-#: contrib/formtools/wizard/views.py:276
+#: wizard/views.py:276
 msgid "ManagementForm data is missing or has been tampered."
 msgstr "Дані ManagementForm відсутні або були спотворені."
