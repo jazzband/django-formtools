@@ -18,9 +18,12 @@ Authors
 * Erik Romijn
 * Florian Apolloner
 * Gary Wilson Jr
+* Gordon Pendleton
+* Greg Chapple
 * Hiroki Kiyohara
 * Honza Král
 * Ian Clelland
+* Ian Lee
 * Ilya Baryshev
 * Jacob Kaplan-Moss
 * James Jenkins
@@ -31,11 +34,12 @@ Authors
 * Justin Bronn
 * Karen Tracey
 * Kathryn Killebrew
+* Katie Sandford
 * Kent Hauser
 * Loic Bistuer
 * Luke Plant
 * Malcolm Tredinnick
-* Maurycy
+* Maurycy Pietrzak
 * Preston Holmes
 * Preston Timmons
 * Ramiro Morales
