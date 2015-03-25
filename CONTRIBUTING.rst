@@ -36,12 +36,16 @@ the ``-l`` option::
 
     $ tox -l
     py27-django-17
+    py27-django-18
     py27-django-master
     py32-django-17
+    py32-django-18
     py32-django-master
     py33-django-17
+    py33-django-18
     py33-django-master
     py34-django-17
+    py34-django-18
     py34-django-master
 
 
