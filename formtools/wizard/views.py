@@ -634,6 +634,10 @@ class NamedUrlWizardView(WizardView):
         """
         This renders the form or, if needed, does the http redirects.
         """
+        form_list = self.get_form_list()
+        previous_steps = form_list[0:self.steps.index]
+        future_steps = form_list[self.steps.index + 1:]
+
         step_url = kwargs.get('step', None)
         if step_url is None:
             if 'reset' in self.request.GET:
@@ -663,12 +667,20 @@ class NamedUrlWizardView(WizardView):
                 files=self.storage.current_step_files,
             ), **kwargs)
 
-        elif step_url in self.get_form_list():
+        elif step_url in previous_steps:
             self.storage.current_step = step_url
             return self.render(self.get_form(
                 data=self.storage.current_step_data,
                 files=self.storage.current_step_files,
             ), **kwargs)
+
+        elif step_url in future_steps:
+            if self.request.GET:
+                query_string = "?%s" % self.request.GET.urlencode()
+            else:
+                query_string = ""
+            return redirect(self.get_step_url(self.steps.current)
+                            + query_string)
 
         # invalid step name, reset to first and redirect.
         else:
