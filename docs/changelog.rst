@@ -3,6 +3,12 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
+2.0 (Unreleased)
+----------------
+
+- Added the ``request`` parameter to :meth:`FormPreview.parse_params()
+  <formtools.preview.FormPreview.parse_params>`.
+
 1.0 (2015-03-25)
 ----------------
 

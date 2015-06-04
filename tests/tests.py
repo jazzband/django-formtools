@@ -31,6 +31,13 @@ class TestFormPreview(preview.FormPreview):
         return http.HttpResponse(success_string)
 
 
+class PreviewParseParams(preview.FormPreview):
+
+    def parse_params(self, request, *args, **kwargs):
+        # make sure we can access request data
+        assert request.GET['test']
+
+
 @override_settings(
     TEMPLATE_DIRS=(
         os.path.join(os.path.dirname(upath(__file__)), 'templates'),
@@ -156,6 +163,12 @@ class PreviewTests(TestCase):
         self.test_data.update({'hash': hash})
         response = self.client.post('/previewpreview/', self.test_data)
         self.assertNotEqual(response.content, success_string_encoded)
+
+    def test_parse_params_request(self):
+        """
+        The request object is passed to the parse_params method
+        """
+        self.client.get("/params/", {"test": True})
 
 
 class FormHmacTests(unittest.TestCase):
