@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from django.utils.decorators import classonlymethod
 from django.utils.translation import ugettext as _
 from django.utils import six
+from django.http import HttpResponseBadRequest
 
 from .storage import get_storage
 from .storage.exceptions import NoFileStorageConfigured
@@ -271,6 +272,12 @@ class WizardView(TemplateView):
 
         # Check if form was refreshed
         management_form = ManagementForm(self.request.POST, prefix=self.prefix)
+
+        field = '%s-current_step' % self.prefix
+        step_name = management_form.data.get(field, '')
+        if step_name not in dir(self.steps):
+            return HttpResponseBadRequest('Unknown step %s' % step_name)
+
         if not management_form.is_valid():
             raise ValidationError(
                 _('ManagementForm data is missing or has been tampered.'),
