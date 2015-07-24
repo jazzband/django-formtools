@@ -376,6 +376,16 @@ Advanced ``WizardView`` methods
         def get_form_kwargs(self, step):
             return {}
 
+.. method:: WizardView.get_form_class(step)
+
+    Returns the form class which will be used when instantiating the form
+    instance on given ``step``.
+
+    The default implementation::
+
+        def get_form_class(self, step):
+            return self.form_list[step]
+
 .. method:: WizardView.get_form_instance(step)
 
     This method will be called only if a :class:`~django.forms.ModelForm` is
