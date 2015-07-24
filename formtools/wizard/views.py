@@ -393,7 +393,7 @@ class WizardView(TemplateView):
         (or formset) on the given step.
         """
         return {}
-    
+
     def get_form_class(self, step):
         """
         Returns the form class to use for the provided step.
