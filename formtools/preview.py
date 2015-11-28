@@ -58,7 +58,7 @@ class FormPreview(object):
             f = self.form(auto_id=self.get_auto_id(), instance=instance)
         else:
             f = self.form(
-                auto_id=self.get_auto_id(), 
+                auto_id=self.get_auto_id(),
                 initial=self.get_initial(request)
             )
         return render_to_response(self.form_template,
