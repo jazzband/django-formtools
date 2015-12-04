@@ -3,6 +3,7 @@ env:
   matrix:
     - TOXENV=py27-django-17
     - TOXENV=py27-django-18
+    - TOXENV=py27-django-19
     - TOXENV=py27-django-master
     - TOXENV=py32-django-17
     - TOXENV=py32-django-18
@@ -10,6 +11,7 @@ env:
     - TOXENV=py33-django-18
     - TOXENV=py34-django-17
     - TOXENV=py34-django-18
+    - TOXENV=py34-django-19
     - TOXENV=py34-django-master
   global:
     - PIP_WHEEL_DIR=$HOME/.wheels
