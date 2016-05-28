@@ -8,7 +8,6 @@ from django.test import TestCase, override_settings
 from django.utils._os import upath
 
 from django.contrib.auth.models import User
-from django.contrib.auth.tests.utils import skipIfCustomUser
 
 from formtools.wizard.views import (NamedUrlSessionWizardView,
                                     NamedUrlCookieWizardView)
@@ -307,7 +306,6 @@ class NamedWizardTests(object):
         self.assertEqual(response.context['wizard']['steps'].current, 'form1')
 
 
-@skipIfCustomUser
 @override_settings(ROOT_URLCONF='tests.wizard.namedwizardtests.urls')
 class NamedSessionWizardTests(NamedWizardTests, TestCase):
     wizard_urlname = 'nwiz_session'
@@ -340,7 +338,6 @@ class NamedSessionWizardTests(NamedWizardTests, TestCase):
     )
 
 
-@skipIfCustomUser
 @override_settings(ROOT_URLCONF='tests.wizard.namedwizardtests.urls')
 class NamedCookieWizardTests(NamedWizardTests, TestCase):
     wizard_urlname = 'nwiz_cookie'
@@ -401,14 +398,12 @@ class TestNamedUrlCookieWizardView(NamedUrlCookieWizardView):
         return response, self
 
 
-@skipIfCustomUser
 @override_settings(ROOT_URLCONF='tests.wizard.namedwizardtests.urls')
 class NamedSessionFormTests(NamedFormTests, TestCase):
     formwizard_class = TestNamedUrlSessionWizardView
     wizard_urlname = 'nwiz_session'
 
 
-@skipIfCustomUser
 @override_settings(ROOT_URLCONF='tests.wizard.namedwizardtests.urls')
 class NamedCookieFormTests(NamedFormTests, TestCase):
     formwizard_class = TestNamedUrlCookieWizardView

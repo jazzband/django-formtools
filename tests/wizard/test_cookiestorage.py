@@ -2,13 +2,11 @@ from django.test import TestCase
 from django.core import signing
 from django.http import HttpResponse
 
-from django.contrib.auth.tests.utils import skipIfCustomUser
 from formtools.wizard.storage.cookie import CookieStorage
 
 from .storage import get_request, TestStorage
 
 
-@skipIfCustomUser
 class TestCookieStorage(TestStorage, TestCase):
     def get_storage(self):
         return CookieStorage
