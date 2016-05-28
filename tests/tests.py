@@ -35,9 +35,11 @@ class TestFormPreview(preview.FormPreview):
 
 
 @override_settings(
-    TEMPLATE_DIRS=(
-        os.path.join(os.path.dirname(upath(__file__)), 'templates'),
-    ),
+    TEMPLATES=[{
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(os.path.dirname(upath(__file__)), 'templates')],
+        'APP_DIRS': True,
+    }],
     ROOT_URLCONF='tests.urls',
 )
 class PreviewTests(TestCase):

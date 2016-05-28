@@ -33,5 +33,10 @@ MIDDLEWARE_CLASSES = (
 
 SITE_ID = 1
 
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+}]
+
 MEDIA_ROOT = 'media'
 STATIC_ROOT = 'static'

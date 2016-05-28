@@ -44,15 +44,15 @@ How to use ``FormPreview``
    * Add ``'formtools'`` to your
      :setting:`INSTALLED_APPS` setting.
 
-     This will work if your :setting:`TEMPLATE_LOADERS` setting includes the
+     This will work if your :setting:`TEMPLATES` setting includes the
      ``app_directories`` template loader (which is the case by default).
 
      See the :ref:`template loader docs <template-loaders>` for more.
 
    * Otherwise, determine the full filesystem path to the
-     :file:`formtools/templates` directory, and add that
-     directory to your :setting:`TEMPLATE_DIRS` setting.
-
+     :file:`formtools/templates` directory and add that directory to your
+     :setting:`DIRS <TEMPLATES-DIRS>` option in the :setting:`TEMPLATES`
+     setting.
 
 2. Create a :class:`~FormPreview` subclass that
    overrides the ``done()`` method::

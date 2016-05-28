@@ -1,12 +1,10 @@
 from __future__ import unicode_literals
 
 import copy
-import os
 
 from django import forms
 from django.test import TestCase, override_settings
 from django.test.client import RequestFactory
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils._os import upath
 
@@ -332,11 +330,8 @@ class WizardTestKwargs(TestCase):
         self.wizard_step_data[0]['form1-user'] = self.testuser.pk
 
     def test_template(self):
-        templates = os.path.join(os.path.dirname(THIS_FILE), 'templates')
-        with self.settings(
-                TEMPLATE_DIRS=list(settings.TEMPLATE_DIRS) + [templates]):
-            response = self.client.get(self.wizard_url)
-            self.assertTemplateUsed(response, 'other_wizard_form.html')
+        response = self.client.get(self.wizard_url)
+        self.assertTemplateUsed(response, 'other_wizard_form.html')
 
 
 class WizardTestGenericViewInterface(TestCase):
