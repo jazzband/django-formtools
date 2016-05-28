@@ -10,7 +10,7 @@ This page details the changes in the various ``django-formtools`` releases.
 - Added the ``request`` parameter to :meth:`FormPreview.parse_params()
   <formtools.preview.FormPreview.parse_params>`.
 
-- Dropped support for Django 1.7.
+- Dropped support for Django 1.7 and Python 3.2 on Django 1.8.
 
 1.0 (2015-03-25)
 ----------------
