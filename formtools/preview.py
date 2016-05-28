@@ -2,8 +2,7 @@
 Formtools Preview application.
 """
 from django.http import Http404
-from django.shortcuts import render_to_response
-from django.template.context import RequestContext
+from django.shortcuts import render
 from django.utils.crypto import constant_time_compare
 
 from .utils import form_hmac
@@ -53,9 +52,7 @@ class FormPreview(object):
         "Displays the form"
         f = self.form(auto_id=self.get_auto_id(),
                       initial=self.get_initial(request))
-        return render_to_response(self.form_template,
-            self.get_context(request, f),
-            context_instance=RequestContext(request))
+        return render(request, self.form_template, self.get_context(request, f))
 
     def preview_post(self, request):
         """
@@ -68,11 +65,9 @@ class FormPreview(object):
             self.process_preview(request, f, context)
             context['hash_field'] = self.unused_name('hash')
             context['hash_value'] = self.security_hash(request, f)
-            return render_to_response(self.preview_template, context,
-                                      context_instance=RequestContext(request))
+            return render(request, self.preview_template, context)
         else:
-            return render_to_response(self.form_template, context,
-                                      context_instance=RequestContext(request))
+            return render(request, self.form_template, context)
 
     def _check_security_hash(self, token, request, form):
         expected = self.security_hash(request, form)
@@ -90,9 +85,7 @@ class FormPreview(object):
                 return self.failed_hash(request)  # Security hash failed.
             return self.done(request, form.cleaned_data)
         else:
-            return render_to_response(self.form_template,
-                self.get_context(request, form),
-                context_instance=RequestContext(request))
+            return render(request, self.form_template, self.get_context(request, form))
 
     # METHODS SUBCLASSES MIGHT OVERRIDE IF APPROPRIATE ########################
 
