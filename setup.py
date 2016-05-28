@@ -1,10 +1,11 @@
+import codecs
 import os
 import re
 import sys
-import codecs
-from fnmatch import fnmatchcase
 from distutils.util import convert_path
-from setuptools import setup, find_packages
+from fnmatch import fnmatchcase
+
+from setuptools import find_packages, setup
 
 
 def read(*parts):

@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 # Do not try cPickle here (see #18340)
 import pickle
 
-from django.utils.crypto import salted_hmac
 from django.utils import six
+from django.utils.crypto import salted_hmac
 
 
 def form_hmac(form):

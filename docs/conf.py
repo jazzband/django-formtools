@@ -11,8 +11,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
 import os
+import sys
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tests.settings')
 

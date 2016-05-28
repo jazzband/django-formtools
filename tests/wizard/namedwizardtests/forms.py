@@ -2,12 +2,11 @@ import os
 import tempfile
 
 from django import forms
+from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse
-from django.template import Template, Context
-
-from django.contrib.auth.models import User
+from django.template import Context, Template
 
 from formtools.wizard.views import NamedUrlWizardView
 

@@ -3,16 +3,15 @@ from __future__ import unicode_literals
 import copy
 
 from django import forms
+from django.contrib.auth.models import User
 from django.test import TestCase, override_settings
 from django.test.client import RequestFactory
-from django.contrib.auth.models import User
 from django.utils._os import upath
 
 from formtools.wizard.views import CookieWizardView
 
-from .models import Poet, Poem
 from .forms import temp_storage
-
+from .models import Poem, Poet
 
 # On Python 2, __file__ may end with .pyc
 THIS_FILE = upath(__file__.rstrip("c"))

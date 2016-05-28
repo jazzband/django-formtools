@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from formtools.wizard.storage import get_storage, MissingStorage
+from formtools.wizard.storage import MissingStorage, get_storage
 from formtools.wizard.storage.base import BaseStorage
 
 

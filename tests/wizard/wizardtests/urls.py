@@ -1,6 +1,8 @@
 from django.conf.urls import url
-from .forms import (SessionContactWizard, CookieContactWizard,
-                    Page1, Page2, Page3, Page4)
+
+from .forms import (
+    CookieContactWizard, Page1, Page2, Page3, Page4, SessionContactWizard,
+)
 
 urlpatterns = [
     url(r'^wiz_session/$', SessionContactWizard.as_view(

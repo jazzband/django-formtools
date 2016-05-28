@@ -1,10 +1,10 @@
-from django.test import TestCase
 from django.core import signing
 from django.http import HttpResponse
+from django.test import TestCase
 
 from formtools.wizard.storage.cookie import CookieStorage
 
-from .storage import get_request, TestStorage
+from .storage import TestStorage, get_request
 
 
 class TestCookieStorage(TestStorage, TestCase):

@@ -1,7 +1,7 @@
 from django.core.files.uploadedfile import UploadedFile
+from django.utils import six
 from django.utils.datastructures import MultiValueDict
 from django.utils.functional import lazy_property
-from django.utils import six
 
 from .exceptions import NoFileStorageConfigured
 
