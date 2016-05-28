@@ -54,11 +54,9 @@ class PreviewTests(TestCase):
         """
         FormPreview.parse_params takes a request object as the first argument.
         """
-        preview = TestFormPreview(TestForm)
         response = self.client.get('/preview/')
         state = response.context['state']
-        self.assertTrue(state.get('user') is not None, "Expected to find a "
-            "user key in response.context['state']")
+        self.assertIsNotNone(state.get('user') is not None)
 
     def test_unused_name(self):
         """

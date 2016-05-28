@@ -457,8 +457,7 @@ class WizardFormKwargsOverrideTests(TestCase):
 
         self.assertNotEqual(formset.queryset, None)
         self.assertEqual(formset.initial_form_count(), 1)
-        self.assertEqual(['staff@example.com'],
-            list(formset.queryset.values_list('email', flat=True)))
+        self.assertEqual(['staff@example.com'], list(formset.queryset.values_list('email', flat=True)))
 
 
 class WizardInlineFormSetTests(TestCase):
