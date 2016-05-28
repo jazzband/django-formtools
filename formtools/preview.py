@@ -51,8 +51,16 @@ class FormPreview(object):
 
     def preview_get(self, request):
         "Displays the form"
-        f = self.form(auto_id=self.get_auto_id(),
-                      initial=self.get_initial(request))
+        # For edition with ModelForm
+        # I need to give the instance of the model
+        if 'instance' in self.get_initial(request):
+            instance = self.get_initial(request)['instance']
+            f = self.form(auto_id=self.get_auto_id(), instance=instance)
+        else:
+            f = self.form(
+                auto_id=self.get_auto_id(),
+                initial=self.get_initial(request)
+            )
         return render_to_response(self.form_template,
             self.get_context(request, f),
             context_instance=RequestContext(request))
