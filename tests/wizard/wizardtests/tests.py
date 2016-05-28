@@ -235,6 +235,19 @@ class WizardTests(object):
 
 @skipIfCustomUser
 @override_settings(ROOT_URLCONF='tests.wizard.wizardtests.urls')
+class InvalidStepTests(TestCase):
+    def test_unknown_step_400(self):
+        for step in ('"', 'invalid-step', '-'):
+            response = self.client.post('/wiz_session/', {
+                'form1-name': 'Pony',
+                'form1-thirsty': '2',
+                'session_contact_wizard-current_step': step,
+            })
+            self.assertEqual(response.status_code, 400)
+
+
+@skipIfCustomUser
+@override_settings(ROOT_URLCONF='tests.wizard.wizardtests.urls')
 class SessionWizardTests(WizardTests, TestCase):
     wizard_url = '/wiz_session/'
     wizard_step_1_data = {
