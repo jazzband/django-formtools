@@ -3,6 +3,7 @@ env:
   matrix:
     - TOXENV=py27-django-17
     - TOXENV=py27-django-18
+    - TOXENV=py27-django-19
     - TOXENV=py27-django-master
     - TOXENV=py32-django-17
     - TOXENV=py32-django-18
@@ -10,10 +11,20 @@ env:
     - TOXENV=py33-django-18
     - TOXENV=py34-django-17
     - TOXENV=py34-django-18
+    - TOXENV=py34-django-19
     - TOXENV=py34-django-master
   global:
     - PIP_WHEEL_DIR=$HOME/.wheels
     - PIP_FIND_LINKS=file://$HOME/.wheels
+# https://github.com/travis-ci/travis-ci/issues/4794
+matrix:
+  include:
+    - python: 3.5
+      env: TOXENV=py35-django-18
+    - python: 3.5
+      env: TOXENV=py35-django-19
+    - python: 3.5
+      env: TOXENV=py35-django-master
 install:
     - mkdir -p $PIP_WHEEL_DIR
     - pip wheel -r tests/requirements.txt tox coveralls
