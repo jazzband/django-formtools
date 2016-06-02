@@ -112,7 +112,7 @@ def find_package_data(where='.', package='',
 setup(
     name="django-formtools",
     version=find_version("formtools", "__init__.py"),
-    url='http://django-formtools.readthedocs.org/en/latest/',
+    url='https://django-formtools.readthedocs.io/en/latest/',
     license='BSD',
     description="A set of high-level abstractions for Django forms",
     long_description=read('README.rst'),

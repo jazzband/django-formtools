@@ -52,4 +52,4 @@ And combine both options::
     $ COUNTRY=us tox -e py35-django-AB
 
 __ https://github.com/django/django-formtools/issues
-__ http://tox.readthedocs.org/en/latest/install.html
+__ https://tox.readthedocs.io/en/latest/install.html

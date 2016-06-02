@@ -16,7 +16,7 @@ This code used to live in Django proper -- in ``django.contrib.formtools``
 framework's core clean.
 
 For a full list of available formtools, see
-http://django-formtools.readthedocs.org/
+https://django-formtools.readthedocs.io/
 
 django-formtools can also be found on and installed from the Python
 Package Index: https://pypi.python.org/pypi/django-formtools
