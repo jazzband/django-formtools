@@ -3,10 +3,12 @@ env:
   matrix:
     - TOXENV=py27-django-18
     - TOXENV=py27-django-19
+    - TOXENV=py27-django-110
     - TOXENV=py27-django-master
     - TOXENV=py33-django-18
     - TOXENV=py34-django-18
     - TOXENV=py34-django-19
+    - TOXENV=py34-django-110
     - TOXENV=py34-django-master
   global:
     - PIP_WHEEL_DIR=$HOME/.wheels
@@ -18,6 +20,8 @@ matrix:
       env: TOXENV=py35-django-18
     - python: 3.5
       env: TOXENV=py35-django-19
+    - python: 3.5
+      env: TOXENV=py35-django-110
     - python: 3.5
       env: TOXENV=py35-django-master
 install:
