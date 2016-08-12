@@ -370,9 +370,15 @@ class WizardView(TemplateView):
 
         If no step is given, the form_prefix will determine the current step
         automatically.
+
+        Also appends form key to the form prefix, so django can render different management_forms
         """
         if step is None:
             step = self.steps.current
+
+        # appends form key to form prefix
+        if isinstance(form, str):
+            step = step + "-" + form
         return str(step)
 
     def get_form_initial(self, step):
