@@ -122,12 +122,12 @@ The only requirement on this subclass is that it implement a
     In this simplistic example, rather than performing any database operation,
     the method simply renders a template of the validated data::
 
-        from django.shortcuts import render_to_response
+        from django.shortcuts import render
         from formtools.wizard.views import SessionWizardView
 
         class ContactWizard(SessionWizardView):
             def done(self, form_list, **kwargs):
-                return render_to_response('done.html', {
+                return render(self.request, 'done.html', {
                     'form_data': [form.cleaned_data for form in form_list],
                 })
 
@@ -663,7 +663,7 @@ The steps are defined in a ``forms.py`` file::
 
 We define our wizard in a ``views.py``::
 
-    from django.shortcuts import render_to_response
+    from django.shortcuts import render
     from formtools.wizard.views import SessionWizardView
 
     def show_message_form_condition(wizard):
@@ -675,7 +675,7 @@ We define our wizard in a ``views.py``::
     class ContactWizard(SessionWizardView):
 
         def done(self, form_list, **kwargs):
-            return render_to_response('done.html', {
+            return render(self.request, 'done.html', {
                 'form_data': [form.cleaned_data for form in form_list],
             })
 
