@@ -2,10 +2,10 @@
 django-formtools
 ================
 
-.. image:: https://secure.travis-ci.org/django/django-formtools.png
+.. image:: https://secure.travis-ci.org/django/django-formtools.svg
     :target: http://travis-ci.org/django/django-formtools
 
-.. image:: https://coveralls.io/repos/django/django-formtools/badge.png?branch=master
+.. image:: https://coveralls.io/repos/django/django-formtools/badge.svg?branch=master
    :target: https://coveralls.io/r/django/django-formtools
 
 Django's "formtools" is a set of high-level abstractions for Django forms.
