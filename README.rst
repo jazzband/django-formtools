@@ -1,30 +1,24 @@
-================
-django-formtools
-================
+This is a fork of django-formtools (https://github.com/django/django-formtools)
+which intends to solve the forced validation when you want to navigate to previous
+form. 
 
-.. image:: https://secure.travis-ci.org/django/django-formtools.svg
-    :target: http://travis-ci.org/django/django-formtools
+More specifically, say you have 5 forms altogether and you are currently in form 3
+and you want to navigate to previous form. If you have required fields in form 3,
+then you will be asked to fill in all the necessary fields by client-side JQuery
+before you can go to form 2. Even if you have filled out the form and managed to
+go to previous form, the data you have entered will not be saved and you will end
+up having to do the again.
 
-.. image:: https://coveralls.io/repos/django/django-formtools/badge.svg?branch=master
-   :target: https://coveralls.io/r/django/django-formtools
+The solution of this fork is to add JQuery in the default template to skip the
+validation and also make sure the navigation works as expected.
 
-Django's "formtools" is a set of high-level abstractions for Django forms.
-Currently for form previews and multi-step forms.
+If you want to have your own template instead of your default one, please have a 
+look at formtools/templates/formtools/wizard/wizard_form.html. 
+If you are happy with the validation on click of previous button, then you will 
+probably be annoyed by the fact that the data entered for the current form will 
+not be saved after navigating to previous form. To fix this problem, 
+refer to file formtools/wizard/views.py. Move codes between 
+line 265 - 277 to line 301 will solve your problem.
 
-This code used to live in Django proper -- in ``django.contrib.formtools``
--- but was separated into a standalone package in Django 1.8 to keep the
-framework's core clean.
+If you have any question regarding this issue, let me know.
 
-For a full list of available formtools, see
-https://django-formtools.readthedocs.io/
-
-django-formtools can also be found on and installed from the Python
-Package Index: https://pypi.python.org/pypi/django-formtools
-
-To get more help:
-
-* Join the #django channel on irc.freenode.net. Lots of helpful people hang out
-  there. Read the archives at http://django-irc-logs.com/.
-
-* Join the django-users mailing list, or read the archives, at
-  https://groups.google.com/group/django-users.
