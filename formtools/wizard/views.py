@@ -494,7 +494,7 @@ class WizardView(TemplateView):
         If the data doesn't validate, None will be returned.
         
         Since wizard is initialized on each request, data is only 
-        validated once per step
+        validated once per step for performance.
         """
         self.cleaned_data = getattr(self, 'cleaned_data', {})
         if self.cleaned_data.get(step, None):
@@ -508,7 +508,6 @@ class WizardView(TemplateView):
                 if form_obj.is_valid():
                     self.cleaned_data[step] = form_obj.cleaned_data
                     return form_obj.cleaned_data
-
 
     def get_next_step(self, step=None):
         """
