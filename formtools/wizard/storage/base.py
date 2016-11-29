@@ -1,7 +1,6 @@
 from django.core.files.uploadedfile import UploadedFile
 from django.utils import six
 from django.utils.datastructures import MultiValueDict
-from django.utils.functional import lazy_property
 
 from .exceptions import NoFileStorageConfigured
 
@@ -43,7 +42,13 @@ class BaseStorage(object):
     def _set_current_step(self, step):
         self.data[self.step_key] = step
 
-    current_step = lazy_property(_get_current_step, _set_current_step)
+    @property
+    def current_step(self):
+        return self._get_current_step()
+
+    @current_step.setter
+    def current_step(self, value):
+        return self._set_current_step(value)
 
     def _get_extra_data(self):
         return self.data[self.extra_data_key]
@@ -51,7 +56,13 @@ class BaseStorage(object):
     def _set_extra_data(self, extra_data):
         self.data[self.extra_data_key] = extra_data
 
-    extra_data = lazy_property(_get_extra_data, _set_extra_data)
+    @property
+    def extra_data(self):
+        return self._get_extra_data()
+
+    @extra_data.setter
+    def extra_data(self, value):
+        return self._set_extra_data(value)
 
     def get_step_data(self, step):
         # When reading the serialized data, upconvert it to a MultiValueDict,
