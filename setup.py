@@ -109,6 +109,7 @@ def find_package_data(where='.', package='',
                 out.setdefault(package, []).append(prefix + name)
     return out
 
+
 setup(
     name="django-formtools",
     version=find_version("formtools", "__init__.py"),

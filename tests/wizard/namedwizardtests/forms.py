@@ -29,6 +29,7 @@ class Page2(forms.Form):
 class Page3(forms.Form):
     random_crap = forms.CharField(max_length=100)
 
+
 Page4 = formset_factory(Page3, extra=2)
 
 

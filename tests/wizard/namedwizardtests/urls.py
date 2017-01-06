@@ -20,6 +20,7 @@ def get_named_cookie_wizard():
         done_step_name='nwiz_cookie_done'
     )
 
+
 urlpatterns = [
     url(r'^nwiz_session/(?P<step>.+)/$', get_named_session_wizard(), name='nwiz_session'),
     url(r'^nwiz_session/$', get_named_session_wizard(), name='nwiz_session_start'),
