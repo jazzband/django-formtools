@@ -16,7 +16,7 @@ class Poet(models.Model):
 
 @python_2_unicode_compatible
 class Poem(models.Model):
-    poet = models.ForeignKey(Poet)
+    poet = models.ForeignKey(Poet, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
     class Meta:
