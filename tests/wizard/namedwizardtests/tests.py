@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import copy
 
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.http import QueryDict
 from django.test import TestCase, override_settings
 from django.utils._os import upath
@@ -14,6 +13,11 @@ from formtools.wizard.views import (
 
 from ..test_forms import Step1, Step2, get_request
 from .forms import temp_storage
+
+try:
+    from django.urls import reverse
+except ImportError:  # Django 1.9 and earlier
+    from django.core.urlresolvers import reverse
 
 # On Python 2, __file__ may end with .pyc
 THIS_FILE = upath(__file__).rstrip("c")

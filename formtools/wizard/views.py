@@ -2,7 +2,6 @@ import re
 from collections import OrderedDict
 
 from django import forms
-from django.core.urlresolvers import reverse
 from django.forms import ValidationError, formsets
 from django.shortcuts import redirect
 from django.utils import six
@@ -13,6 +12,11 @@ from django.views.generic import TemplateView
 from .forms import ManagementForm
 from .storage import get_storage
 from .storage.exceptions import NoFileStorageConfigured
+
+try:
+    from django.urls import reverse
+except ImportError:  # Django 1.9 and earlier
+    from django.core.urlresolvers import reverse
 
 
 def normalize_name(name):
