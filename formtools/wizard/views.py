@@ -377,7 +377,13 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
+
+        # appends form key to form prefix, similar to how django displays multi formsets
+        if isinstance(form, str):
+            step = step + "-" + form
         return str(step)
+
+    def get_form_initial(self, step):
 
     def get_form_initial(self, step):
         """
