@@ -263,7 +263,7 @@ class WizardView(TemplateView):
 
         # reset the current step to the first step.
         self.storage.current_step = self.steps.first
-        return self.render(self.get_form())
+        return self.render(self.get_form(), **kwargs)
 
     def post(self, *args, **kwargs):
         """
@@ -278,7 +278,7 @@ class WizardView(TemplateView):
         # form. (This makes stepping back a lot easier).
         wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
         if wizard_goto_step and wizard_goto_step in self.get_form_list():
-            return self.render_goto_step(wizard_goto_step)
+            return self.render_goto_step(wizard_goto_step, **kwargs)
 
         # Check if form was refreshed
         management_form = ManagementForm(self.request.POST, prefix=self.prefix)
@@ -309,8 +309,8 @@ class WizardView(TemplateView):
                 return self.render_done(form, **kwargs)
             else:
                 # proceed to the next step
-                return self.render_next_step(form)
-        return self.render(form)
+                return self.render_next_step(form, **kwargs)
+        return self.render(form, **kwargs)
 
     def render_next_step(self, form, **kwargs):
         """
@@ -338,7 +338,7 @@ class WizardView(TemplateView):
         form = self.get_form(
             data=self.storage.get_step_data(self.steps.current),
             files=self.storage.get_step_files(self.steps.current))
-        return self.render(form)
+        return self.render(form, **kwargs)
 
     def render_done(self, form, **kwargs):
         """
@@ -695,7 +695,7 @@ class NamedUrlWizardView(WizardView):
         """
         wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
         if wizard_goto_step and wizard_goto_step in self.get_form_list():
-            return self.render_goto_step(wizard_goto_step)
+            return self.render_goto_step(wizard_goto_step, **kwargs)
         return super(NamedUrlWizardView, self).post(*args, **kwargs)
 
     def get_context_data(self, form, **kwargs):
