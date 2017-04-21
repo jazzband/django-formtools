@@ -5,6 +5,7 @@ import pickle
 
 from django.utils import six
 from django.utils.crypto import salted_hmac
+from django.db.models import QuerySet
 
 
 def form_hmac(form):
@@ -21,6 +22,8 @@ def form_hmac(form):
             value = bf.field.clean(bf.data) or ''
         if isinstance(value, six.string_types):
             value = value.strip()
+        if type(value) == QuerySet:
+            value = list(value)
         data.append((bf.name, value))
 
     pickled = pickle.dumps(data, pickle.HIGHEST_PROTOCOL)
