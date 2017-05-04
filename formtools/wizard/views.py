@@ -263,7 +263,7 @@ class WizardView(TemplateView):
 
         # reset the current step to the first step.
         self.storage.current_step = self.steps.first
-        return self.render(self.get_form(), *args, **kwargs)
+        return self.render(form=self.get_form(), **kwargs)
 
     def post(self, *args, **kwargs):
         """
@@ -278,7 +278,7 @@ class WizardView(TemplateView):
         # form. (This makes stepping back a lot easier).
         wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
         if wizard_goto_step and wizard_goto_step in self.get_form_list():
-            return self.render_goto_step(wizard_goto_step, *args, **kwargs)
+            return self.render_goto_step(wizard_goto_step, **kwargs)
 
         # Check if form was refreshed
         management_form = ManagementForm(self.request.POST, prefix=self.prefix)
@@ -306,13 +306,13 @@ class WizardView(TemplateView):
             # check if the current step is the last step
             if self.steps.current == self.steps.last:
                 # no more steps, render done view
-                return self.render_done(form, *args, **kwargs)
+                return self.render_done(form=form, **kwargs)
             else:
                 # proceed to the next step
-                return self.render_next_step(form, *args, **kwargs)
-        return self.render(form, *args, **kwargs)
+                return self.render_next_step(form=form, **kwargs)
+        return self.render(form=form, **kwargs)
 
-    def render_next_step(self, form, *args, **kwargs):
+    def render_next_step(self, form, **kwargs):
         """
         This method gets called when the next step/form should be rendered.
         `form` contains the last/current form.
@@ -340,7 +340,7 @@ class WizardView(TemplateView):
             files=self.storage.get_step_files(self.steps.current))
         return self.render(form)
 
-    def render_done(self, form, *args, **kwargs):
+    def render_done(self, form, **kwargs):
         """
         This method gets called when all forms passed. The method should also
         re-validate all steps to prevent manipulation. If any form fails to
