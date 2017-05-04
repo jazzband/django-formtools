@@ -309,10 +309,10 @@ class WizardView(TemplateView):
                 return self.render_done(form, *args, **kwargs)
             else:
                 # proceed to the next step
-                return self.render_next_step(form)
+                return self.render_next_step(form, *args, **kwargs)
         return self.render(form, *args, **kwargs)
 
-    def render_next_step(self, form, **kwargs):
+    def render_next_step(self, form, *args, **kwargs):
         """
         This method gets called when the next step/form should be rendered.
         `form` contains the last/current form.
@@ -340,7 +340,7 @@ class WizardView(TemplateView):
             files=self.storage.get_step_files(self.steps.current))
         return self.render(form)
 
-    def render_done(self, form, **kwargs):
+    def render_done(self, form, *args, **kwargs):
         """
         This method gets called when all forms passed. The method should also
         re-validate all steps to prevent manipulation. If any form fails to
