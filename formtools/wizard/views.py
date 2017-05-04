@@ -278,7 +278,7 @@ class WizardView(TemplateView):
         # form. (This makes stepping back a lot easier).
         wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
         if wizard_goto_step and wizard_goto_step in self.get_form_list():
-            return self.render_goto_step(wizard_goto_step)
+            return self.render_goto_step(wizard_goto_step, *args, **kwargs)
 
         # Check if form was refreshed
         management_form = ManagementForm(self.request.POST, prefix=self.prefix)
@@ -306,11 +306,11 @@ class WizardView(TemplateView):
             # check if the current step is the last step
             if self.steps.current == self.steps.last:
                 # no more steps, render done view
-                return self.render_done(form, **kwargs)
+                return self.render_done(form, *args, **kwargs)
             else:
                 # proceed to the next step
                 return self.render_next_step(form)
-        return self.render(form)
+        return self.render(form, *args, **kwargs)
 
     def render_next_step(self, form, **kwargs):
         """
