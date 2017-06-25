@@ -17,11 +17,13 @@ def sanitise(obj):
         return [sanitise(o) for o in list(obj)]
     try:
         od = obj.__dict__
-        if '_django_version' in od:
-            # this is a django object, ignore all _ fields
-            for key, val in od.items():
-                if key.startswith('_'):
-                    obj.__dict__[key] = None
+        print(obj.__class__)
+        nd = {'_class': obj.__class__}
+        # this is a django object, ignore all _ fields
+        for key, val in od.items():
+            if not key.startswith('_'):
+                nd[key] = sanitise(val)
+        return nd
     except:
         pass
     return obj
