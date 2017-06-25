@@ -8,6 +8,25 @@ from django.utils import six
 from django.utils.crypto import salted_hmac
 
 
+def sanitise(obj):
+    if type(obj) == list:
+        return [sanitise(o) for o in obj]
+    elif type(obj) == tuple:
+        return tuple([sanitise(o) for o in obj])
+    elif type(obj) == QuerySet:
+        return [sanitise(o) for o in list(obj)]
+    try:
+        od = obj.__dict__
+        if '_django_version' in od:
+            # this is a django object, ignore all _ fields
+            for key, val in od.items():
+                if key.startswith('_'):
+                    obj.__dict__[key] = None
+    except:
+        pass
+
+    return obj
+
 def form_hmac(form):
     """
     Calculates a security hash for the given Form instance.
@@ -22,10 +41,9 @@ def form_hmac(form):
             value = bf.field.clean(bf.data) or ''
         if isinstance(value, six.string_types):
             value = value.strip()
-        if type(value) == QuerySet:
-            value = list(value)
         data.append((bf.name, value))
 
-    pickled = pickle.dumps(data, pickle.HIGHEST_PROTOCOL)
+    sandata = sanitise(data)
+    pickled = pickle.dumps(sandata, pickle.HIGHEST_PROTOCOL)
     key_salt = 'django.contrib.formtools'
     return salted_hmac(key_salt, pickled).hexdigest()
