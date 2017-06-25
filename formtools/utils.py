@@ -24,8 +24,8 @@ def sanitise(obj):
                     obj.__dict__[key] = None
     except:
         pass
-
     return obj
+
 
 def form_hmac(form):
     """
