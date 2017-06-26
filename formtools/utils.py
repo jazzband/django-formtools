@@ -17,11 +17,10 @@ def sanitise(obj):
         return [sanitise(o) for o in list(obj)]
     try:
         od = obj.__dict__
-        print(obj.__class__)
         nd = {'_class': obj.__class__}
-        # this is a django object, ignore all _ fields
         for key, val in od.items():
             if not key.startswith('_'):
+                # ignore Django internal attributes
                 nd[key] = sanitise(val)
         return nd
     except:
@@ -45,7 +44,7 @@ def form_hmac(form):
             value = value.strip()
         data.append((bf.name, value))
 
-    sandata = sanitise(data)
-    pickled = pickle.dumps(sandata, pickle.HIGHEST_PROTOCOL)
+    sanitised_data = sanitise(data)
+    pickled = pickle.dumps(sanitised_data, pickle.HIGHEST_PROTOCOL)
     key_salt = 'django.contrib.formtools'
     return salted_hmac(key_salt, pickled).hexdigest()
