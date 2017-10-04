@@ -3,7 +3,7 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
-X.Y (YYYY-MM-DD)
+2.1 (2017-10-04)
 ----------------
 
 - Added testing for Django 1.11 (no code changes were required).
