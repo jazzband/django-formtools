@@ -23,7 +23,7 @@ matrix:
     - python: 3.6
       env: TOXENV=py36-django-111
     - python: 3.6
-      env: py36-django-master
+      env: TOXENV=py36-django-master
 install:
     - mkdir -p $PIP_WHEEL_DIR
     - pip wheel -r tests/requirements.txt tox coveralls
