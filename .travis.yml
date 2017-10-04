@@ -5,7 +5,6 @@ env:
     - TOXENV=py27-django-19
     - TOXENV=py27-django-110
     - TOXENV=py27-django-111
-    - TOXENV=py33-django-18
     - TOXENV=py34-django-18
     - TOXENV=py34-django-19
     - TOXENV=py34-django-110

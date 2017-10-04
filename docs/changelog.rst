@@ -8,6 +8,8 @@ X.Y (YYYY-MM-DD)
 
 - Added testing for Django 1.11 (no code changes were required).
 
+- Dropped testing for Python 3.3 (now end-of-life) on Django 1.8.
+
 2.0 (2017-01-07)
 ----------------
 
