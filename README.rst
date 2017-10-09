@@ -24,7 +24,7 @@ Package Index: https://pypi.python.org/pypi/django-formtools
 To get more help:
 
 * Join the #django channel on irc.freenode.net. Lots of helpful people hang out
-  there. Read the archives at http://django-irc-logs.com/.
+  there. Read the archives at https://botbot.me/freenode/django/.
 
 * Join the django-users mailing list, or read the archives, at
   https://groups.google.com/group/django-users.
