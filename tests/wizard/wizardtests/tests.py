@@ -66,6 +66,18 @@ class WizardTests(object):
                          {'name': ['This field is required.'],
                           'user': ['This field is required.']})
 
+    def test_form_post_mgmt_data_missing(self):
+        wizard_step_data = self.wizard_step_data[0].copy()
+
+        # remove management data
+        for key in list(wizard_step_data.keys()):
+            if "current_step" in key:
+                del wizard_step_data[key]
+
+        response = self.client.post(self.wizard_url, wizard_step_data)
+        # view should return HTTP 400 Bad Request
+        self.assertEqual(response.status_code, 400)
+
     def test_form_post_success(self):
         response = self.client.post(self.wizard_url, self.wizard_step_data[0])
         wizard = response.context['wizard']
