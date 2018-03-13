@@ -2,7 +2,8 @@ import re
 from collections import OrderedDict
 
 from django import forms
-from django.forms import ValidationError, formsets
+from django.core.exceptions import SuspiciousOperation
+from django.forms import formsets
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import six
@@ -279,10 +280,7 @@ class WizardView(TemplateView):
         # Check if form was refreshed
         management_form = ManagementForm(self.request.POST, prefix=self.prefix)
         if not management_form.is_valid():
-            raise ValidationError(
-                _('ManagementForm data is missing or has been tampered.'),
-                code='missing_management_form',
-            )
+            raise SuspiciousOperation(_('ManagementForm data is missing or has been tampered.'))
 
         form_current_step = management_form.cleaned_data['current_step']
         if (form_current_step != self.steps.current and
