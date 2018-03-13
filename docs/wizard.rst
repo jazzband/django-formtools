@@ -301,7 +301,8 @@ Here's what the view code might look like::
 
     class OrderWizard(SessionWizardView):
         def get_template_names(self):
-            return [TEMPLATES[self.steps.current]]
+            form_name = FORMS[int(self.steps.current)[0]
+            return [TEMPLATES[form_name]]
 
         def done(self, form_list, **kwargs):
             do_something_with_the_form_data(form_list)
