@@ -146,6 +146,19 @@ class FormTests(TestCase):
         response, instance = testform(request)
         self.assertEqual(instance.get_next_step(), 'step2')
 
+    def test_form_condition_unstable(self):
+        request = get_request()
+        testform = TestWizard.as_view(
+            [('start', Step1), ('step2', Step2), ('step3', Step3)],
+            condition_dict={'step2': True}
+        )
+        response, instance = testform(request)
+        self.assertEqual(instance.get_step_index('step2'), 1)
+        self.assertEqual(instance.get_next_step('step2'), 'step3')
+        instance.condition_dict['step2'] = False
+        self.assertEqual(instance.get_step_index('step2'), None)
+        self.assertEqual(instance.get_next_step('step2'), 'start')
+
     def test_form_kwargs(self):
         request = get_request()
         testform = TestWizard.as_view([

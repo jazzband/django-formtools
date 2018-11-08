@@ -506,11 +506,15 @@ class WizardView(TemplateView):
         Returns the next step after the given `step`. If no more steps are
         available, None will be returned. If the `step` argument is None, the
         current step will be determined automatically.
+        If the `step` is not in the current list of steps, the first step will
+        be returned.
         """
         if step is None:
             step = self.steps.current
         form_list = self.get_form_list()
         keys = list(form_list.keys())
+        if step not in keys:
+            return self.steps.first
         key = keys.index(step) + 1
         if len(keys) > key:
             return keys[key]
@@ -521,11 +525,15 @@ class WizardView(TemplateView):
         Returns the previous step before the given `step`. If there are no
         steps available, None will be returned. If the `step` argument is
         None, the current step will be determined automatically.
+        If the `step` is not in the current list of steps, None will be
+        returned.
         """
         if step is None:
             step = self.steps.current
         form_list = self.get_form_list()
         keys = list(form_list.keys())
+        if step not in keys:
+            return None
         key = keys.index(step) - 1
         if key >= 0:
             return keys[key]
@@ -535,10 +543,15 @@ class WizardView(TemplateView):
         """
         Returns the index for the given `step` name. If no step is given,
         the current step will be used to get the index.
+        If the current step is not in the current list of steps, None will be
+        returned.
         """
         if step is None:
             step = self.steps.current
-        return list(self.get_form_list().keys()).index(step)
+        keys = list(self.get_form_list().keys())
+        if step in keys:
+            return keys.index(step)
+        return None
 
     def get_context_data(self, form, **kwargs):
         """
