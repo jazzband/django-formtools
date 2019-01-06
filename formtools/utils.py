@@ -23,7 +23,7 @@ def sanitise(obj):
                 # ignore Django internal attributes
                 nd[key] = sanitise(val)
         return nd
-    except:
+    except Exception:
         pass
     return obj
 
