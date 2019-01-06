@@ -5,10 +5,10 @@ Form wizard
 .. module:: formtools.wizard.views
     :synopsis: Splits forms across multiple Web pages.
 
-Django comes with an optional "form wizard" application that splits
-:mod:`forms <django.forms>` across multiple Web pages. It maintains
-state in one of the backends so that the full server-side processing can be
-delayed until the submission of the final form.
+The form wizard application splits :mod:`forms <django.forms>` across
+multiple Web pages. It maintains state in one of the backends so that the
+full server-side processing can be delayed until the submission of the final
+form.
 
 You might want to use this if you have a lengthy form that would be too
 unwieldy for display on a single page. The first page might ask the user for

@@ -191,7 +191,7 @@ class FormHmacTests(unittest.TestCase):
         empty_permitted = True, or forms where data has not changed.
         """
         f1 = HashTestBlankForm({})
-        f2 = HashTestForm({}, empty_permitted=True)
+        f2 = HashTestForm({}, empty_permitted=True, use_required_attribute=False)
         hash1 = utils.form_hmac(f1)
         hash2 = utils.form_hmac(f2)
         self.assertEqual(hash1, hash2)

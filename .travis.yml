@@ -1,13 +1,7 @@
 language: python
 env:
   matrix:
-    - TOXENV=py27-django-18
-    - TOXENV=py27-django-19
-    - TOXENV=py27-django-110
     - TOXENV=py27-django-111
-    - TOXENV=py34-django-18
-    - TOXENV=py34-django-19
-    - TOXENV=py34-django-110
     - TOXENV=py34-django-111
     - TOXENV=py34-django-20
   global:
@@ -16,21 +10,19 @@ env:
 matrix:
   include:
     - python: 3.5
-      env: TOXENV=py35-django-18
-    - python: 3.5
-      env: TOXENV=py35-django-19
-    - python: 3.5
-      env: TOXENV=py35-django-110
-    - python: 3.5
       env: TOXENV=py35-django-111
     - python: 3.5
       env: TOXENV=py35-django-20
+    - python: 3.5
+      env: TOXENV=py35-django-21
     - python: 3.5
       env: TOXENV=py35-django-master
     - python: 3.6
       env: TOXENV=py36-django-111
     - python: 3.6
       env: TOXENV=py36-django-20
+    - python: 3.6
+      env: TOXENV=py36-django-21
     - python: 3.6
       env: TOXENV=py36-django-master
 install:

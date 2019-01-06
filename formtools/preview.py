@@ -118,7 +118,7 @@ class FormPreview(object):
 
         For example, this URLconf captures a user_id variable::
 
-            (r'^contact/(?P<user_id>\d{1,6})/$', MyFormPreview(MyForm)),
+            path('contact/<int:user_id>/', MyFormPreview(MyForm)),
 
         In this case, the kwargs variable in parse_params would be
         ``{'user_id': 32}`` for a request to ``'/contact/32/'``. You can use
