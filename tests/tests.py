@@ -211,8 +211,14 @@ class PicklingTests(unittest.TestCase):
         leading/trailing whitespace so as to be friendly to broken browsers that
         submit it (usually in textareas).
         """
-        f1 = OtherModelForm({'name': 'joe', 'manymodels': ManyModel.objects.all()})
-        f2 = OtherModelForm({'name': 'joe', 'manymodels': ManyModel.objects.all()})
+
+        qs1 = ManyModel.objects.all()
+        qs2 = ManyModel.objects.all()
+
+        qs1._prefetch_done = True
+        qs2._prefetch_done = False
+        f1 = OtherModelForm({'name': 'joe', 'manymodels': qs1})
+        f2 = OtherModelForm({'name': 'joe', 'manymodels': qs2})
         hash1 = utils.form_hmac(f1)
         hash2 = utils.form_hmac(f2)
         self.assertEqual(hash1, hash2)
