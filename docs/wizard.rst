@@ -411,7 +411,7 @@ Advanced ``WizardView`` methods
     Example to add extra variables for a specific step::
 
         def get_context_data(self, form, **kwargs):
-            context = super(MyWizard, self).get_context_data(form=form, **kwargs)
+            context = super().get_context_data(form=form, **kwargs)
             if self.steps.current == 'my_step_name':
                 context.update({'another_var': True})
             return context
@@ -453,7 +453,7 @@ Advanced ``WizardView`` methods
     Example code to add a user attribute to the form on step 2::
 
         def get_form(self, step=None, data=None, files=None):
-            form = super(MyWizard, self).get_form(step, data, files)
+            form = super().get_form(step, data, files)
 
             # determine the step if not given
             if step is None:

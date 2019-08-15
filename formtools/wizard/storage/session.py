@@ -4,7 +4,7 @@ from .base import BaseStorage
 class SessionStorage(BaseStorage):
 
     def __init__(self, *args, **kwargs):
-        super(SessionStorage, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if self.prefix not in self.request.session:
             self.init_data()
 

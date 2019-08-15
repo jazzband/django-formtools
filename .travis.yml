@@ -6,8 +6,6 @@ env:
     - PIP_FIND_LINKS=file://$HOME/.wheels
 matrix:
   include:
-    - python: 2.7
-      env: TOXENV=py27-django-111
     - python: 3.4
       env: TOXENV=py34-django-111
     - python: 3.4

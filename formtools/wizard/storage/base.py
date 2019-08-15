@@ -1,11 +1,10 @@
 from django.core.files.uploadedfile import UploadedFile
-from django.utils import six
 from django.utils.datastructures import MultiValueDict
 
 from .exceptions import NoFileStorageConfigured
 
 
-class BaseStorage(object):
+class BaseStorage:
     step_key = 'step'
     step_data_key = 'step_data'
     step_files_key = 'step_files'
@@ -31,8 +30,8 @@ class BaseStorage(object):
         # at the end of the response cycle through a callback attached in
         # `update_response`.
         wizard_files = self.data[self.step_files_key]
-        for step_files in six.itervalues(wizard_files):
-            for step_file in six.itervalues(step_files):
+        for step_files in wizard_files.values():
+            for step_file in step_files.values():
                 self._tmp_files.append(step_file['tmp_name'])
         self.init_data()
 
@@ -94,7 +93,7 @@ class BaseStorage(object):
                 "wizard view in order to handle file uploads.")
 
         files = {}
-        for field, field_dict in six.iteritems(wizard_files):
+        for field, field_dict in wizard_files.items():
             field_dict = field_dict.copy()
             tmp_name = field_dict.pop('tmp_name')
             if (step, field) not in self._files:
@@ -112,7 +111,7 @@ class BaseStorage(object):
         if step not in self.data[self.step_files_key]:
             self.data[self.step_files_key][step] = {}
 
-        for field, field_file in six.iteritems(files or {}):
+        for field, field_file in (files or {}).items():
             tmp_filename = self.file_storage.save(field_file.name, field_file)
             file_dict = {
                 'tmp_name': tmp_filename,
