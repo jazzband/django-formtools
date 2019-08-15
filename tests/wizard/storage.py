@@ -20,7 +20,7 @@ def get_request():
     return request
 
 
-class TestStorage(object):
+class TestStorage:
     def setUp(self):
         self.testuser, created = User.objects.get_or_create(username='testuser1')
 

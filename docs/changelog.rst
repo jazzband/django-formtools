@@ -8,6 +8,8 @@ This page details the changes in the various ``django-formtools`` releases.
 
 - Dropped testing for Django 1.8, 1.9, 1.10.
 
+- Dropped support for Python 2
+
 - Added support for Django 2.1 and 2.2, and Python 3.7.
 
 2.1 (2017-10-04)

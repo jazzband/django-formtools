@@ -1,20 +1,15 @@
-from __future__ import unicode_literals
-
 import copy
 
 from django import forms
 from django.contrib.auth.models import User
 from django.test import TestCase, override_settings
 from django.test.client import RequestFactory
-from django.utils._os import upath
 
 from formtools.wizard.views import CookieWizardView
 
 from .forms import temp_storage
 from .models import Poem, Poet
 
-# On Python 2, __file__ may end with .pyc
-THIS_FILE = upath(__file__.rstrip("c"))
 UPLOADED_FILE_NAME = 'tests.py'
 
 
@@ -28,7 +23,7 @@ UserFormSet = forms.models.modelformset_factory(User, form=UserForm, extra=2)
 PoemFormSet = forms.models.inlineformset_factory(Poet, Poem, fields="__all__")
 
 
-class WizardTests(object):
+class WizardTests:
 
     def setUp(self):
         self.testuser, created = User.objects.get_or_create(username='testuser1')
@@ -126,14 +121,14 @@ class WizardTests(object):
         self.assertEqual(response.context['wizard']['steps'].current, 'form2')
 
         post_data = self.wizard_step_data[1]
-        with open(upath(THIS_FILE), 'rb') as post_file:
+        with open(__file__, 'rb') as post_file:
             post_data['form2-file1'] = post_file
             response = self.client.post(self.wizard_url, post_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['wizard']['steps'].current, 'form3')
 
         # Check that the file got uploaded properly.
-        with open(THIS_FILE, 'rb') as f, temp_storage.open(UPLOADED_FILE_NAME) as f2:
+        with open(__file__, 'rb') as f, temp_storage.open(UPLOADED_FILE_NAME) as f2:
             self.assertEqual(f.read(), f2.read())
 
         response = self.client.post(self.wizard_url, self.wizard_step_data[2])
@@ -163,7 +158,7 @@ class WizardTests(object):
         self.assertEqual(response.status_code, 200)
 
         post_data = self.wizard_step_data[1]
-        with open(THIS_FILE, 'rb') as post_file:
+        with open(__file__, 'rb') as post_file:
             post_data['form2-file1'] = post_file
             response = self.client.post(self.wizard_url, post_data)
         self.assertEqual(response.status_code, 200)
@@ -195,7 +190,7 @@ class WizardTests(object):
         self.assertEqual(response.status_code, 200)
 
         post_data = self.wizard_step_data[1]
-        with open(THIS_FILE, 'rb') as post_file:
+        with open(__file__, 'rb') as post_file:
             post_data['form2-file1'] = post_file
             response = self.client.post(self.wizard_url, post_data)
         self.assertEqual(response.status_code, 200)
@@ -223,7 +218,7 @@ class WizardTests(object):
         self.assertEqual(response.context['wizard']['steps'].current, 'form2')
 
         post_data = self.wizard_step_data[1]
-        with open(THIS_FILE, 'rb') as post_file:
+        with open(__file__, 'rb') as post_file:
             post_data['form2-file1'] = post_file
             response = self.client.post(self.wizard_url, post_data)
         self.assertEqual(response.status_code, 200)
@@ -355,7 +350,7 @@ class WizardTestGenericViewInterface(TestCase):
             See ticket #17148.
             """
             def get_context_data(self, **kwargs):
-                context = super(TestWizard, self).get_context_data(**kwargs)
+                context = super().get_context_data(**kwargs)
                 context['test_key'] = 'test_value'
                 return context
 
@@ -366,9 +361,9 @@ class WizardTestGenericViewInterface(TestCase):
         self.assertEqual(response.context_data['test_key'], 'test_value')
 
     def test_get_context_data_with_mixin(self):
-        class AnotherMixin(object):
+        class AnotherMixin:
             def get_context_data(self, **kwargs):
-                context = super(AnotherMixin, self).get_context_data(**kwargs)
+                context = super().get_context_data(**kwargs)
                 context['another_key'] = 'another_value'
                 return context
 
@@ -380,7 +375,7 @@ class WizardTestGenericViewInterface(TestCase):
             See ticket #17148.
             """
             def get_context_data(self, **kwargs):
-                context = super(TestWizard, self).get_context_data(**kwargs)
+                context = super().get_context_data(**kwargs)
                 context['test_key'] = 'test_value'
                 return context
 
@@ -424,7 +419,7 @@ class WizardTestPrefix(TestCase):
 
 class WizardFormKwargsOverrideTests(TestCase):
     def setUp(self):
-        super(WizardFormKwargsOverrideTests, self).setUp()
+        super().setUp()
         self.rf = RequestFactory()
 
         # Create two users so we can filter by is_staff when handing our

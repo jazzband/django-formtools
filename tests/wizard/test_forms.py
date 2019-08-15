@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from importlib import import_module
 
 from django import forms, http
@@ -16,7 +14,7 @@ from formtools.wizard.views import (
 
 class DummyRequest(http.HttpRequest):
     def __init__(self, POST=None):
-        super(DummyRequest, self).__init__()
+        super().__init__()
         self.method = "POST" if POST else "GET"
         if POST is not None:
             self.POST.update(POST)
@@ -47,7 +45,7 @@ class CustomKwargsStep1(Step1):
 
     def __init__(self, test=None, *args, **kwargs):
         self.test = test
-        super(CustomKwargsStep1, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class TestModel(models.Model):
@@ -70,11 +68,11 @@ class TestWizard(WizardView):
     storage_name = 'formtools.wizard.storage.session.SessionStorage'
 
     def dispatch(self, request, *args, **kwargs):
-        response = super(TestWizard, self).dispatch(request, *args, **kwargs)
+        response = super().dispatch(request, *args, **kwargs)
         return response, self
 
     def get_form_kwargs(self, step, *args, **kwargs):
-        kwargs = super(TestWizard, self).get_form_kwargs(step, *args, **kwargs)
+        kwargs = super().get_form_kwargs(step, *args, **kwargs)
         if step == 'kwargs_test':
             kwargs['test'] = True
         return kwargs

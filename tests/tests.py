@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import datetime
 import os
 import unittest
@@ -8,7 +5,6 @@ import warnings
 
 from django import http
 from django.test import TestCase, override_settings
-from django.utils._os import upath
 
 from formtools import preview, utils
 
@@ -23,7 +19,7 @@ class TestFormPreview(preview.FormPreview):
         self.state['user'] = request.user
 
     def get_context(self, request, form):
-        context = super(TestFormPreview, self).get_context(request, form)
+        context = super().get_context(request, form)
         context.update({'custom_context': True})
         return context
 
@@ -37,7 +33,7 @@ class TestFormPreview(preview.FormPreview):
 @override_settings(
     TEMPLATES=[{
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(os.path.dirname(upath(__file__)), 'templates')],
+        'DIRS': [os.path.join(os.path.dirname(__file__), 'templates')],
         'APP_DIRS': True,
     }],
     ROOT_URLCONF='tests.urls',
@@ -45,7 +41,7 @@ class TestFormPreview(preview.FormPreview):
 class PreviewTests(TestCase):
 
     def setUp(self):
-        super(PreviewTests, self).setUp()
+        super().setUp()
         # Create a FormPreview instance to share between tests
         self.preview = preview.FormPreview(TestForm)
         input_template = '<input type="hidden" name="%s" value="%s" />'

@@ -1,12 +1,9 @@
-from __future__ import unicode_literals
-
 import copy
 
 from django.contrib.auth.models import User
 from django.http import QueryDict
 from django.test import TestCase, override_settings
 from django.urls import reverse
-from django.utils._os import upath
 
 from formtools.wizard.views import (
     NamedUrlCookieWizardView, NamedUrlSessionWizardView,
@@ -15,12 +12,10 @@ from formtools.wizard.views import (
 from ..test_forms import Step1, Step2, get_request
 from .forms import temp_storage
 
-# On Python 2, __file__ may end with .pyc
-THIS_FILE = upath(__file__).rstrip("c")
 UPLOADED_FILE_NAME = 'tests.py'
 
 
-class NamedWizardTests(object):
+class NamedWizardTests:
 
     def setUp(self):
         self.testuser, created = User.objects.get_or_create(username='testuser1')
@@ -142,7 +137,7 @@ class NamedWizardTests(object):
         self.assertEqual(response.context['wizard']['steps'].current, 'form2')
 
         post_data = self.wizard_step_data[1]
-        with open(THIS_FILE, 'rb') as post_file:
+        with open(__file__, 'rb') as post_file:
             post_data['form2-file1'] = post_file
             response = self.client.post(
                 reverse(self.wizard_urlname,
@@ -154,7 +149,7 @@ class NamedWizardTests(object):
         self.assertEqual(response.context['wizard']['steps'].current, 'form3')
 
         # Check that the file got uploaded properly.
-        with open(THIS_FILE, 'rb') as f, temp_storage.open(UPLOADED_FILE_NAME) as f2:
+        with open(__file__, 'rb') as f, temp_storage.open(UPLOADED_FILE_NAME) as f2:
             self.assertEqual(f.read(), f2.read())
 
         response = self.client.post(
@@ -197,7 +192,7 @@ class NamedWizardTests(object):
         self.assertEqual(response.status_code, 200)
 
         post_data = self.wizard_step_data[1]
-        with open(THIS_FILE, 'rb') as post_file:
+        with open(__file__, 'rb') as post_file:
             post_data['form2-file1'] = post_file
             response = self.client.post(
                 reverse(self.wizard_urlname,
@@ -211,7 +206,7 @@ class NamedWizardTests(object):
         response = self.client.get(step2_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['wizard']['steps'].current, 'form2')
-        with open(THIS_FILE, 'rb') as f, temp_storage.open(UPLOADED_FILE_NAME) as f2:
+        with open(__file__, 'rb') as f, temp_storage.open(UPLOADED_FILE_NAME) as f2:
             self.assertEqual(f.read(), f2.read())
 
         response = self.client.post(
@@ -260,7 +255,7 @@ class NamedWizardTests(object):
         self.assertEqual(response.status_code, 200)
 
         post_data = self.wizard_step_data[1]
-        with open(THIS_FILE, 'rb') as post_file:
+        with open(__file__, 'rb') as post_file:
             post_data['form2-file1'] = post_file
             response = self.client.post(
                 reverse(self.wizard_urlname,
@@ -369,7 +364,7 @@ class NamedCookieWizardTests(NamedWizardTests, TestCase):
     )
 
 
-class NamedFormTests(object):
+class NamedFormTests:
 
     def test_revalidation(self):
         request = get_request()
@@ -386,14 +381,14 @@ class NamedFormTests(object):
 class TestNamedUrlSessionWizardView(NamedUrlSessionWizardView):
 
     def dispatch(self, request, *args, **kwargs):
-        response = super(TestNamedUrlSessionWizardView, self).dispatch(request, *args, **kwargs)
+        response = super().dispatch(request, *args, **kwargs)
         return response, self
 
 
 class TestNamedUrlCookieWizardView(NamedUrlCookieWizardView):
 
     def dispatch(self, request, *args, **kwargs):
-        response = super(TestNamedUrlCookieWizardView, self).dispatch(request, *args, **kwargs)
+        response = super().dispatch(request, *args, **kwargs)
         return response, self
 
 
