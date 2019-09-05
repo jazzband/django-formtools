@@ -5,7 +5,7 @@
 
 {% if form.errors %}<h1>{% trans "Please correct the following errors" %}</h1>{% else %}<h1>{% trans "Submit" %}</h1>{% endif %}
 
-<form action="" method="post">{% csrf_token %}
+<form action="" method="post"  enctype="multipart/form-data">{% csrf_token %}
 <table>
 {{ form }}
 </table>
