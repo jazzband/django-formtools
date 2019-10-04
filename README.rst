@@ -32,3 +32,42 @@ To get more help:
 
 * Join the django-users mailing list, or read the archives, at
   https://groups.google.com/group/django-users.
+
+Contributing to django-formtools
+--------------------------------
+
+See ``CONTRIBUTING.rst`` for information about contributing patches to
+``django-formtools``.
+
+Running tests is as simple as `installing Tox`__ and running it in the root
+Git clone directory::
+
+    $ git clone https://github.com/django/django-formtools
+    [..]
+    $ cd django-formtools
+    $ tox
+    [..]
+      congratulations :)
+
+The previous command will run the tests in different combinations of Python
+(if available) and Django versions. To see the full list of combinations use
+the ``-l`` option::
+
+    $ tox -l
+    ...
+    py35-django-AB
+    py35-django-master
+
+You can run each environment with the ``-e`` option::
+
+    $ tox -e py35-django-AB  # runs the tests only on Python 3.5 and Django A.B.x
+
+Optionally you can also specify a country whose tests you want to run::
+
+    $ COUNTRY=us tox
+
+And combine both options::
+
+    $ COUNTRY=us tox -e py35-django-AB
+
+__ https://tox.readthedocs.io/en/latest/install.html
