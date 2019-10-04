@@ -2,11 +2,13 @@
 django-formtools
 ================
 
-.. image:: https://secure.travis-ci.org/django/django-formtools.svg
-    :target: http://travis-ci.org/django/django-formtools
+.. image:: https://img.shields.io/travis/jazzband/django-formtools/master.svg
+    :alt: TravisCI Build Status
+    :target: https://travis-ci.org/jazzband/django-formtools
 
-.. image:: https://coveralls.io/repos/django/django-formtools/badge.svg?branch=master
-   :target: https://coveralls.io/r/django/django-formtools
+.. image:: https://img.shields.io/coveralls/jazzband/django-formtools/master.svg
+    :alt: Coveralls Test Coverage
+    :target: https://coveralls.io/r/jazzband/django-formtools?branch=master
 
 .. image:: https://jazzband.co/static/img/badge.svg
     :alt: Jazzband
@@ -42,7 +44,7 @@ See ``CONTRIBUTING.rst`` for information about contributing patches to
 Running tests is as simple as `installing Tox`__ and running it in the root
 Git clone directory::
 
-    $ git clone https://github.com/django/django-formtools
+    $ git clone https://github.com/jazzband/django-formtools
     [..]
     $ cd django-formtools
     $ tox
