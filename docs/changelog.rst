@@ -10,7 +10,7 @@ This page details the changes in the various ``django-formtools`` releases.
 
 - Dropped support for Python 2
 
-- Added support for Django 2.1 and 2.2, and Python 3.7.
+- Added support for Django 2.1, 2.2, 3.0, and Python 3.7.
 
 - Updated translations from Transifex
 
