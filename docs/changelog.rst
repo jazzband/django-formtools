@@ -3,7 +3,7 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
-2.2 (unreleased)
+2.2 (2019-12-03)
 ----------------
 
 - Dropped testing for Django 1.8, 1.9, 1.10.
