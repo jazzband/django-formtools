@@ -120,6 +120,7 @@ setup(
     packages=find_packages(exclude=['tests', 'tests.*']),
     package_data=find_package_data(),
     install_requires=['Django>=1.11'],
+    python_requires=">=3.4",
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
