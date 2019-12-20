@@ -85,6 +85,12 @@ class TestWizardWithInitAttrs(TestWizard):
     instance_dict = {'start': User()}
 
 
+class TestWizardWithTypeCheck(TestWizard):
+    def done(self, form_list, **kwargs):
+        assert type(form_list) is list, "`form_list` was {}, should be a list".format(type(form_list))
+        return http.HttpResponse("All good")
+
+
 class FormTests(TestCase):
     def test_form_init(self):
         testform = TestWizard.get_initkwargs([Step1, Step2])
@@ -236,6 +242,12 @@ class FormTests(TestCase):
         response, instance = testform(request)
         instance.render_done(None)
         self.assertEqual(instance.storage.current_step, 'start')
+
+    def test_form_list_type(self):
+        request = get_request({'test_wizard_with_type_check-current_step': 'start', 'start-name': 'data1'})
+        testform = TestWizardWithTypeCheck.as_view([('start', Step1)])
+        response, instance = testform(request)
+        self.assertEqual(response.status_code, 200)
 
 
 class SessionFormTests(TestCase):
