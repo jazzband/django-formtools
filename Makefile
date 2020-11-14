@@ -21,7 +21,7 @@ docs:
 
 test:
 	@flake8
-	@isort --recursive --check-only --diff formtools tests
+	@isort --check-only --diff formtools tests
 	@ coverage run `which django-admin.py` test tests
 	@coverage report
 
