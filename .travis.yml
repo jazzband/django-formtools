@@ -39,6 +39,11 @@ matrix:
       env: TOXENV=py39-django-31
     - python: 3.9
       env: TOXENV=py39-django-master
+  allow_failures:
+    - env: TOXENV=py36-django-master
+    - env: TOXENV=py37-django-master
+    - env: TOXENV=py38-django-master
+    - env: TOXENV=py39-django-master
 install:
     - mkdir -p $PIP_WHEEL_DIR
     - pip wheel -r tests/requirements.txt tox coveralls
