@@ -22,7 +22,7 @@ docs:
 test:
 	@flake8
 	@isort --check-only --diff formtools tests
-	@ coverage run `which django-admin.py` test tests
+	@ coverage run `which django-admin` test tests
 	@coverage report
 
 .PHONY: clean docs test maketranslations pulltranslations compiletranslations
