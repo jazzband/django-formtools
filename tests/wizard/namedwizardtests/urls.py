@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path, re_path
 
 from .forms import (
     CookieContactWizard, Page1, Page2, Page3, Page4, SessionContactWizard,
@@ -22,8 +22,8 @@ def get_named_cookie_wizard():
 
 
 urlpatterns = [
-    url(r'^nwiz_session/(?P<step>.+)/$', get_named_session_wizard(), name='nwiz_session'),
-    url(r'^nwiz_session/$', get_named_session_wizard(), name='nwiz_session_start'),
-    url(r'^nwiz_cookie/(?P<step>.+)/$', get_named_cookie_wizard(), name='nwiz_cookie'),
-    url(r'^nwiz_cookie/$', get_named_cookie_wizard(), name='nwiz_cookie_start'),
+    re_path(r'^nwiz_session/(?P<step>.+)/$', get_named_session_wizard(), name='nwiz_session'),
+    path('nwiz_session/', get_named_session_wizard(), name='nwiz_session_start'),
+    re_path(r'nwiz_cookie/(?P<step>.+)/$', get_named_cookie_wizard(), name='nwiz_cookie'),
+    path('nwiz_cookie/', get_named_cookie_wizard(), name='nwiz_cookie_start'),
 ]
