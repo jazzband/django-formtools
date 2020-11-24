@@ -15,6 +15,9 @@ the following workflow:
 To force a preview of a form submission, all you have to do is write a short
 Python class.
 
+.. note::
+    Form preview doesn't work with file uploads.
+
 Overview
 =========
 
