@@ -59,7 +59,9 @@ class FormPreview:
         Validates the POST data. If valid, displays the preview page.
         Else, redisplays form.
         """
-        f = self.form(request.POST, auto_id=self.get_auto_id())
+        # Even if files are not supported in preview, we still initialize files
+        # to give a chance to process_preview to access files content.
+        f = self.form(data=request.POST, files=request.FILES, auto_id=self.get_auto_id())
         context = self.get_context(request, f)
         if f.is_valid():
             self.process_preview(request, f, context)

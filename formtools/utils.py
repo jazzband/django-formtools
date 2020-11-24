@@ -1,5 +1,6 @@
 import pickle
 
+from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.utils.crypto import salted_hmac
 
 
@@ -17,6 +18,8 @@ def form_hmac(form):
             value = bf.field.clean(bf.data) or ''
         if isinstance(value, str):
             value = value.strip()
+        elif isinstance(value, TemporaryUploadedFile):
+            value = value.read()
         data.append((bf.name, value))
 
     pickled = pickle.dumps(data, pickle.HIGHEST_PROTOCOL)
