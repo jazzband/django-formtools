@@ -16,3 +16,8 @@ class HashTestForm(forms.Form):
 class HashTestBlankForm(forms.Form):
     name = forms.CharField(required=False)
     bio = forms.CharField(required=False)
+
+
+class HashTestFormWithFile(forms.Form):
+    name = forms.CharField()
+    attachment = forms.FileField(required=False)
