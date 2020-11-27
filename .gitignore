@@ -8,3 +8,4 @@ docs/_build
 .tox/
 *.egg/
 .coverage
+coverage.xml
