@@ -355,7 +355,7 @@ class WizardView(TemplateView):
         # render the done view and reset the wizard before returning the
         # response. This is needed to prevent from rendering done with the
         # same data twice.
-        done_response = self.done(final_forms.values(), form_dict=final_forms, **kwargs)
+        done_response = self.done(list(final_forms.values()), form_dict=final_forms, **kwargs)
         self.storage.reset()
         return done_response
 
