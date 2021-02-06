@@ -3,12 +3,24 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
-2.2 (unreleased)
+Next Release (TBC)
+------------------
+
+- Dropped testing for Django 1.11, 2.0 and 2.1.
+
+- Added support for Django 3.1 and Python 3.9.
+
+
+2.2 (2019-12-05)
 ----------------
 
 - Dropped testing for Django 1.8, 1.9, 1.10.
 
-- Added support for Django 2.1.
+- Dropped support for Python 2.
+
+- Added support for Django 2.1, 2.2, 3.0, and Python 3.7.
+
+- Updated translations from Transifex.
 
 2.1 (2017-10-04)
 ----------------

@@ -7,7 +7,7 @@ class CookieStorage(BaseStorage):
     encoder = json.JSONEncoder(separators=(',', ':'))
 
     def __init__(self, *args, **kwargs):
-        super(CookieStorage, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.data = self.load_data()
         if self.data is None:
             self.init_data()
@@ -19,7 +19,7 @@ class CookieStorage(BaseStorage):
         return json.loads(data, cls=json.JSONDecoder)
 
     def update_response(self, response):
-        super(CookieStorage, self).update_response(response)
+        super().update_response(response)
         if self.data:
             response.set_signed_cookie(self.prefix,
                                        self.encoder.encode(self.data))

@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from importlib import import_module
 
 from django import forms, http
@@ -16,7 +14,7 @@ from formtools.wizard.views import (
 
 class DummyRequest(http.HttpRequest):
     def __init__(self, POST=None):
-        super(DummyRequest, self).__init__()
+        super().__init__()
         self.method = "POST" if POST else "GET"
         if POST is not None:
             self.POST.update(POST)
@@ -47,7 +45,7 @@ class CustomKwargsStep1(Step1):
 
     def __init__(self, test=None, *args, **kwargs):
         self.test = test
-        super(CustomKwargsStep1, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class TestModel(models.Model):
@@ -70,11 +68,11 @@ class TestWizard(WizardView):
     storage_name = 'formtools.wizard.storage.session.SessionStorage'
 
     def dispatch(self, request, *args, **kwargs):
-        response = super(TestWizard, self).dispatch(request, *args, **kwargs)
+        response = super().dispatch(request, *args, **kwargs)
         return response, self
 
     def get_form_kwargs(self, step, *args, **kwargs):
-        kwargs = super(TestWizard, self).get_form_kwargs(step, *args, **kwargs)
+        kwargs = super().get_form_kwargs(step, *args, **kwargs)
         if step == 'kwargs_test':
             kwargs['test'] = True
         return kwargs
@@ -85,6 +83,12 @@ class TestWizardWithInitAttrs(TestWizard):
     condition_dict = {'step2': True}
     initial_dict = {'start': {'name': 'value1'}}
     instance_dict = {'start': User()}
+
+
+class TestWizardWithTypeCheck(TestWizard):
+    def done(self, form_list, **kwargs):
+        assert type(form_list) is list, "`form_list` was {}, should be a list".format(type(form_list))
+        return http.HttpResponse("All good")
 
 
 class FormTests(TestCase):
@@ -145,6 +149,19 @@ class FormTests(TestCase):
         )
         response, instance = testform(request)
         self.assertEqual(instance.get_next_step(), 'step2')
+
+    def test_form_condition_unstable(self):
+        request = get_request()
+        testform = TestWizard.as_view(
+            [('start', Step1), ('step2', Step2), ('step3', Step3)],
+            condition_dict={'step2': True}
+        )
+        response, instance = testform(request)
+        self.assertEqual(instance.get_step_index('step2'), 1)
+        self.assertEqual(instance.get_next_step('step2'), 'step3')
+        instance.condition_dict['step2'] = False
+        self.assertEqual(instance.get_step_index('step2'), None)
+        self.assertEqual(instance.get_next_step('step2'), 'start')
 
     def test_form_kwargs(self):
         request = get_request()
@@ -225,6 +242,12 @@ class FormTests(TestCase):
         response, instance = testform(request)
         instance.render_done(None)
         self.assertEqual(instance.storage.current_step, 'start')
+
+    def test_form_list_type(self):
+        request = get_request({'test_wizard_with_type_check-current_step': 'start', 'start-name': 'data1'})
+        testform = TestWizardWithTypeCheck.as_view([('start', Step1)])
+        response, instance = testform(request)
+        self.assertEqual(response.status_code, 200)
 
 
 class SessionFormTests(TestCase):

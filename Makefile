@@ -21,8 +21,9 @@ docs:
 
 test:
 	@flake8
-	@isort --recursive --check-only --diff formtools tests
-	@ coverage run `which django-admin.py` test tests
+	@isort --check-only --diff formtools tests
+	@ coverage run `which django-admin` test tests
 	@coverage report
+	@coverage xml
 
 .PHONY: clean docs test maketranslations pulltranslations compiletranslations

@@ -1,10 +1,6 @@
-from __future__ import unicode_literals
-
-# Do not try cPickle here (see #18340)
 import pickle
 
 from django.db.models import QuerySet
-from django.utils import six
 from django.utils.crypto import salted_hmac
 
 
@@ -40,7 +36,7 @@ def form_hmac(form):
             value = bf.data or ''
         else:
             value = bf.field.clean(bf.data) or ''
-        if isinstance(value, six.string_types):
+        if isinstance(value, str):
             value = value.strip()
         data.append((bf.name, value))
 

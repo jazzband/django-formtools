@@ -50,7 +50,7 @@ class ContactWizard(WizardView):
         return HttpResponse(Template('').render(c))
 
     def get_context_data(self, form, **kwargs):
-        context = super(ContactWizard, self).get_context_data(form, **kwargs)
+        context = super().get_context_data(form, **kwargs)
         if self.storage.current_step == 'form2':
             context.update({'another_var': True})
         return context

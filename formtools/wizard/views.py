@@ -6,9 +6,8 @@ from django.core.exceptions import SuspiciousOperation
 from django.forms import formsets
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils import six
 from django.utils.decorators import classonlymethod
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
 
 from .forms import ManagementForm
@@ -30,7 +29,7 @@ def normalize_name(name):
     return new.lower().strip('_')
 
 
-class StepsHelper(object):
+class StepsHelper:
 
     def __init__(self, wizard):
         self._wizard = wizard
@@ -120,7 +119,7 @@ class WizardView(TemplateView):
         we add some kwargs which are needed to make the wizardview usable.
         """
         initkwargs = cls.get_initkwargs(*args, **kwargs)
-        return super(WizardView, cls).as_view(**initkwargs)
+        return super().as_view(**initkwargs)
 
     @classmethod
     def get_initkwargs(cls, form_list=None, initial_dict=None, instance_dict=None,
@@ -173,20 +172,20 @@ class WizardView(TemplateView):
             if isinstance(form, (list, tuple)):
                 # if the element is a tuple, add the tuple to the new created
                 # sorted dictionary.
-                computed_form_list[six.text_type(form[0])] = form[1]
+                computed_form_list[str(form[0])] = form[1]
             else:
                 # if not, add the form with a zero based counter as unicode
-                computed_form_list[six.text_type(i)] = form
+                computed_form_list[str(i)] = form
 
         # walk through the new created list of forms
-        for form in six.itervalues(computed_form_list):
+        for form in computed_form_list.values():
             if issubclass(form, formsets.BaseFormSet):
                 # if the element is based on BaseFormSet (FormSet/ModelFormSet)
                 # we need to override the form variable.
                 form = form.form
             # check if any form contains a FileField, if yes, we need a
             # file_storage added to the wizardview (by subclassing).
-            for field in six.itervalues(form.base_fields):
+            for field in form.base_fields.values():
                 if (isinstance(field, forms.FileField) and
                         not hasattr(cls, 'file_storage')):
                     raise NoFileStorageConfigured(
@@ -214,7 +213,7 @@ class WizardView(TemplateView):
         could use data from other (maybe previous forms).
         """
         form_list = OrderedDict()
-        for form_key, form_class in six.iteritems(self.form_list):
+        for form_key, form_class in self.form_list.items():
             # try to fetch the value from condition list, by default, the form
             # gets passed to the new list.
             condition = self.condition_dict.get(form_key, True)
@@ -242,7 +241,7 @@ class WizardView(TemplateView):
             getattr(self, 'file_storage', None),
         )
         self.steps = StepsHelper(self)
-        response = super(WizardView, self).dispatch(request, *args, **kwargs)
+        response = super().dispatch(request, *args, **kwargs)
 
         # update the response (e.g. adding cookies)
         self.storage.update_response(response)
@@ -356,7 +355,7 @@ class WizardView(TemplateView):
         # render the done view and reset the wizard before returning the
         # response. This is needed to prevent from rendering done with the
         # same data twice.
-        done_response = self.done(final_forms.values(), form_dict=final_forms, **kwargs)
+        done_response = self.done(list(final_forms.values()), form_dict=final_forms, **kwargs)
         self.storage.reset()
         return done_response
 
@@ -506,11 +505,15 @@ class WizardView(TemplateView):
         Returns the next step after the given `step`. If no more steps are
         available, None will be returned. If the `step` argument is None, the
         current step will be determined automatically.
+        If the `step` is not in the current list of steps, the first step will
+        be returned.
         """
         if step is None:
             step = self.steps.current
         form_list = self.get_form_list()
         keys = list(form_list.keys())
+        if step not in keys:
+            return self.steps.first
         key = keys.index(step) + 1
         if len(keys) > key:
             return keys[key]
@@ -521,11 +524,15 @@ class WizardView(TemplateView):
         Returns the previous step before the given `step`. If there are no
         steps available, None will be returned. If the `step` argument is
         None, the current step will be determined automatically.
+        If the `step` is not in the current list of steps, None will be
+        returned.
         """
         if step is None:
             step = self.steps.current
         form_list = self.get_form_list()
         keys = list(form_list.keys())
+        if step not in keys:
+            return None
         key = keys.index(step) - 1
         if key >= 0:
             return keys[key]
@@ -535,10 +542,15 @@ class WizardView(TemplateView):
         """
         Returns the index for the given `step` name. If no step is given,
         the current step will be used to get the index.
+        If the current step is not in the current list of steps, None will be
+        returned.
         """
         if step is None:
             step = self.steps.current
-        return list(self.get_form_list().keys()).index(step)
+        keys = list(self.get_form_list().keys())
+        if step in keys:
+            return keys.index(step)
+        return None
 
     def get_context_data(self, form, **kwargs):
         """
@@ -554,13 +566,12 @@ class WizardView(TemplateView):
 
             class MyWizard(WizardView):
                 def get_context_data(self, form, **kwargs):
-                    context = super(MyWizard, self).get_context_data(form=form,
-                                                                     **kwargs)
+                    context = super().get_context_data(form=form, **kwargs)
                     if self.steps.current == 'my_step_name':
                         context.update({'another_var': True})
                     return context
         """
-        context = super(WizardView, self).get_context_data(form=form, **kwargs)
+        context = super().get_context_data(form=form, **kwargs)
         context.update(self.storage.extra_data)
         context['wizard'] = {
             'form': form,
@@ -622,7 +633,7 @@ class NamedUrlWizardView(WizardView):
             'done_step_name': kwargs.pop('done_step_name', 'done'),
             'url_name': kwargs.pop('url_name'),
         }
-        initkwargs = super(NamedUrlWizardView, cls).get_initkwargs(*args, **kwargs)
+        initkwargs = super().get_initkwargs(*args, **kwargs)
         initkwargs.update(extra_kwargs)
 
         assert initkwargs['done_step_name'] not in initkwargs['form_list'], \
@@ -690,14 +701,14 @@ class NamedUrlWizardView(WizardView):
         wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
         if wizard_goto_step and wizard_goto_step in self.get_form_list():
             return self.render_goto_step(wizard_goto_step)
-        return super(NamedUrlWizardView, self).post(*args, **kwargs)
+        return super().post(*args, **kwargs)
 
     def get_context_data(self, form, **kwargs):
         """
         NamedUrlWizardView provides the url_name of this wizard in the context
         dict `wizard`.
         """
-        context = super(NamedUrlWizardView, self).get_context_data(form=form, **kwargs)
+        context = super().get_context_data(form=form, **kwargs)
         context['wizard']['url_name'] = self.url_name
         return context
 
@@ -733,7 +744,7 @@ class NamedUrlWizardView(WizardView):
         """
         if kwargs.get('step', None) != self.done_step_name:
             return redirect(self.get_step_url(self.done_step_name))
-        return super(NamedUrlWizardView, self).render_done(form, **kwargs)
+        return super().render_done(form, **kwargs)
 
 
 class NamedUrlSessionWizardView(NamedUrlWizardView):

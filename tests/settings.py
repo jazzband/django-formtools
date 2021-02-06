@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -39,3 +38,5 @@ TEMPLATES = [{
 
 MEDIA_ROOT = 'media'
 STATIC_ROOT = 'static'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
