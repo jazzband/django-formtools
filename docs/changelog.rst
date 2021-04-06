@@ -14,6 +14,7 @@ Next Release (TBC)
 
 - Dropped support for Django 3.0.
 
+- Dropped support for Python 3.5.
 
 2.2 (2019-12-05)
 ----------------
