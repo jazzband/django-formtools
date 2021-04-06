@@ -12,6 +12,8 @@ Next Release (TBC)
 
 - Added support for Django 3.2.
 
+- Dropped support for Django 3.0.
+
 
 2.2 (2019-12-05)
 ----------------
