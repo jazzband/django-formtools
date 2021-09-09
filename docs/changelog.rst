@@ -3,6 +3,11 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
+2.4 (unreleased)
+----------------
+
+- Any kwarg passed to ``render_goto_step()`` is passed over to ``render``.
+
 2.3 (2021-04-18)
 ----------------
 

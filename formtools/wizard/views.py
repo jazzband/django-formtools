@@ -331,7 +331,7 @@ class WizardView(TemplateView):
         form = self.get_form(
             data=self.storage.get_step_data(self.steps.current),
             files=self.storage.get_step_files(self.steps.current))
-        return self.render(form)
+        return self.render(form, **kwargs)
 
     def render_done(self, form, **kwargs):
         """

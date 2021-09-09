@@ -236,6 +236,14 @@ class FormTests(TestCase):
         response, instance = testform(request)
         self.assertRaises(NotImplementedError, instance.done, None)
 
+    def test_goto_step_kwargs(self):
+        """Any extra kwarg given to render_goto_step is added to response context."""
+        request = get_request()
+        testform = TestWizard.as_view([('start', Step1), ('step2', Step2)])
+        _, instance = testform(request)
+        response = instance.render_goto_step('start', context_var='Foo')
+        self.assertIn('context_var', response.context_data.keys())
+
     def test_revalidation(self):
         request = get_request()
         testform = TestWizard.as_view([('start', Step1), ('step2', Step2)])
