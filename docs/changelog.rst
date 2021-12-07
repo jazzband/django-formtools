@@ -10,6 +10,8 @@ This page details the changes in the various ``django-formtools`` releases.
 
 - Added Python 3.10 to test matrix.
 
+- Confirmed support for Django 4.0.
+
 2.3 (2021-04-18)
 ----------------
 
