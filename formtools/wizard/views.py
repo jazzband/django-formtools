@@ -314,7 +314,7 @@ class WizardView(TemplateView):
         # (if available).
         next_step = self.steps.next
         new_form = self.get_form(
-            next_step,
+            step=next_step,
             data=self.storage.get_step_data(next_step),
             files=self.storage.get_step_files(next_step),
         )
@@ -395,7 +395,7 @@ class WizardView(TemplateView):
         """
         return {}
 
-    def get_form(self, step=None, data=None, files=None):
+    def get_form(self, *, step=None, data=None, files=None):
         """
         Constructs the form for a given `step`. If no `step` is defined, the
         current step will be determined automatically.

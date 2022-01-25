@@ -172,7 +172,7 @@ class FormTests(TestCase):
         response, instance = testform(request)
         self.assertEqual(instance.get_form_kwargs('start'), {})
         self.assertEqual(instance.get_form_kwargs('kwargs_test'), {'test': True})
-        self.assertEqual(instance.get_form('kwargs_test').test, True)
+        self.assertEqual(instance.get_form(step='kwargs_test').test, True)
 
     def test_form_prefix(self):
         request = get_request()
