@@ -221,7 +221,7 @@ class WizardView(TemplateView):
                 # call the value if needed, passes the current instance.
                 condition = condition(self)
             if condition:
-                form_list[form_key] = form_class
+                form_list[form_key] = self.get_form_class(form_key)
         return form_list
 
     def dispatch(self, request, *args, **kwargs):
@@ -395,6 +395,12 @@ class WizardView(TemplateView):
         """
         return {}
 
+    def get_form_class(self, step):
+        """
+        Returns the form class to use for the provided step.
+        """
+        return self.form_list[step]
+
     def get_form(self, step=None, data=None, files=None):
         """
         Constructs the form for a given `step`. If no `step` is defined, the
@@ -406,7 +412,7 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
-        form_class = self.form_list[step]
+        form_class = self.get_form_class(step)
         # prepare the kwargs for the form instance.
         kwargs = self.get_form_kwargs(step)
         kwargs.update({
