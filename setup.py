@@ -13,6 +13,9 @@ setup(
     use_scm_version={"version_scheme": "post-release", "local_scheme": "dirty-tag"},
     setup_requires=["setuptools_scm"],
     url="https://django-formtools.readthedocs.io/en/latest/",
+    project_urls={
+        "Source": 'https://github.com/jazzband/django-formtools',
+    },
     license="BSD",
     description="A set of high-level abstractions for Django forms",
     long_description=read("README.rst"),
