@@ -5,6 +5,7 @@ This page details the changes in the various ``django-formtools`` releases.
 
 2.4 (unreleased)
 ----------------
+- Dropped testing for Django 3.1.
 
 - Any kwarg passed to ``render_goto_step()`` is passed over to ``render``.
 
