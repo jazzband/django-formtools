@@ -219,7 +219,7 @@ Here's a full example template:
     {% if wizard.form.forms %}
         {{ wizard.form.management_form }}
         {% for form in wizard.form.forms %}
-            {{ form }}
+            {{ form.as_table }}
         {% endfor %}
     {% else %}
         {{ wizard.form }}

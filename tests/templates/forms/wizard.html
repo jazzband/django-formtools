@@ -3,7 +3,7 @@
     <p>Step {{ step }} of {{ step_count }}</p>
     <form action="." method="post">
     <table>
-    {{ form }}
+    {{ form.as_table }}
     </table>
     <input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
     {{ previous_fields|safe }}
