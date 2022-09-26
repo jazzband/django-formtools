@@ -1,19 +1,18 @@
 # This file is distributed under the same license as the Django package.
 #
 # Translators:
-# Ernesto Avilés Vázquez <whippiii@gmail.com>, 2014
+# e4db27214f7e7544f2022c647b585925_bb0e321, 2014
 # Jannis Leidel <jannis@leidel.info>, 2011
-# juanda097 <juanda097@openmailbox.org>, 2014
+# Juan Jaramillo <juanda097@protonmail.ch>, 2014
+# Uriel Medina <urimeba511@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: django-formtools\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-25 09:31-0500\n"
-"PO-Revision-Date: 2014-11-16 06:30+0000\n"
-"Last-Translator: juanda097 <juanda097@openmailbox.org>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/django-formtools/"
-"language/es/)\n"
-"Language: es\n"
+"PO-Revision-Date: 2021-10-05 20:14+0000\n"
+"Last-Translator: Uriel Medina <urimeba511@gmail.com>, 2021\n"
+"Language-Team: Spanish (http://www.transifex.com/django/django-formtools/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,7 +36,7 @@ msgstr "Vista previa"
 
 #: templates/formtools/preview.html:6
 msgid "Preview your submission"
-msgstr "Vista previa de su presentación"
+msgstr "Vista previa de su envío"
 
 #: templates/formtools/preview.html:17
 #, python-format
