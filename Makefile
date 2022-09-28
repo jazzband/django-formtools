@@ -5,13 +5,13 @@ clean:
 	git clean -Xfd
 
 maketranslations:
-	cd formtools; django-admin.py makemessages -a -v2
+	cd formtools; django-admin makemessages -a -v2
 
 pulltranslations:
 	tx pull -f -a --minimum-perc=1
 
 compiletranslations:
-	cd formtools; django-admin.py compilemessages
+	cd formtools; django-admin compilemessages
 
 translations: pulltranslations maketranslations compiletranslations
 	@echo "Pulling, making and compiling translations"
