@@ -3,16 +3,19 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
-2.4 (unreleased)
+2.4 (2022-09-28)
 ----------------
 
 - Updated translations from Transifex.
 
-- Dropped testing for Django 3.1.
-
 - Any kwarg passed to ``render_goto_step()`` is passed over to ``render``.
 
+- ``WizardView`` is using ``get_form_list()`` instead of directly accessing
+  ``form_list`` (#168).
+
 - Added Python 3.10 to test matrix.
+
+- Dropped testing for Django 3.1.
 
 - Confirmed support for Django 4.0 and 4.1.
 
