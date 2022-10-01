@@ -699,6 +699,9 @@ As you can see, we defined a ``show_message_form_condition`` next to our
 :meth:`~WizardView.as_view` method. The key refers to the second wizard step
 (because of the zero based step index).
 
+Only steps that refer to previous steps will work: referring to a subsequent
+step may result in an infinite recursion error.
+
 How to work with ModelForm and ModelFormSet
 ===========================================
 

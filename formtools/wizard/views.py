@@ -212,7 +212,9 @@ class WizardView(TemplateView):
         The form_list is always generated on the fly because condition methods
         could use data from other (maybe previous forms).
         """
-        form_list = OrderedDict()
+        return OrderedDict(self.get_form_list_iter())
+
+    def get_form_list_iter(self):
         for form_key, form_class in self.form_list.items():
             # try to fetch the value from condition list, by default, the form
             # gets passed to the new list.
@@ -221,8 +223,7 @@ class WizardView(TemplateView):
                 # call the value if needed, passes the current instance.
                 condition = condition(self)
             if condition:
-                form_list[form_key] = form_class
-        return form_list
+                yield form_key, form_class
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -406,7 +407,13 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
-        form_class = self.get_form_list()[step]
+
+        for form_key, form_class in self.get_form_list_iter():
+            if form_key == step:
+                break
+        else:
+            form_class = self.get_form_list()[step]
+
         # prepare the kwargs for the form instance.
         kwargs = self.get_form_kwargs(step)
         kwargs.update({
@@ -490,7 +497,8 @@ class WizardView(TemplateView):
         cleaned data, the stored values are revalidated through the form.
         If the data doesn't validate, None will be returned.
         """
-        if step in self.form_list:
+
+        if step in (form_key for form_key, _form_class in self.get_form_list_iter()):
             form_obj = self.get_form(
                 step=step,
                 data=self.storage.get_step_data(step),

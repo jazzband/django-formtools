@@ -158,6 +158,34 @@ class FormTests(TestCase):
         response, instance = testform(request)
         self.assertEqual(instance.get_next_step(), 'step2')
 
+        def previous_step_check(wizard):
+            data = wizard.get_cleaned_data_for_step('start') or {}
+            return not data.get('name', None) == 'SKIP'
+
+        testform = TestWizard.as_view(
+            [('start', Step1), ('step2', Step2), ('step3', Step3)],
+            condition_dict={'step2': previous_step_check}
+        )
+        response, instance = testform(request)
+        self.assertEqual(instance.get_next_step(), 'step2')
+
+        # def subsequent_step_check(wizard):
+        #     data = wizard.get_cleaned_data_for_step('step3') or {}
+        #     return data.get('foo')
+        #
+        # testform = TestWizard.as_view(
+        #     [('start', Step1), ('step2', Step2), ('step3', Step3)],
+        #     condition_dict={'step3': subsequent_step_check}
+        # )
+        # response, instance = testform(request)
+        # with self.assertRaises(ValueError) as exc:
+        #     self.assertEqual(instance.get_next_step(), 'step2')
+        # self.assertEqual(
+        #     exc.message,
+        #     'Condition for step3 resulted in infinite recursion. '
+        #     'Does it refer to a subsequent step?'
+        # )
+
     def test_form_condition_unstable(self):
         request = get_request()
         testform = TestWizard.as_view(
