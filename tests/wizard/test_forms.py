@@ -91,14 +91,6 @@ class TestWizardWithTypeCheck(TestWizard):
         return http.HttpResponse("All good")
 
 
-class TestWizardWithCustomGetFormList(TestWizard):
-
-    form_list = [Step1]
-
-    def get_form_list(self):
-        return {'start': Step1, 'step2': Step2}
-
-
 class FormTests(TestCase):
     def test_form_init(self):
         testform = TestWizard.get_initkwargs([Step1, Step2])
@@ -264,25 +256,6 @@ class FormTests(TestCase):
         testform = TestWizardWithTypeCheck.as_view([('start', Step1)])
         response, instance = testform(request)
         self.assertEqual(response.status_code, 200)
-
-    def test_get_form_list_default(self):
-        request = get_request()
-        testform = TestWizard.as_view([('start', Step1)])
-        response, instance = testform(request)
-
-        form_list = instance.get_form_list()
-        self.assertEqual(form_list, {'start': Step1})
-        with self.assertRaises(KeyError):
-            instance.get_form('step2')
-
-    def test_get_form_list_custom(self):
-        request = get_request()
-        testform = TestWizardWithCustomGetFormList.as_view([('start', Step1)])
-        response, instance = testform(request)
-
-        form_list = instance.get_form_list()
-        self.assertEqual(form_list, {'start': Step1, 'step2': Step2})
-        self.assertIsInstance(instance.get_form('step2'), Step2)
 
 
 class SessionFormTests(TestCase):
