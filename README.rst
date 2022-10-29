@@ -65,12 +65,12 @@ the ``-l`` option::
 
     $ tox -l
     ...
-    py38-django-AB
-    py38-django-master
+    py310-djangoAB
+    py310-djangomain
 
 You can run each environment with the ``-e`` option::
 
-    $ tox -e py38-django-AB  # runs the tests only on Python 3.5 and Django A.B.x
+    $ tox -e py310-djangoAB  # runs the tests only on Python 3.10 and Django A.B.x
 
 Optionally you can also specify a country whose tests you want to run::
 
@@ -78,6 +78,6 @@ Optionally you can also specify a country whose tests you want to run::
 
 And combine both options::
 
-    $ COUNTRY=us tox -e py38-django-AB
+    $ COUNTRY=us tox -e py310-djangoAB
 
 __ https://tox.readthedocs.io/en/latest/install.html
