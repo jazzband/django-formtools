@@ -92,11 +92,12 @@ class TestWizardWithTypeCheck(TestWizard):
 
 
 class TestWizardWithCustomGetFormList(TestWizard):
+    form_list = [('start', Step1)]
 
-    form_list = [Step1]
-
-    def get_form_list(self):
-        return {'start': Step1, 'step2': Step2}
+    def process_condition_dict(self):
+        super().process_condition_dict()
+        # Modify the `form_list` using any criteria (e.g. whether the user is logged in, etc.) or none at all
+        self.form_list['step2'] = Step2
 
 
 class FormTests(TestCase):
@@ -157,19 +158,6 @@ class FormTests(TestCase):
         )
         response, instance = testform(request)
         self.assertEqual(instance.get_next_step(), 'step2')
-
-    def test_form_condition_unstable(self):
-        request = get_request()
-        testform = TestWizard.as_view(
-            [('start', Step1), ('step2', Step2), ('step3', Step3)],
-            condition_dict={'step2': True}
-        )
-        response, instance = testform(request)
-        self.assertEqual(instance.get_step_index('step2'), 1)
-        self.assertEqual(instance.get_next_step('step2'), 'step3')
-        instance.condition_dict['step2'] = False
-        self.assertEqual(instance.get_step_index('step2'), None)
-        self.assertEqual(instance.get_next_step('step2'), 'start')
 
     def test_form_kwargs(self):
         request = get_request()
@@ -265,23 +253,21 @@ class FormTests(TestCase):
         response, instance = testform(request)
         self.assertEqual(response.status_code, 200)
 
-    def test_get_form_list_default(self):
+    def test_form_list_default(self):
         request = get_request()
         testform = TestWizard.as_view([('start', Step1)])
         response, instance = testform(request)
 
-        form_list = instance.get_form_list()
-        self.assertEqual(form_list, {'start': Step1})
+        self.assertEqual(instance.form_list, {'start': Step1})
         with self.assertRaises(KeyError):
             instance.get_form('step2')
 
-    def test_get_form_list_custom(self):
+    def test_form_list_custom(self):
         request = get_request()
-        testform = TestWizardWithCustomGetFormList.as_view([('start', Step1)])
+        testform = TestWizardWithCustomGetFormList.as_view()
         response, instance = testform(request)
 
-        form_list = instance.get_form_list()
-        self.assertEqual(form_list, {'start': Step1, 'step2': Step2})
+        self.assertEqual(instance.form_list, {'start': Step1, 'step2': Step2})
         self.assertIsInstance(instance.get_form('step2'), Step2)
 
 

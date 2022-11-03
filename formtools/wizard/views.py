@@ -46,7 +46,7 @@ class StepsHelper:
     @property
     def all(self):
         "Returns the names of all steps/forms."
-        return list(self._wizard.get_form_list())
+        return list(self._wizard.form_list)
 
     @property
     def count(self):
@@ -201,28 +201,21 @@ class WizardView(TemplateView):
         # TODO: Add some kind of unique id to prefix
         return normalize_name(self.__class__.__name__)
 
-    def get_form_list(self):
+    def process_condition_dict(self):
         """
-        This method returns a form_list based on the initial form list but
-        checks if there is a condition method/value in the condition_list.
-        If an entry exists in the condition list, it will call/read the value
-        and respect the result. (True means add the form, False means ignore
-        the form)
-
-        The form_list is always generated on the fly because condition methods
-        could use data from other (maybe previous forms).
+        This method prunes `self.form_list` by checking if there is a condition method/value in `condition_list`.
+        If an entry exists, it will call/read the value and respect the result. If the condition returns False, the
+        form will be removed from `form_list`.
         """
-        form_list = OrderedDict()
-        for form_key, form_class in self.form_list.items():
+        for form_key in list(self.form_list.keys()):
             # try to fetch the value from condition list, by default, the form
             # gets passed to the new list.
             condition = self.condition_dict.get(form_key, True)
             if callable(condition):
                 # call the value if needed, passes the current instance.
                 condition = condition(self)
-            if condition:
-                form_list[form_key] = form_class
-        return form_list
+            if not condition:
+                del self.form_list[form_key]
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -241,6 +234,7 @@ class WizardView(TemplateView):
             getattr(self, 'file_storage', None),
         )
         self.steps = StepsHelper(self)
+        self.process_condition_dict()
         response = super().dispatch(request, *args, **kwargs)
 
         # update the response (e.g. adding cookies)
@@ -273,7 +267,7 @@ class WizardView(TemplateView):
         # contains a valid step name. If one was found, render the requested
         # form. (This makes stepping back a lot easier).
         wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
-        if wizard_goto_step and wizard_goto_step in self.get_form_list():
+        if wizard_goto_step and wizard_goto_step in self.form_list:
             return self.render_goto_step(wizard_goto_step)
 
         # Check if form was refreshed
@@ -342,7 +336,7 @@ class WizardView(TemplateView):
         """
         final_forms = OrderedDict()
         # walk through the form list and try to validate the data again.
-        for form_key in self.get_form_list():
+        for form_key in self.form_list.keys():
             form_obj = self.get_form(
                 step=form_key,
                 data=self.storage.get_step_data(form_key),
@@ -406,7 +400,7 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
-        form_class = self.get_form_list()[step]
+        form_class = self.form_list[step]
         # prepare the kwargs for the form instance.
         kwargs = self.get_form_kwargs(step)
         kwargs.update({
@@ -469,7 +463,7 @@ class WizardView(TemplateView):
         'formset-' and contain a list of the formset cleaned_data dictionaries.
         """
         cleaned_data = {}
-        for form_key in self.get_form_list():
+        for form_key in self.form_list.keys():
             form_obj = self.get_form(
                 step=form_key,
                 data=self.storage.get_step_data(form_key),
@@ -510,8 +504,7 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
-        form_list = self.get_form_list()
-        keys = list(form_list.keys())
+        keys = list(self.form_list.keys())
         if step not in keys:
             return self.steps.first
         key = keys.index(step) + 1
@@ -529,8 +522,7 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
-        form_list = self.get_form_list()
-        keys = list(form_list.keys())
+        keys = list(self.form_list.keys())
         if step not in keys:
             return None
         key = keys.index(step) - 1
@@ -547,7 +539,7 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
-        keys = list(self.get_form_list().keys())
+        keys = list(self.form_list.keys())
         if step in keys:
             return keys.index(step)
         return None
@@ -678,7 +670,7 @@ class NamedUrlWizardView(WizardView):
             )
             return self.render(form, **kwargs)
 
-        elif step_url in self.get_form_list():
+        elif step_url in self.form_list:
             self.storage.current_step = step_url
             return self.render(
                 self.get_form(
@@ -699,7 +691,7 @@ class NamedUrlWizardView(WizardView):
         is super'd from WizardView.
         """
         wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
-        if wizard_goto_step and wizard_goto_step in self.get_form_list():
+        if wizard_goto_step and wizard_goto_step in self.form_list:
             return self.render_goto_step(wizard_goto_step)
         return super().post(*args, **kwargs)
 
