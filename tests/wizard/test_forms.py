@@ -5,9 +5,11 @@ from django import forms, http
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.forms import formset_factory
 from django.template.response import TemplateResponse
 from django.test import TestCase
 
+from formtools.wizard.storage import NoFileStorageConfigured
 from formtools.wizard.views import (
     CookieWizardView, SessionWizardView, WizardView,
 )
@@ -42,8 +44,14 @@ class Step3(forms.Form):
     data = forms.CharField()
 
 
-class CustomKwargsStep1(Step1):
+class FormWithFileField(forms.Form):
+    upload = forms.FileField()
 
+
+Step3FormSet = formset_factory(Step3)
+
+
+class CustomKwargsStep1(Step1):
     def __init__(self, test=None, *args, **kwargs):
         self.test = test
         super().__init__(*args, **kwargs)
@@ -79,11 +87,14 @@ class TestWizard(WizardView):
         return kwargs
 
 
+test_instance = User()
+
+
 class TestWizardWithInitAttrs(TestWizard):
     form_list = [Step1, Step2]
     condition_dict = {'step2': False}
     initial_dict = {'start': {'name': 'value1'}}
-    instance_dict = {'start': User()}
+    instance_dict = {'start': test_instance}
 
 
 class TestWizardWithTypeCheck(TestWizard):
@@ -102,17 +113,55 @@ class TestWizardWithCustomGetFormList(TestWizard):
 
 class FormTests(TestCase):
     def test_form_init(self):
-        testform = TestWizard.get_initkwargs([Step1, Step2])
-        self.assertEqual(testform['form_list'], {'0': Step1, '1': Step2})
+        # get_initkwargs() is used by as_view() to build kwargs
+        with patch.object(TestWizard, 'get_initkwargs') as mock:
+            TestWizard.as_view()
+            mock.assert_called_once()
 
-        testform = TestWizard.get_initkwargs([('start', Step1), ('step2', Step2)])
-        self.assertEqual(testform['form_list'], {'start': Step1, 'step2': Step2})
+        # just forms: automatic step names are generated
+        kwargs = TestWizard.get_initkwargs([Step1, Step2])
+        self.assertEqual(kwargs['form_list'], {'0': Step1, '1': Step2})
+        self.assertEqual(kwargs['initial_dict'], {})
+        self.assertEqual(kwargs['instance_dict'], {})
+        self.assertEqual(kwargs['condition_dict'], {})
 
-        testform = TestWizard.get_initkwargs([Step1, Step2, ('finish', Step3)])
-        self.assertEqual(testform['form_list'], {'0': Step1, '1': Step2, 'finish': Step3})
+        # tuples with step names; optional initial_dict, instance_dict & condition_dict
+        kwargs = TestWizard.get_initkwargs(
+            [('start', Step1), ('step2', Step2)],
+            initial_dict={'start': {'name': 'value1'}},
+            instance_dict={'start': test_instance},
+            condition_dict={'step2': False},
+        )
+        self.assertEqual(kwargs['form_list'], {'start': Step1, 'step2': Step2})
+        self.assertEqual(kwargs['initial_dict'], {'start': {'name': 'value1'}})
+        self.assertEqual(kwargs['instance_dict'], {'start': test_instance})
+        self.assertEqual(kwargs['condition_dict'], {'step2': False})
 
-        testform = TestWizardWithInitAttrs.get_initkwargs()
-        self.assertEqual(testform['form_list'], {'0': Step1, '1': Step2})
+        # forms and formsets work; name tuples optional and can be mixed with just forms
+        kwargs = TestWizard.get_initkwargs([Step1, Step2, ('finish', Step3FormSet)])
+        self.assertEqual(
+            kwargs['form_list'],
+            {'0': Step1, '1': Step2, 'finish': Step3FormSet}
+        )
+        self.assertEqual(kwargs['initial_dict'], {})
+        self.assertEqual(kwargs['instance_dict'], {})
+        self.assertEqual(kwargs['condition_dict'], {})
+
+        # all kwargs are defined on the class
+        kwargs = TestWizardWithInitAttrs.get_initkwargs()
+        self.assertEqual(kwargs['form_list'], {'0': Step1, '1': Step2})
+        self.assertEqual(kwargs['initial_dict'], {'start': {'name': 'value1'}})
+        self.assertEqual(kwargs['instance_dict'], {'start': test_instance})
+        self.assertEqual(kwargs['condition_dict'], {'step2': False})
+
+        # FileFields require additional storage in subclass of WizardView
+        with self.assertRaises(NoFileStorageConfigured) as cm:
+            TestWizard.get_initkwargs([FormWithFileField])
+        self.assertEqual(
+            str(cm.exception),
+            "You need to define 'file_storage' in your wizard view in order to "
+            "handle file uploads."
+        )
 
     def test_first_step(self):
         request = get_request()
