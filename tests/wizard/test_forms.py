@@ -80,7 +80,7 @@ class TestWizard(WizardView):
 
 class TestWizardWithInitAttrs(TestWizard):
     form_list = [Step1, Step2]
-    condition_dict = {'step2': True}
+    condition_dict = {'step2': False}
     initial_dict = {'start': {'name': 'value1'}}
     instance_dict = {'start': User()}
 
@@ -156,7 +156,7 @@ class FormTests(TestCase):
             [('start', Step1), ('step2', Step2), ('step3', Step3)]
         )
         response, instance = testform(request)
-        self.assertEqual(instance.get_next_step(), 'step2')
+        self.assertEqual(instance.get_next_step(), 'step3')
 
     def test_form_condition_unstable(self):
         request = get_request()
