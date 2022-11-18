@@ -1,3 +1,4 @@
+import unittest
 from importlib import import_module
 
 from django import forms, http
@@ -157,6 +158,34 @@ class FormTests(TestCase):
         )
         response, instance = testform(request)
         self.assertEqual(instance.get_next_step(), 'step3')
+
+    @unittest.skip('https://github.com/jazzband/django-formtools/issues/220')
+    def test_form_condition_callable(self):
+        def step2_is_enabled(wizard):
+            cleaned_data = wizard.get_cleaned_data_for_step('start')
+            if cleaned_data:
+                return cleaned_data.get('name') == 'yes'
+
+        testform = TestWizard.as_view(
+            [('start', Step1), ('step2', Step2), ('step3', Step3)],
+            condition_dict={'step2': step2_is_enabled}
+        )
+        request = get_request({'test_wizard-current_step': 'step1', 'start-name': 'yes'})
+        response, instance = testform(request)
+        # being on step2 when giving name "yes"
+        self.assertEqual(instance.get_prev_step(), 'start')
+        self.assertEqual(instance.steps.current, 'step2')
+        self.assertEqual(instance.get_next_step(), 'step3')
+        self.assertEqual(instance.get_step_index(), 1)
+
+        request = get_request({'test_wizard-current_step': 'start', 'start-name': 'no'})
+        response, instance = testform(request)
+        # step2 being skipped and no more steps to go when giving name "no"
+        self.assertEqual(instance.get_prev_step(), 'start')
+        self.assertEqual(instance.steps.current, 'step3')
+        self.assertEqual(instance.get_next_step(), None)
+        # index is still 1, because step2 is not in list returned by get_form_list()
+        self.assertEqual(instance.get_step_index(), 1)
 
     def test_form_condition_unstable(self):
         request = get_request()
