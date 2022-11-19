@@ -1,5 +1,7 @@
 import unittest
+from collections import OrderedDict
 from importlib import import_module
+from unittest.mock import patch
 
 from django import forms, http
 from django.conf import settings
@@ -95,12 +97,6 @@ class TestWizardWithInitAttrs(TestWizard):
     condition_dict = {'step2': False}
     initial_dict = {'start': {'name': 'value1'}}
     instance_dict = {'start': test_instance}
-
-
-class TestWizardWithTypeCheck(TestWizard):
-    def done(self, form_list, **kwargs):
-        assert type(form_list) is list, "`form_list` was {}, should be a list".format(type(form_list))
-        return http.HttpResponse("All good")
 
 
 class TestWizardWithCustomGetFormList(TestWizard):
@@ -317,6 +313,7 @@ class FormTests(TestCase):
         self.assertEqual(instance.get_form().initial_form_count(), 1)
 
     def test_done(self):
+        # validate WizardView.done() is not implemented on base class
         request = get_request()
         testform = TestWizard.as_view([('start', Step1), ('step2', Step2)])
         response, instance = testform(request)
@@ -338,10 +335,15 @@ class FormTests(TestCase):
         self.assertEqual(instance.storage.current_step, 'start')
 
     def test_form_list_type(self):
-        request = get_request({'test_wizard_with_type_check-current_step': 'start', 'start-name': 'data1'})
-        testform = TestWizardWithTypeCheck.as_view([('start', Step1)])
-        response, instance = testform(request)
-        self.assertEqual(response.status_code, 200)
+        # validate WizardView.done() is called with a `list` of forms (not odict_values)
+        request = get_request({'test_wizard-current_step': 'start', 'start-name': 'foo'})
+        testform = TestWizard.as_view([('start', Step1)])
+        with patch.object(TestWizard, 'done') as mock:
+            _, _ = testform(request)
+        mock.assert_called_once()
+        args, kwargs = mock.call_args_list[0]
+        self.assertIsInstance(args[0], list)  # form_list
+        self.assertIsInstance(kwargs['form_dict'], OrderedDict)
 
     def test_get_form_list_default(self):
         request = get_request()
