@@ -299,35 +299,44 @@ class FormTests(TestCase):
         self.assertEqual(instance.get_form_initial('step2'), {})
 
     def test_form_instance(self):
+        # instance_dict can provide instances for forms
         request = get_request()
-        the_instance = TestModel()
+        model_instance = TestModel(name='test object')
         testform = TestWizard.as_view(
             [('start', TestModelForm), ('step2', Step2)],
-            instance_dict={'start': the_instance}
+            instance_dict={'start': model_instance}
         )
         response, instance = testform(request)
-        self.assertEqual(instance.get_form_instance('start'), the_instance)
+        self.assertEqual(instance.get_form_instance('start'), model_instance)
         self.assertIsNone(instance.get_form_instance('non_exist_instance'))
 
-        testform = TestWizardWithInitAttrs.as_view([('start', TestModelForm), ('step2', Step2)])
-        response, instance = testform(request)
-        self.assertEqual(
-            instance.get_form_instance('start'),
-            TestWizardWithInitAttrs.instance_dict['start']
+        # instance_dict defined in class
+        testform = TestWizardWithInitAttrs.as_view(
+            [('start', TestModelForm), ('step2', Step2)]
         )
+        response, instance = testform(request)
+        self.assertEqual(instance.get_form_instance('start'), test_instance)
+        self.assertIsNone(instance.get_form_instance('non_exist_instance'))
 
     def test_formset_instance(self):
+        # instance_dict can provide querysets for formsets
         request = get_request()
-        the_instance1, created = TestModel.objects.get_or_create(name='test object 1')
-        the_instance2, created = TestModel.objects.get_or_create(name='test object 2')
+        model_instance1, _ = TestModel.objects.get_or_create(name='test object 1')
+        model_instance2, _ = TestModel.objects.get_or_create(name='test object 2')
         testform = TestWizard.as_view(
             [('start', TestModelFormSet), ('step2', Step2)],
-            instance_dict={'start': TestModel.objects.filter(name='test object 1')}
+            instance_dict={'start': TestModel.objects.all()}
         )
         response, instance = testform(request)
-        self.assertEqual(list(instance.get_form_instance('start')), [the_instance1])
-        self.assertEqual(instance.get_form_instance('non_exist_instance'), None)
-        self.assertEqual(instance.get_form().initial_form_count(), 1)
+        self.assertEqual(
+            list(instance.get_form_instance('start')),
+            [model_instance1, model_instance2],
+        )
+        self.assertIsNone(instance.get_form_instance('non_exist_instance'))
+        # number of forms in formset correspond to queryset
+        form = instance.get_form()
+        self.assertIsInstance(form, TestModelFormSet)
+        self.assertEqual(form.initial_form_count(), 2)
 
     def test_done(self):
         # validate WizardView.done() is not implemented on base class
