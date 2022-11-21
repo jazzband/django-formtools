@@ -12,6 +12,8 @@ from django.template.response import TemplateResponse
 from django.test import TestCase
 
 from formtools.wizard.storage import NoFileStorageConfigured
+from formtools.wizard.storage.cookie import CookieStorage
+from formtools.wizard.storage.session import SessionStorage
 from formtools.wizard.views import (
     CookieWizardView, SessionWizardView, WizardView,
 )
@@ -108,6 +110,21 @@ class TestWizardWithCustomGetFormList(TestWizard):
 
 
 class FormTests(TestCase):
+    def test_init(self):
+        request = get_request()
+        testform = TestWizard.as_view([Step1, Step2])
+        response, instance = testform(request)
+        self.assertIsInstance(response, TemplateResponse)
+        context = response.context_data
+        self.assertEqual(set(context.keys()), {'form', 'view', 'wizard'})
+        self.assertIsInstance(context['form'], Step1)
+        self.assertIsInstance(context['view'], TestWizard)
+        self.assertEqual(
+            set(context['wizard'].keys()),
+            {'form', 'steps', 'management_form'},
+        )
+        self.assertIsInstance(instance.storage, SessionStorage)
+
     def test_form_init(self):
         # get_initkwargs() is used by as_view() to build kwargs
         with patch.object(TestWizard, 'get_initkwargs') as mock:
@@ -369,11 +386,17 @@ class SessionFormTests(TestCase):
     def test_init(self):
         request = get_request()
         testform = SessionWizardView.as_view([('start', Step1)])
-        self.assertIsInstance(testform(request), TemplateResponse)
+        response = testform(request)
+        self.assertIsInstance(response, TemplateResponse)
+        instance = response.context_data['view']
+        self.assertIsInstance(instance.storage, SessionStorage)
 
 
 class CookieFormTests(TestCase):
     def test_init(self):
         request = get_request()
         testform = CookieWizardView.as_view([('start', Step1)])
-        self.assertIsInstance(testform(request), TemplateResponse)
+        response = testform(request)
+        self.assertIsInstance(response, TemplateResponse)
+        instance = response.context_data['view']
+        self.assertIsInstance(instance.storage, CookieStorage)
