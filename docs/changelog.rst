@@ -3,6 +3,13 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
+Unreleased
+----------
+
+- Removed Python 3.6 support and added Python 3.11 to test matrix.
+
+- Dropped testing for Django < 3.2 and confirmed support for Django 4.2.
+
 2.4 (2022-09-28)
 ----------------
 
