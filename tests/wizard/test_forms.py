@@ -1,3 +1,4 @@
+import sys
 from importlib import import_module
 
 from django import forms, http
@@ -157,6 +158,26 @@ class FormTests(TestCase):
         )
         response, instance = testform(request)
         self.assertEqual(instance.get_next_step(), 'step2')
+
+    def test_form_condition_avoid_recursion(self):
+        def subsequent_step_check(wizard):
+            data = wizard.get_cleaned_data_for_step('step3') or {}
+            return data.get('foo')
+
+        testform = TestWizard.as_view(
+            [('start', Step1), ('step2', Step2), ('step3', Step3)],
+            condition_dict={'step3': subsequent_step_check}
+        )
+        request = get_request()
+        old_limit = sys.getrecursionlimit()
+        sys.setrecursionlimit(80)
+        try:
+            response, instance = testform(request)
+            self.assertEqual(instance.get_next_step(), 'step2')
+        except RecursionError:
+            self.fail("RecursionError happened during wizard test.")
+        finally:
+            sys.setrecursionlimit(old_limit)
 
     def test_form_condition_unstable(self):
         request = get_request()
