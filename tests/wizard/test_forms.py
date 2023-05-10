@@ -1,4 +1,5 @@
 import sys
+from collections import OrderedDict
 from importlib import import_module
 
 from django import forms, http
@@ -94,7 +95,10 @@ class TestWizardWithTypeCheck(TestWizard):
 
 class TestWizardWithCustomGetFormList(TestWizard):
     def get_form_list(self):
-        return {'start': Step1, 'step2': Step2}
+        form_list = OrderedDict([('start', Step1), ('step2', Step2)])
+        self.get_cleaned_data_for_step("step2", form_cls=Step2)
+        form_list["step3"] = Step3
+        return form_list
 
 
 class FormTests(TestCase):
@@ -318,8 +322,15 @@ class FormTests(TestCase):
         testform = TestWizardWithCustomGetFormList.as_view()
         response, instance = testform(request)
 
-        form_list = instance.get_form_list()
-        self.assertEqual(form_list, {'start': Step1, 'step2': Step2})
+        old_limit = sys.getrecursionlimit()
+        sys.setrecursionlimit(80)
+        try:
+            form_list = instance.get_form_list()
+        except RecursionError:
+            self.fail("RecursionError happened during wizard test.")
+        finally:
+            sys.setrecursionlimit(old_limit)
+        self.assertEqual(form_list, {'start': Step1, 'step2': Step2, 'step3': Step3})
         self.assertIsInstance(instance.get_form('step2'), Step2)
 
 
