@@ -93,9 +93,6 @@ class TestWizardWithTypeCheck(TestWizard):
 
 
 class TestWizardWithCustomGetFormList(TestWizard):
-
-    form_list = [Step1]
-
     def get_form_list(self):
         return {'start': Step1, 'step2': Step2}
 
@@ -318,7 +315,7 @@ class FormTests(TestCase):
 
     def test_get_form_list_custom(self):
         request = get_request()
-        testform = TestWizardWithCustomGetFormList.as_view([('start', Step1)])
+        testform = TestWizardWithCustomGetFormList.as_view()
         response, instance = testform(request)
 
         form_list = instance.get_form_list()

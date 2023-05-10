@@ -165,8 +165,6 @@ class WizardView(TemplateView):
 
         computed_form_list = OrderedDict()
 
-        assert len(form_list) > 0, 'at least one form is needed'
-
         # walk through the passed form list
         for i, form in enumerate(form_list):
             if isinstance(form, (list, tuple)):
@@ -395,6 +393,17 @@ class WizardView(TemplateView):
         """
         return {}
 
+    def get_form_class(self, step):
+        """
+        Returns the form class for step.
+
+        If self.form_list is not empty then it is assumed the wizard has been
+        implemented according to the original form list generation strategy and the form
+        class is taken from there. If self.form_list is empty, however, then get the
+        form class from the dynamically generated list provided by get_form_list().
+        """
+        return self.form_list[step] if self.form_list else self.get_form_list()[step]
+
     def get_form(self, step=None, data=None, files=None):
         """
         Constructs the form for a given `step`. If no `step` is defined, the
@@ -406,7 +415,7 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
-        form_class = self.get_form_list()[step]
+        form_class = self.get_form_class(step)
         # prepare the kwargs for the form instance.
         kwargs = self.get_form_kwargs(step)
         kwargs.update({
