@@ -103,6 +103,7 @@ class WizardView(TemplateView):
     """
     storage_name = None
     form_list = None
+    form_method = 'POST'
     initial_dict = None
     instance_dict = None
     condition_dict = None
@@ -256,21 +257,39 @@ class WizardView(TemplateView):
     def get(self, request, *args, **kwargs):
         """
         This method handles GET requests.
-
-        If a GET request reaches this point, the wizard assumes that the user
-        just starts at the first step or wants to restart the process.
-        The data of the wizard will be resetted before rendering the first step
         """
+
+        if self.form_method == 'GET':
+            current_step = self.request.GET.get('{}-current_step'.format(self.prefix), None)
+
+            if current_step is None:
+                # If a GET request reaches this point, the wizard assumes that the user
+                # just starts at the first step or wants to restart the process.
+                # The data of the wizard will be resetted before rendering the first step
+                self.storage.reset()
+
+                # reset the current step to the first step.
+                self.storage.current_step = self.steps.first
+
+                return self.render(self.get_form())
+
+            return self.handle_step(*args, **kwargs)
+
         self.storage.reset()
 
         # reset the current step to the first step.
         self.storage.current_step = self.steps.first
+
         return self.render(self.get_form())
 
     def post(self, *args, **kwargs):
         """
         This method handles POST requests.
+        """
+        return self.handle_step(*args, **kwargs)
 
+    def handle_step(self, *args, **kwargs):
+        """
         The wizard will render either the current step (if form validation
         wasn't successful), the next step (if the current step was stored
         successful) or the done view (if no more steps are available)
@@ -278,12 +297,12 @@ class WizardView(TemplateView):
         # Look for a wizard_goto_step element in the posted data which
         # contains a valid step name. If one was found, render the requested
         # form. (This makes stepping back a lot easier).
-        wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
+        wizard_goto_step = getattr(self.request, self.form_method).get('wizard_goto_step', None)
         if wizard_goto_step and wizard_goto_step in self.get_form_list():
             return self.render_goto_step(wizard_goto_step)
 
         # Check if form was refreshed
-        management_form = ManagementForm(self.request.POST, prefix=self.prefix)
+        management_form = ManagementForm(getattr(self.request, self.form_method), prefix=self.prefix)
         if not management_form.is_valid():
             raise SuspiciousOperation(_('ManagementForm data is missing or has been tampered.'))
 
@@ -294,7 +313,7 @@ class WizardView(TemplateView):
             self.storage.current_step = form_current_step
 
         # get the form for the current step
-        form = self.get_form(data=self.request.POST, files=self.request.FILES)
+        form = self.get_form(data=getattr(self.request, self.form_method), files=self.request.FILES)
 
         # and try to validate
         if form.is_valid():
@@ -654,6 +673,7 @@ class NamedUrlWizardView(WizardView):
         This renders the form or, if needed, does the http redirects.
         """
         step_url = kwargs.get('step', None)
+
         if step_url is None:
             if 'reset' in self.request.GET:
                 self.storage.reset()
@@ -704,7 +724,7 @@ class NamedUrlWizardView(WizardView):
         Do a redirect if user presses the prev. step button. The rest of this
         is super'd from WizardView.
         """
-        wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
+        wizard_goto_step = getattr(self.request, self.form_method).get('wizard_goto_step', None)
         if wizard_goto_step and wizard_goto_step in self.get_form_list():
             return self.render_goto_step(wizard_goto_step)
         return super().post(*args, **kwargs)
