@@ -259,7 +259,7 @@ class WizardView(TemplateView):
 
         If a GET request reaches this point, the wizard assumes that the user
         just starts at the first step or wants to restart the process.
-        The data of the wizard will be resetted before rendering the first step
+        The data of the wizard will be reset before rendering the first step
         """
         self.storage.reset()
 
