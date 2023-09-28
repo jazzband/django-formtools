@@ -211,6 +211,11 @@ class WizardView(TemplateView):
         could use data from other (maybe previous forms).
         """
         form_list = OrderedDict()
+        if getattr(self, '_check_cond_started', False):
+            # Guard against infinite recursion, in the case a get_form_list is
+            # called in the context of a condition() call.
+            return self.form_list
+        self._check_cond_started = True
         for form_key, form_class in self.form_list.items():
             # try to fetch the value from condition list, by default, the form
             # gets passed to the new list.
@@ -220,6 +225,7 @@ class WizardView(TemplateView):
                 condition = condition(self)
             if condition:
                 form_list[form_key] = form_class
+        del self._check_cond_started
         return form_list
 
     def dispatch(self, request, *args, **kwargs):
@@ -251,7 +257,7 @@ class WizardView(TemplateView):
 
         If a GET request reaches this point, the wizard assumes that the user
         just starts at the first step or wants to restart the process.
-        The data of the wizard will be resetted before rendering the first step
+        The data of the wizard will be reset before rendering the first step
         """
         self.storage.reset()
 

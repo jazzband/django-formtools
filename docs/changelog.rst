@@ -3,8 +3,11 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
-Unreleased
-----------
+2.4.1 (2023-05-13)
+------------------
+
+- Fixed a regression causing a recursion error when getting ``get_form_list()``
+  from a form condition (#220).
 
 - Removed Python 3.6 support and added Python 3.11 to test matrix.
 
