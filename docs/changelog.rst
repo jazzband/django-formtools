@@ -3,6 +3,11 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
+Unreleased
+----------
+
+- Confirmed support for Python 3.12 and Django 5.0.
+
 2.4.1 (2023-05-13)
 ------------------
 
