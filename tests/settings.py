@@ -40,3 +40,5 @@ MEDIA_ROOT = 'media'
 STATIC_ROOT = 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+USE_TZ = True
