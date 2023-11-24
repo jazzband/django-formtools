@@ -226,8 +226,8 @@ Here's a full example template:
     {% endif %}
     </table>
     {% if wizard.steps.prev %}
-    <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% translate "first step" %}</button>
-    <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% translate "prev step" %}</button>
+    <button name="wizard_goto_step" type="submit" formnovalidate value="{{ wizard.steps.first }}">{% translate "first step" %}</button>
+    <button name="wizard_goto_step" type="submit" formnovalidate value="{{ wizard.steps.prev }}">{% translate "prev step" %}</button>
     {% endif %}
     <input type="submit" value="{% translate "submit" %}"/>
     </form>
