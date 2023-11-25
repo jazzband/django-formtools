@@ -3,10 +3,16 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
-Unreleased
-----------
+2.5 (2023-11-28)
+----------------
 
 - Confirmed support for Python 3.12 and Django 5.0.
+
+- Replaced deprecated pkg_resources usage by importlib.metadata.
+
+- Applied PEP 621 (replaced setup.py with pyproject.toml).
+
+- Removed Python 3.7 support.
 
 2.4.1 (2023-05-13)
 ------------------
