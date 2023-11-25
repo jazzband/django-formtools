@@ -27,7 +27,7 @@ To install django-formtools use your favorite packaging tool, e.g.pip::
 
 Or download the source distribution from PyPI_ at
 https://pypi.python.org/pypi/django-formtools, decompress the file and
-run ``python setup.py install`` in the unpacked directory.
+run ``pip install --editable .`` in the unpacked directory.
 
 Then add ``'formtools'`` to your :setting:`INSTALLED_APPS` setting::
 

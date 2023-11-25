@@ -1,0 +1,66 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools>=61.2",
+  "setuptools_scm",
+]
+
+[project]
+name = "django-formtools"
+description = "A set of high-level abstractions for Django forms"
+license = {text = "BSD"}
+authors = [{name = "Django Software Foundation", email = "foundation@djangoproject.com"}]
+requires-python = ">=3.8"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 4.0",
+  "Framework :: Django :: 4.1",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Internet :: WWW/HTTP",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "Django>=3.2",
+]
+
+[project.readme]
+file = "README.rst"
+content-type = "text/x-rst"
+
+[project.urls]
+Homepage = "https://django-formtools.readthedocs.io/en/latest/"
+Source = "https://github.com/jazzband/django-formtools"
+
+[tool.setuptools]
+include-package-data = true
+license-files = ["LICENSE"]
+zip-safe = false
+
+[tool.setuptools.packages.find]
+exclude = ["tests"] # tests.*
+namespaces = false
+
+[tool.isort]
+combine_as_imports = true
+default_section = "THIRDPARTY"
+include_trailing_comma = true
+known_first_party = ["formtools"]
+line_length = 79
+multi_line_output = 5
+
