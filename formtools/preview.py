@@ -50,7 +50,8 @@ class FormPreview:
 
     def preview_get(self, request):
         "Displays the form"
-        f = self.form(auto_id=self.get_auto_id(), initial=self.get_initial(request))
+        f = self.form(auto_id=self.get_auto_id(),
+                      initial=self.get_initial(request))
         return render(request, self.form_template, self.get_context(request, f))
 
     def preview_post(self, request):
@@ -60,9 +61,7 @@ class FormPreview:
         """
         # Even if files are not supported in preview, we still initialize files
         # to give a chance to process_preview to access files content.
-        f = self.form(
-            data=request.POST, files=request.FILES, auto_id=self.get_auto_id()
-        )
+        f = self.form(data=request.POST, files=request.FILES, auto_id=self.get_auto_id())
         context = self.get_context(request, f)
         if f.is_valid():
             self.process_preview(request, f, context)
@@ -83,8 +82,8 @@ class FormPreview:
         form = self.form(request.POST, auto_id=self.get_auto_id())
         if form.is_valid():
             if not self._check_security_hash(
-                request.POST.get(self.unused_name('hash'), ''), request, form
-            ):
+                    request.POST.get(self.unused_name('hash'), ''),
+                    request, form):
                 return self.failed_hash(request)  # Security hash failed.
             return self.done(request, form.cleaned_data)
         else:
@@ -167,7 +166,5 @@ class FormPreview:
         return an :class:`~django.http.HttpResponseRedirect`, e.g. to a
         success page.
         """
-        raise NotImplementedError(
-            'You must define a done() method on your '
-            '%s subclass.' % self.__class__.__name__
-        )
+        raise NotImplementedError('You must define a done() method on your '
+                                  '%s subclass.' % self.__class__.__name__)

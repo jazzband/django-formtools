@@ -90,8 +90,7 @@ class BaseStorage:
         if wizard_files and not self.file_storage:
             raise NoFileStorageConfigured(
                 "You need to define 'file_storage' in your "
-                "wizard view in order to handle file uploads."
-            )
+                "wizard view in order to handle file uploads.")
 
         files = {}
         for field, field_dict in wizard_files.items():
@@ -99,8 +98,7 @@ class BaseStorage:
             tmp_name = field_dict.pop('tmp_name')
             if (step, field) not in self._files:
                 self._files[(step, field)] = UploadedFile(
-                    file=self.file_storage.open(tmp_name), **field_dict
-                )
+                    file=self.file_storage.open(tmp_name), **field_dict)
             files[field] = self._files[(step, field)]
         return files or None
 
@@ -108,8 +106,7 @@ class BaseStorage:
         if files and not self.file_storage:
             raise NoFileStorageConfigured(
                 "You need to define 'file_storage' in your "
-                "wizard view in order to handle file uploads."
-            )
+                "wizard view in order to handle file uploads.")
 
         if step not in self.data[self.step_files_key]:
             self.data[self.step_files_key][step] = {}
@@ -121,7 +118,7 @@ class BaseStorage:
                 'name': field_file.name,
                 'content_type': field_file.content_type,
                 'size': field_file.size,
-                'charset': field_file.charset,
+                'charset': field_file.charset
             }
             self.data[self.step_files_key][step][field] = file_dict
 

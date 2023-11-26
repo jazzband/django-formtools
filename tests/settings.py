@@ -19,7 +19,7 @@ SECRET_KEY = 'spam-spam-spam-spam'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'spam-and-eggs',
+        'LOCATION': 'spam-and-eggs'
     }
 }
 
@@ -31,12 +31,10 @@ MIDDLEWARE = [
 
 SITE_ID = 1
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-    }
-]
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+}]
 
 MEDIA_ROOT = 'media'
 STATIC_ROOT = 'static'

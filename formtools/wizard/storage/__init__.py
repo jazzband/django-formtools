@@ -4,10 +4,7 @@ from .base import BaseStorage
 from .exceptions import MissingStorage, NoFileStorageConfigured
 
 __all__ = [
-    "BaseStorage",
-    "MissingStorage",
-    "NoFileStorageConfigured",
-    "get_storage",
+    "BaseStorage", "MissingStorage", "NoFileStorageConfigured", "get_storage",
 ]
 
 
