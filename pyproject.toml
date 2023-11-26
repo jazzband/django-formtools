@@ -73,7 +73,6 @@ multi_line_output = 5
 
 [tool.ruff]
 ignore = ["PLW2901"]
-line-length = 119
 select = ["ASYNC", "C4", "C90", "DJ", "E", "F", "PL", "UP", "W"]
 
 [tool.ruff.per-file-ignores]
