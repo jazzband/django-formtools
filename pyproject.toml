@@ -68,7 +68,7 @@ line_length = 79
 multi_line_output = 5
 
 [tool.ruff]
-ignore = ["PLW2901", "UP031", "UP032"]
+ignore = ["PLW2901"]
 line-length = 119
 select = ["ASYNC", "C4", "C90", "DJ", "E", "F", "PL", "UP", "W"]
 

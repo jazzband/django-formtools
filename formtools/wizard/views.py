@@ -41,7 +41,7 @@ class StepsHelper:
         return self.count
 
     def __repr__(self):
-        return '<StepsHelper for %s (steps: %s)>' % (self._wizard, self.all)
+        return f'<StepsHelper for {self._wizard} (steps: {self.all})>'
 
     @property
     def all(self):
@@ -109,7 +109,7 @@ class WizardView(TemplateView):
     template_name = 'formtools/wizard/wizard_form.html'
 
     def __repr__(self):
-        return '<%s: forms: %s>' % (self.__class__.__name__, self.form_list)
+        return f'<{self.__class__.__name__}: forms: {self.form_list}>'
 
     @classonlymethod
     def as_view(cls, *args, **kwargs):
