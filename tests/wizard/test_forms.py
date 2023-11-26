@@ -88,7 +88,7 @@ class TestWizardWithInitAttrs(TestWizard):
 
 class TestWizardWithTypeCheck(TestWizard):
     def done(self, form_list, **kwargs):
-        assert type(form_list) is list, "`form_list` was {}, should be a list".format(type(form_list))
+        assert isinstance(form_list, list), f"`form_list` was {type(form_list)}, should be a list"
         return http.HttpResponse("All good")
 
 
