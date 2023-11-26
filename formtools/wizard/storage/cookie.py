@@ -21,7 +21,6 @@ class CookieStorage(BaseStorage):
     def update_response(self, response):
         super().update_response(response)
         if self.data:
-            response.set_signed_cookie(self.prefix,
-                                       self.encoder.encode(self.data))
+            response.set_signed_cookie(self.prefix, self.encoder.encode(self.data))
         else:
             response.delete_cookie(self.prefix)

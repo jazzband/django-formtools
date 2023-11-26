@@ -15,6 +15,11 @@ repos:
       - id: mixed-line-ending
       - id: requirements-txt-fixer
 
+  - repo: https://github.com/python/black
+    rev: 23.11.0
+    hooks:
+      - id: black  # See pyproject.toml for args
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.6
     hooks:

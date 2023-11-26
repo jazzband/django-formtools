@@ -4,7 +4,6 @@ from formtools.wizard.storage.base import BaseStorage
 
 
 class TestBaseStorage(TestCase):
-
     def test_subclass_can_override_get_current_step(self):
         class MyStorage(BaseStorage):
             def _get_current_step(self):

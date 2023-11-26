@@ -24,7 +24,6 @@ PoemFormSet = forms.models.inlineformset_factory(Poet, Poem, fields="__all__")
 
 
 class WizardTests:
-
     def setUp(self):
         self.testuser, created = User.objects.get_or_create(username='testuser1')
         # Get new step data, since we modify it during the tests.
@@ -57,9 +56,10 @@ class WizardTests:
         response = self.client.post(self.wizard_url, self.wizard_step_1_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['wizard']['steps'].current, 'form1')
-        self.assertEqual(response.context['wizard']['form'].errors,
-                         {'name': ['This field is required.'],
-                          'user': ['This field is required.']})
+        self.assertEqual(
+            response.context['wizard']['form'].errors,
+            {'name': ['This field is required.'], 'user': ['This field is required.']},
+        )
 
     def test_form_post_mgmt_data_missing(self):
         wizard_step_data = self.wizard_step_data[0].copy()
@@ -91,8 +91,10 @@ class WizardTests:
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['wizard']['steps'].current, 'form2')
 
-        response = self.client.post(self.wizard_url, {
-            'wizard_goto_step': response.context['wizard']['steps'].prev})
+        response = self.client.post(
+            self.wizard_url,
+            {'wizard_goto_step': response.context['wizard']['steps'].prev},
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['wizard']['steps'].current, 'form1')
 
@@ -143,12 +145,15 @@ class WizardTests:
 
         all_data = response.context['form_list']
         del all_data[1]['file1']
-        self.assertEqual(all_data, [
-            {'name': 'Pony', 'thirsty': True, 'user': self.testuser},
-            {'address1': '123 Main St', 'address2': 'Djangoland'},
-            {'random_crap': 'blah blah'},
-            [{'random_crap': 'blah blah'},
-             {'random_crap': 'blah blah'}]])
+        self.assertEqual(
+            all_data,
+            [
+                {'name': 'Pony', 'thirsty': True, 'user': self.testuser},
+                {'address1': '123 Main St', 'address2': 'Djangoland'},
+                {'random_crap': 'blah blah'},
+                [{'random_crap': 'blah blah'}, {'random_crap': 'blah blah'}],
+            ],
+        )
 
     def test_cleaned_data(self):
         response = self.client.get(self.wizard_url)
@@ -175,12 +180,21 @@ class WizardTests:
         self.assertTrue(all_data['file1'].closed)
         self.assertFalse(temp_storage.exists(UPLOADED_FILE_NAME))
         del all_data['file1']
-        self.assertEqual(all_data, {
-            'name': 'Pony', 'thirsty': True, 'user': self.testuser,
-            'address1': '123 Main St', 'address2': 'Djangoland',
-            'random_crap': 'blah blah', 'formset-form4': [
-                {'random_crap': 'blah blah'},
-                {'random_crap': 'blah blah'}]})
+        self.assertEqual(
+            all_data,
+            {
+                'name': 'Pony',
+                'thirsty': True,
+                'user': self.testuser,
+                'address1': '123 Main St',
+                'address2': 'Djangoland',
+                'random_crap': 'blah blah',
+                'formset-form4': [
+                    {'random_crap': 'blah blah'},
+                    {'random_crap': 'blah blah'},
+                ],
+            },
+        )
 
     def test_manipulated_data(self):
         response = self.client.get(self.wizard_url)
@@ -264,7 +278,7 @@ class SessionWizardTests(WizardTests, TestCase):
             'form4-0-random_crap': 'blah blah',
             'form4-1-random_crap': 'blah blah',
             'session_contact_wizard-current_step': 'form4',
-        }
+        },
     )
 
 
@@ -296,7 +310,7 @@ class CookieWizardTests(WizardTests, TestCase):
             'form4-0-random_crap': 'blah blah',
             'form4-1-random_crap': 'blah blah',
             'cookie_contact_wizard-current_step': 'form4',
-        }
+        },
     )
 
 
@@ -328,7 +342,7 @@ class WizardTestKwargs(TestCase):
             'form4-0-random_crap': 'blah blah',
             'form4-1-random_crap': 'blah blah',
             'cookie_contact_wizard-current_step': 'form4',
-        }
+        },
     )
 
     def setUp(self):
@@ -349,6 +363,7 @@ class WizardTestGenericViewInterface(TestCase):
 
             See ticket #17148.
             """
+
             def get_context_data(self, **kwargs):
                 context = super().get_context_data(**kwargs)
                 context['test_key'] = 'test_value'
@@ -374,6 +389,7 @@ class WizardTestGenericViewInterface(TestCase):
 
             See ticket #17148.
             """
+
             def get_context_data(self, **kwargs):
                 context = super().get_context_data(**kwargs)
                 context['test_key'] = 'test_value'
@@ -424,8 +440,12 @@ class WizardFormKwargsOverrideTests(TestCase):
 
         # Create two users so we can filter by is_staff when handing our
         # wizard a queryset keyword argument.
-        self.normal_user = User.objects.create(username='test1', email='normal@example.com')
-        self.staff_user = User.objects.create(username='test2', email='staff@example.com', is_staff=True)
+        self.normal_user = User.objects.create(
+            username='test1', email='normal@example.com'
+        )
+        self.staff_user = User.objects.create(
+            username='test2', email='staff@example.com', is_staff=True
+        )
 
     def test_instance_is_maintained(self):
         self.assertEqual(2, User.objects.count())
@@ -458,7 +478,10 @@ class WizardFormKwargsOverrideTests(TestCase):
 
         self.assertNotEqual(formset.queryset, None)
         self.assertEqual(formset.initial_form_count(), 1)
-        self.assertEqual(['staff@example.com'], list(formset.queryset.values_list('email', flat=True)))
+        self.assertEqual(
+            ['staff@example.com'],
+            list(formset.queryset.values_list('email', flat=True)),
+        )
 
 
 class WizardInlineFormSetTests(TestCase):

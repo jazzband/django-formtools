@@ -27,9 +27,15 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx',
-              'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.ifconfig',
-              'sphinx.ext.viewcode', 'settings']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
+    'sphinx.ext.ifconfig',
+    'sphinx.ext.viewcode',
+    'settings',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
@@ -54,6 +60,7 @@ copyright = '2014, Django Software Foundation and individual contributors'
 # The short X.Y version.
 try:
     from formtools import __version__
+
     # The short X.Y version.
     version = '.'.join(__version__.split('.')[:2])
     # The full version, including alpha/beta/rc tags.
@@ -184,10 +191,8 @@ htmlhelp_basename = 'django-formtoolsdoc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     # 'preamble': '',
 }
@@ -195,8 +200,13 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'django-formtools.tex', 'django-formtools Documentation',
-   'Django Software Foundation and individual contributors', 'manual'),
+    (
+        'index',
+        'django-formtools.tex',
+        'django-formtools Documentation',
+        'Django Software Foundation and individual contributors',
+        'manual',
+    ),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -225,8 +235,13 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'django-formtools', 'django-formtools Documentation',
-     ['Django Software Foundation and individual contributors'], 1)
+    (
+        'index',
+        'django-formtools',
+        'django-formtools Documentation',
+        ['Django Software Foundation and individual contributors'],
+        1,
+    )
 ]
 
 # If true, show URL addresses after external links.
@@ -239,9 +254,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'django-formtools', 'django-formtools Documentation',
-   'Django Software Foundation and individual contributors', 'django-formtools', 'One line description of project.',
-   'Miscellaneous'),
+    (
+        'index',
+        'django-formtools',
+        'django-formtools Documentation',
+        'Django Software Foundation and individual contributors',
+        'django-formtools',
+        'One line description of project.',
+        'Miscellaneous',
+    ),
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -318,6 +339,8 @@ epub_copyright = '2014, Django Software Foundation and individual contributors'
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'http://docs.python.org/': None,
-    'django': ('http://docs.djangoproject.com/en/dev/',
-               'http://docs.djangoproject.com/en/dev/_objects/'),
+    'django': (
+        'http://docs.djangoproject.com/en/dev/',
+        'http://docs.djangoproject.com/en/dev/_objects/',
+    ),
 }
