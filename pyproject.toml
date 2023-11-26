@@ -63,4 +63,3 @@ include_trailing_comma = true
 known_first_party = ["formtools"]
 line_length = 79
 multi_line_output = 5
-
