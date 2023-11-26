@@ -18,17 +18,14 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.6
     hooks:
-      - id: ruff
-
+      - id: ruff  # See pyproject.toml for args
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.6
     hooks:
-      - id: codespell
+      - id: codespell  # See pyproject.toml for args
         additional_dependencies:
           - tomli
-        args:
-          [--skip, "*.po"]
 
   - repo: https://github.com/abravalheri/validate-pyproject
     rev: v0.15
