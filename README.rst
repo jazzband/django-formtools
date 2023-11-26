@@ -72,12 +72,4 @@ You can run each environment with the ``-e`` option::
 
     $ tox -e py310-djangoAB  # runs the tests only on Python 3.10 and Django A.B.x
 
-Optionally you can also specify a country whose tests you want to run::
-
-    $ COUNTRY=us tox
-
-And combine both options::
-
-    $ COUNTRY=us tox -e py310-djangoAB
-
 __ https://tox.readthedocs.io/en/latest/install.html
