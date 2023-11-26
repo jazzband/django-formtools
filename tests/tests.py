@@ -6,14 +6,18 @@ from io import StringIO
 
 from django import http
 from django.core.files.uploadedfile import (
-    InMemoryUploadedFile, TemporaryUploadedFile,
+    InMemoryUploadedFile,
+    TemporaryUploadedFile,
 )
 from django.test import TestCase, override_settings
 
 from formtools import preview, utils
 
 from .forms import (
-    HashTestBlankForm, HashTestForm, HashTestFormWithFile, TestForm,
+    HashTestBlankForm,
+    HashTestForm,
+    HashTestFormWithFile,
+    TestForm,
 )
 
 success_string = "Done was called!"
@@ -37,15 +41,16 @@ class TestFormPreview(preview.FormPreview):
 
 
 @override_settings(
-    TEMPLATES=[{
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(os.path.dirname(__file__), 'templates')],
-        'APP_DIRS': True,
-    }],
+    TEMPLATES=[
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [os.path.join(os.path.dirname(__file__), 'templates')],
+            'APP_DIRS': True,
+        }
+    ],
     ROOT_URLCONF='tests.urls',
 )
 class PreviewTests(TestCase):
-
     def setUp(self):
         super().setUp()
         # Create a FormPreview instance to share between tests
@@ -174,7 +179,6 @@ class PreviewTests(TestCase):
 
 
 class FormHmacTests(unittest.TestCase):
-
     def test_textfield_hash(self):
         """
         Regression test for #10034: the hash generation function should ignore
@@ -199,7 +203,9 @@ class FormHmacTests(unittest.TestCase):
         self.assertEqual(hash1, hash2)
 
     def test_hash_with_file(self):
-        with InMemoryUploadedFile(StringIO('1'), '', 'test', 'text/plain', 1, 'utf8') as some_file:
+        with InMemoryUploadedFile(
+            StringIO('1'), '', 'test', 'text/plain', 1, 'utf8'
+        ) as some_file:
             f1 = HashTestFormWithFile({'name': 'joe'})
             f2 = HashTestFormWithFile({'name': 'joe'}, files={'attachment': some_file})
             hash1 = utils.form_hmac(f1)
