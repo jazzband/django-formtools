@@ -658,10 +658,7 @@ class NamedUrlWizardView(WizardView):
             if 'reset' in self.request.GET:
                 self.storage.reset()
                 self.storage.current_step = self.steps.first
-            if self.request.GET:
-                query_string = "?%s" % self.request.GET.urlencode()
-            else:
-                query_string = ""
+            query_string = '?%s' % self.request.GET.urlencode() if self.request.GET else ''
             return redirect(self.get_step_url(self.steps.current) + query_string)
 
         # is the current step the "done" name/view?

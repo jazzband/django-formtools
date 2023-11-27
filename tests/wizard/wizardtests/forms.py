@@ -43,7 +43,7 @@ class ContactWizard(WizardView):
             'all_cleaned_data': self.get_all_cleaned_data(),
         })
 
-        for form in self.form_list.keys():
+        for form in self.form_list:
             c[form] = self.get_cleaned_data_for_step(form)
 
         c['this_will_fail'] = self.get_cleaned_data_for_step('this_will_fail')
