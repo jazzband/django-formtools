@@ -14,6 +14,8 @@ This page details the changes in the various ``django-formtools`` releases.
 
 - Removed Python 3.7 support.
 
+- Updated translations (Galician, Portuguese, Slovenian, Serbian).
+
 2.4.1 (2023-05-13)
 ------------------
 
