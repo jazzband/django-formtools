@@ -3,6 +3,12 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
+2.5.1 (2023-12-19)
+------------------
+
+- Version 2.5 was never released on PyPi due to a pyproject.toml
+  misconfiguration.
+
 2.5 (2023-11-28)
 ----------------
 
