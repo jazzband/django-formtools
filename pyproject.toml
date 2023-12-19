@@ -56,6 +56,8 @@ zip-safe = false
 exclude = ["tests"] # tests.*
 namespaces = false
 
+[tool.setuptools_scm]
+
 [tool.codespell]
 skip = "*.po"
 
