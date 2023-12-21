@@ -1,4 +1,5 @@
 import sys
+from collections import OrderedDict
 from importlib import import_module
 
 from django import forms, http
@@ -93,11 +94,11 @@ class TestWizardWithTypeCheck(TestWizard):
 
 
 class TestWizardWithCustomGetFormList(TestWizard):
-
-    form_list = [Step1]
-
     def get_form_list(self):
-        return {'start': Step1, 'step2': Step2}
+        form_list = OrderedDict([('start', Step1), ('step2', Step2)])
+        self.get_cleaned_data_for_step("step2", form_cls=Step2)
+        form_list["step3"] = Step3
+        return form_list
 
 
 class FormTests(TestCase):
@@ -159,21 +160,41 @@ class FormTests(TestCase):
         response, instance = testform(request)
         self.assertEqual(instance.get_next_step(), 'step2')
 
-    def test_form_condition_avoid_recursion(self):
-        def subsequent_step_check(wizard):
-            data = wizard.get_cleaned_data_for_step('step3') or {}
-            return data.get('foo')
+    def test_form_condition_can_check_prior_step_data(self):
+        def step_check(wizard):
+            wizard.get_cleaned_data_for_step('start')
+            return False
 
         testform = TestWizard.as_view(
             [('start', Step1), ('step2', Step2), ('step3', Step3)],
-            condition_dict={'step3': subsequent_step_check}
+            condition_dict={'step2': step_check}
         )
         request = get_request()
         old_limit = sys.getrecursionlimit()
         sys.setrecursionlimit(80)
         try:
             response, instance = testform(request)
-            self.assertEqual(instance.get_next_step(), 'step2')
+            self.assertEqual(instance.get_next_step(), 'step3')
+        except RecursionError:
+            self.fail("RecursionError happened during wizard test.")
+        finally:
+            sys.setrecursionlimit(old_limit)
+
+    def test_form_condition_future_can_check_future_step_data(self):
+        def subsequent_step_check(wizard):
+            data = wizard.get_cleaned_data_for_step('step3') or {}
+            return data.get('foo')
+
+        testform = TestWizard.as_view(
+            [('start', Step1), ('step2', Step2), ('step3', Step3)],
+            condition_dict={'step2': subsequent_step_check}
+        )
+        request = get_request()
+        old_limit = sys.getrecursionlimit()
+        sys.setrecursionlimit(80)
+        try:
+            response, instance = testform(request)
+            self.assertEqual(instance.get_next_step(), 'step3')
         except RecursionError:
             self.fail("RecursionError happened during wizard test.")
         finally:
@@ -298,11 +319,18 @@ class FormTests(TestCase):
 
     def test_get_form_list_custom(self):
         request = get_request()
-        testform = TestWizardWithCustomGetFormList.as_view([('start', Step1)])
+        testform = TestWizardWithCustomGetFormList.as_view()
         response, instance = testform(request)
 
-        form_list = instance.get_form_list()
-        self.assertEqual(form_list, {'start': Step1, 'step2': Step2})
+        old_limit = sys.getrecursionlimit()
+        sys.setrecursionlimit(80)
+        try:
+            form_list = instance.get_form_list()
+        except RecursionError:
+            self.fail("RecursionError happened during wizard test.")
+        finally:
+            sys.setrecursionlimit(old_limit)
+        self.assertEqual(form_list, {'start': Step1, 'step2': Step2, 'step3': Step3})
         self.assertIsInstance(instance.get_form('step2'), Step2)
 
 
