@@ -504,6 +504,12 @@ Advanced ``WizardView`` methods
     If you want to store the entered data of the current step before rendering
     the next step, you can overwrite this method.
 
+    Default implementation::
+
+        def render_goto_step(self, goto_step, **kwargs):
+            self.storage.current_step = goto_step
+            return redirect(self.get_step_url(goto_step))
+
 .. method:: WizardView.render_revalidation_failure(step, form, **kwargs)
 
     When the wizard thinks all steps have passed it revalidates all forms with
