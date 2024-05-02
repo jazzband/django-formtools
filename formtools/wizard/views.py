@@ -45,12 +45,12 @@ class StepsHelper:
 
     @property
     def all(self):
-        "Returns the names of all steps/forms."
+        """Returns the names of all steps/forms."""
         return list(self._wizard.get_form_list())
 
     @property
     def count(self):
-        "Returns the total number of steps/forms in this the wizard."
+        """Returns the total number of steps/forms in this the wizard."""
         return len(self.all)
 
     @property
@@ -63,27 +63,27 @@ class StepsHelper:
 
     @property
     def first(self):
-        "Returns the name of the first step."
+        """Returns the name of the first step."""
         return self.all[0]
 
     @property
     def last(self):
-        "Returns the name of the last step."
+        """Returns the name of the last step."""
         return self.all[-1]
 
     @property
     def next(self):
-        "Returns the next step."
+        """Returns the next step."""
         return self._wizard.get_next_step()
 
     @property
     def prev(self):
-        "Returns the previous step."
+        """Returns the previous step."""
         return self._wizard.get_prev_step()
 
     @property
     def index(self):
-        "Returns the index for the current step."
+        """Returns the index for the current step."""
         return self._wizard.get_step_index()
 
     @property
@@ -283,7 +283,7 @@ class WizardView(TemplateView):
             return self.render_goto_step(wizard_goto_step)
 
         # Check if form was refreshed
-        management_form = ManagementForm(self.request.POST, prefix=self.prefix)
+        management_form = ManagementForm(steps=self.steps.all, data=self.request.POST, prefix=self.prefix)
         if not management_form.is_valid():
             raise SuspiciousOperation(_('ManagementForm data is missing or has been tampered.'))
 
@@ -582,7 +582,7 @@ class WizardView(TemplateView):
         context['wizard'] = {
             'form': form,
             'steps': self.steps,
-            'management_form': ManagementForm(prefix=self.prefix, initial={
+            'management_form': ManagementForm(steps=self.steps.all, prefix=self.prefix, initial={
                 'current_step': self.steps.current,
             }),
         }
