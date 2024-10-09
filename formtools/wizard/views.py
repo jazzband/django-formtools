@@ -412,7 +412,10 @@ class WizardView(TemplateView):
         """
         if step is None:
             step = self.steps.current
-        form_class = self.get_form_list()[step]
+
+        # Revert change made in 3.4
+        form_class = self.form_list[step]
+
         # prepare the kwargs for the form instance.
         kwargs = self.get_form_kwargs(step)
         kwargs.update({
