@@ -6,7 +6,7 @@
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: check-toml
       - id: check-yaml
@@ -16,18 +16,18 @@ repos:
       - id: requirements-txt-fixer
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
+    rev: v0.9.2
     hooks:
       - id: ruff  # See pyproject.toml for args
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell  # See pyproject.toml for args
         additional_dependencies:
           - tomli
 
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.15
+    rev: v0.23
     hooks:
       - id: validate-pyproject
