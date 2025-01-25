@@ -20,7 +20,7 @@ docs:
 	$(MAKE) -C docs clean html
 
 test:
-	@ruff .
+	@ruff check .
 	@isort --check-only --diff formtools tests
 	@ python -W error::DeprecationWarning -W error::PendingDeprecationWarning -m coverage run `which django-admin` test tests
 	@coverage report

@@ -653,7 +653,7 @@ class NamedUrlWizardView(WizardView):
         """
         This renders the form or, if needed, does the http redirects.
         """
-        step_url = kwargs.get('step', None)
+        step_url = kwargs.get('step')
         if step_url is None:
             if 'reset' in self.request.GET:
                 self.storage.reset()
@@ -745,7 +745,7 @@ class NamedUrlWizardView(WizardView):
         When rendering the done view, we have to redirect first (if the URL
         name doesn't fit).
         """
-        if kwargs.get('step', None) != self.done_step_name:
+        if kwargs.get('step') != self.done_step_name:
             return redirect(self.get_step_url(self.done_step_name))
         return super().render_done(form, **kwargs)
 

@@ -71,9 +71,12 @@ multi_line_output = 5
 
 [tool.ruff]
 line-length = 119
-select = ["ASYNC", "C4", "C90", "DJ", "DTZ", "E", "F", "N", "PERF", "PL", "SIM", "UP", "W"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint]
+select = ["ASYNC", "C4", "C90", "DJ", "DTZ", "E", "F", "N", "PERF", "PL", "SIM", "UP", "W"]
+ignore = ["UP031"]
+
+[tool.ruff.lint.per-file-ignores]
 "formtools/wizard/storage/base.py" = ["PLW2901"]
 "formtools/wizard/views.py" = ["N805", "PLW2901"]
 "tests/wizard/storage.py" = ["DTZ005"]
