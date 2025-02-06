@@ -73,6 +73,18 @@ class WizardTests:
         # view should return HTTP 400 Bad Request
         self.assertEqual(response.status_code, 400)
 
+    def test_invalid_step_data(self):
+        wizard_step_data = self.wizard_step_data[0].copy()
+
+        # Replace the current step with invalid data
+        for key in list(wizard_step_data.keys()):
+            if "current_step" in key:
+                wizard_step_data[key] = "not-a-valid-step"
+
+        response = self.client.post(self.wizard_url, wizard_step_data)
+        # view should return HTTP 400 Bad Request
+        self.assertEqual(response.status_code, 400)
+
     def test_form_post_success(self):
         response = self.client.post(self.wizard_url, self.wizard_step_data[0])
         wizard = response.context['wizard']
