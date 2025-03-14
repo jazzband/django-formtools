@@ -309,6 +309,14 @@ class WizardView(TemplateView):
             else:
                 # proceed to the next step
                 return self.render_next_step(form)
+        return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        """
+        This method can be overridden by subclasses to modify the form when it is invalid.
+        
+        Subclasses should always call super().render(form) after modifications.
+        """
         return self.render(form)
 
     def render_next_step(self, form, **kwargs):
