@@ -40,6 +40,7 @@ Authors
 * Luke Plant
 * Malcolm Tredinnick
 * Maurycy Pietrzak
+* Paolo Melchiorre
 * Preston Holmes
 * Preston Timmons
 * Ramiro Morales
