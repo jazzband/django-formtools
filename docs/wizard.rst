@@ -331,6 +331,14 @@ the name of the current step.
 
 .. _wizardview-advanced-methods:
 
+Manually resetting a form
+-------------------------
+Sometimes you might want to manually clear the saved form data for a particular session
+of a wizard. You can do this by passing the ``reset`` parameter in the form url, e.g.
+``https://[...]formtools-url?reset`` .
+Note: for ``NamedUrlWizardView`` this only works for the base url and not any of the
+`step` urls.
+
 Advanced ``WizardView`` methods
 ===============================
 
