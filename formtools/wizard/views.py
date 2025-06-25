@@ -495,16 +495,22 @@ class WizardView(TemplateView):
         Returns the cleaned data for a given `step`. Before returning the
         cleaned data, the stored values are revalidated through the form.
         If the data doesn't validate, None will be returned.
+
+        Since wizard is initialized on each request, data is only
+        validated once per step for performance.
         """
-        if step in self.form_list:
-            form_obj = self.get_form(
-                step=step,
-                data=self.storage.get_step_data(step),
-                files=self.storage.get_step_files(step),
-            )
-            if form_obj.is_valid():
-                return form_obj.cleaned_data
-        return None
+        self.cleaned_data = getattr(self, 'cleaned_data', {})
+        if self.cleaned_data.get(step, None):
+            return self.cleaned_data[step]
+        else:
+            if step in self.form_list:
+                form_obj = self.get_form(step=step,
+                                         data=self.storage.get_step_data(step),
+                                         files=self.storage.get_step_files(
+                                             step))
+                if form_obj.is_valid():
+                    self.cleaned_data[step] = form_obj.cleaned_data
+                    return form_obj.cleaned_data
 
     def get_next_step(self, step=None):
         """
