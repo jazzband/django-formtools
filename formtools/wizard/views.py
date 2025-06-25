@@ -165,8 +165,6 @@ class WizardView(TemplateView):
 
         computed_form_list = OrderedDict()
 
-        assert len(form_list) > 0, 'at least one form is needed'
-
         # walk through the passed form list
         for i, form in enumerate(form_list):
             if isinstance(form, (list, tuple)):
@@ -401,7 +399,18 @@ class WizardView(TemplateView):
         """
         return {}
 
-    def get_form(self, step=None, data=None, files=None):
+    def get_form_class(self, step):
+        """
+        Returns the form class for step.
+
+        If self.form_list is not empty then it is assumed the wizard has been
+        implemented according to the original form list generation strategy and the form
+        class is taken from there. If self.form_list is empty, however, then get the
+        form class from the dynamically generated list provided by get_form_list().
+        """
+        return self.form_list[step] if self.form_list else self.get_form_list()[step]
+
+    def get_form(self, step=None, data=None, files=None, form_cls=None):
         """
         Constructs the form for a given `step`. If no `step` is defined, the
         current step will be determined automatically.
@@ -409,10 +418,13 @@ class WizardView(TemplateView):
         The form will be initialized using the `data` argument to prefill the
         new form. If needed, instance or queryset (for `ModelForm` or
         `ModelFormSet`) will be added too.
+
+        If form_cls is provided, this class will be instantiated rather than trying to
+        retrieve the class from the form list.
         """
         if step is None:
             step = self.steps.current
-        form_class = self.get_form_list()[step]
+        form_class = form_cls or self.get_form_class(step)
         # prepare the kwargs for the form instance.
         kwargs = self.get_form_kwargs(step)
         kwargs.update({
@@ -490,21 +502,27 @@ class WizardView(TemplateView):
                     cleaned_data.update(form_obj.cleaned_data)
         return cleaned_data
 
-    def get_cleaned_data_for_step(self, step):
+    def get_cleaned_data_for_step(self, step, form_cls=None):
         """
         Returns the cleaned data for a given `step`. Before returning the
         cleaned data, the stored values are revalidated through the form.
         If the data doesn't validate, None will be returned.
+
+        A form_cls can be provided to avoid having to query the class by calling
+        get_form_list(). This is useful when overriding get_form_list() to create a
+        dynamic form list but data from other steps is required.
         """
-        if step in self.form_list:
-            form_obj = self.get_form(
-                step=step,
-                data=self.storage.get_step_data(step),
-                files=self.storage.get_step_files(step),
-            )
-            if form_obj.is_valid():
-                return form_obj.cleaned_data
-        return None
+        if self.form_list and step not in self.form_list:
+            return None
+        form_obj = self.get_form(
+            step=step,
+            data=self.storage.get_step_data(step),
+            files=self.storage.get_step_files(step),
+            form_cls=form_cls,
+        )
+        if not form_obj.is_valid():
+            return None
+        return form_obj.cleaned_data
 
     def get_next_step(self, step=None):
         """
