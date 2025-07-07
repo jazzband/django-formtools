@@ -36,10 +36,13 @@ class BaseStorage:
         self.init_data()
 
     def _get_current_step(self):
-        return self.data[self.step_key]
+        data = self.data
+        return data[self.step_key]
 
     def _set_current_step(self, step):
-        self.data[self.step_key] = step
+        data = self.data
+        data[self.step_key] = step
+        self.data = data
 
     @property
     def current_step(self):
@@ -66,7 +69,9 @@ class BaseStorage:
     def get_step_data(self, step):
         # When reading the serialized data, upconvert it to a MultiValueDict,
         # some serializers (json) don't preserve the type of the object.
-        values = self.data[self.step_data_key].get(step, None)
+        data = self.data[self.step_data_key].get(step)
+        
+        values = data
         if values is not None:
             values = MultiValueDict(values)
         return values
@@ -78,7 +83,9 @@ class BaseStorage:
         # can be truncated (__getitem__ returns only the first item).
         if isinstance(cleaned_data, MultiValueDict):
             cleaned_data = dict(cleaned_data.lists())
-        self.data[self.step_data_key][step] = cleaned_data
+        data = self.data 
+        data[self.step_data_key][step] = cleaned_data
+        self.data = data
 
     @property
     def current_step_data(self):
