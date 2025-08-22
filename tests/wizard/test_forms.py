@@ -179,6 +179,27 @@ class FormTests(TestCase):
         finally:
             sys.setrecursionlimit(old_limit)
 
+    def test_form_initial_multiple_calls_regression(self):
+        def step2_condition(wizard):
+            wizard.get_cleaned_data_for_step('start')
+            return True
+
+        class TestWizardWithTracking(TestWizard):
+            condition_dict = {'step2': step2_condition}
+            initial_call_count = 0
+
+            def get_form_initial(self, step):
+                self.initial_call_count += 1
+                return super().get_form_initial(step)
+
+        testform = TestWizardWithTracking.as_view([('start', Step1), ('step2', Step2)])
+        request = get_request({'test_wizard_with_tracking-current_step': 'start', 'start-name': 'test'})
+
+        response, instance = testform(request)
+        calls_during_submission = instance.initial_call_count
+
+        self.assertLessEqual(calls_during_submission, 4, f"Form submission with condition using get_cleaned_data_for_step should not cause excessive get_form_initial calls, got {calls_during_submission}")
+
     def test_form_condition_unstable(self):
         request = get_request()
         testform = TestWizard.as_view(
