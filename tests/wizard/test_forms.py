@@ -201,10 +201,8 @@ class FormTests(TestCase):
                 'start-name': 'test'
             }
         )
-
         response, instance = testform(request)
         calls_during_submission = instance.initial_call_count
-
         self.assertLessEqual(calls_during_submission, 4)
 
     def test_form_condition_unstable(self):
