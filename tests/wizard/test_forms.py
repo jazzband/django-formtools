@@ -192,13 +192,20 @@ class FormTests(TestCase):
                 self.initial_call_count += 1
                 return super().get_form_initial(step)
 
-        testform = TestWizardWithTracking.as_view([('start', Step1), ('step2', Step2)])
-        request = get_request({'test_wizard_with_tracking-current_step': 'start', 'start-name': 'test'})
+        testform = TestWizardWithTracking.as_view(
+            [('start', Step1), ('step2', Step2)]
+        )
+        request = get_request(
+            {
+                'test_wizard_with_tracking-current_step': 'start',
+                'start-name': 'test'
+            }
+        )
 
         response, instance = testform(request)
         calls_during_submission = instance.initial_call_count
 
-        self.assertLessEqual(calls_during_submission, 4, f"Form submission with condition using get_cleaned_data_for_step should not cause excessive get_form_initial calls, got {calls_during_submission}")
+        self.assertLessEqual(calls_during_submission, 4)
 
     def test_form_condition_unstable(self):
         request = get_request()
