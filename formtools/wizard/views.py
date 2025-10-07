@@ -217,7 +217,7 @@ class WizardView(TemplateView):
             id(self.condition_dict),
             tuple(sorted(self.condition_dict.items())),
         )
-        if (hasattr(self, '_resolved_form_list') and
+        if (getattr(self, '_resolved_form_list', None) and
             self._condition_dict_signature == condition_dict_signature):
             return self._resolved_form_list
 
