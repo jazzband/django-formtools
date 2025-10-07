@@ -1,4 +1,5 @@
 import sys
+from collections import OrderedDict
 from importlib import import_module
 
 from django import forms, http
@@ -204,6 +205,17 @@ class FormTests(TestCase):
         response, instance = testform(request)
         calls_during_submission = instance.initial_call_count
         self.assertLessEqual(calls_during_submission, 4)
+
+    def test_form_list_pop_regression(self):
+        request = get_request()
+        testform = TestWizard.as_view([('start', Step1)])
+        response, instance = testform(request)
+        form_list = instance.get_form_list()
+        self.assertEqual(form_list, OrderedDict([('start', Step1)]))
+        form_list.pop('start')
+        # This will raise IndexError with an empty cached form_list.
+        instance.steps.first
+        self.assertEqual(instance.get_form_list(), OrderedDict([('start', Step1)]))
 
     def test_form_condition_unstable(self):
         request = get_request()
