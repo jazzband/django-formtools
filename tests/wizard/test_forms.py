@@ -217,6 +217,27 @@ class FormTests(TestCase):
         instance.steps.first
         self.assertEqual(instance.get_form_list(), OrderedDict([('start', Step1)]))
 
+    def test_cleaned_data_caching(self):
+        class TrackedStep1(Step1):
+            instantiation_count = 0
+
+            def __init__(self, *args, **kwargs):
+                TrackedStep1.instantiation_count += 1
+                super().__init__(*args, **kwargs)
+
+        testform = TestWizard.as_view([('start', TrackedStep1), ('step2', Step2)])
+        request = get_request({
+            'test_wizard-current_step': 'start',
+            'start-name': 'test'
+        })
+        response, instance = testform(request)
+        TrackedStep1.instantiation_count = 0
+        cleaned_data_1 = instance.get_cleaned_data_for_step('start')
+        cleaned_data_2 = instance.get_cleaned_data_for_step('start')
+        self.assertEqual(TrackedStep1.instantiation_count, 1)
+        self.assertEqual(cleaned_data_1, cleaned_data_2)
+        self.assertTrue(hasattr(instance, '_cleaned_data_cache_start'))
+
     def test_form_condition_unstable(self):
         request = get_request()
         testform = TestWizard.as_view(
