@@ -35,13 +35,8 @@ https://django-formtools.readthedocs.io/
 django-formtools can also be found on and installed from the Python
 Package Index: https://pypi.python.org/pypi/django-formtools
 
-To get more help:
-
-* Join the #django channel on irc.libera.chat. Lots of helpful people hang out
-  there.
-
-* Join the django-users mailing list, or read the archives, at
-  https://groups.google.com/group/django-users.
+To get more help, please use the offical Django Forum at
+https://forum.djangoproject.com/
 
 Contributing to django-formtools
 --------------------------------
