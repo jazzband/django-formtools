@@ -3,6 +3,21 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
+2.6 (2026-05-16)
+----------------
+
+- Fix form validation in default templates (#265)
+
+- Exclude tests from wheels
+
+- Improved performance when using condition_dict (#291)
+
+- Dropped support for Python < 3.9 and Django < 4.2
+
+- Added support for Django 5.1/5.2
+
+- Updated translations
+
 2.5.1 (2023-12-19)
 ------------------
 
