@@ -3,6 +3,13 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
+2.6.1 (2026-05-16)
+------------------
+
+- Add missing .mo files for translations updated in 2.6
+
+- Add support for Django 6.0
+
 2.6 (2026-05-16)
 ----------------
 
