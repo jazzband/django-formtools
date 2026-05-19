@@ -43,6 +43,9 @@ class StepsHelper:
     def __repr__(self):
         return f'<StepsHelper for {self._wizard} (steps: {self.all})>'
 
+    def __iter(self):
+        return iter(self.all)
+
     @property
     def all(self):
         "Returns the names of all steps/forms."
