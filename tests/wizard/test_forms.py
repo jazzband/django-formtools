@@ -238,6 +238,24 @@ class FormTests(TestCase):
         self.assertEqual(cleaned_data_1, cleaned_data_2)
         self.assertTrue(hasattr(instance, '_cleaned_data_cache_start'))
 
+    def test_form_list_mutation_regression(self):
+        class PlaceholderForm(forms.Form):
+            pass
+
+        request = get_request()
+        testform = TestWizard.as_view([('start', Step1), ('step2', PlaceholderForm)])
+        response, instance = testform(request)
+        self.assertEqual(
+            instance.get_form_list(),
+            OrderedDict([('start', Step1), ('step2', PlaceholderForm)]),
+        )
+        instance.form_list['step2'] = Step2
+        self.assertEqual(
+            instance.get_form_list(),
+            OrderedDict([('start', Step1), ('step2', Step2)]),
+        )
+        self.assertIsInstance(instance.get_form('step2'), Step2)
+
     def test_form_condition_unstable(self):
         request = get_request()
         testform = TestWizard.as_view(
