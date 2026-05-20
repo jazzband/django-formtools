@@ -212,13 +212,14 @@ class WizardView(TemplateView):
         The form_list is generated once per wizard instance to avoid repeated
         expensive condition evaluations (e.g., database queries).
         """
-        # Check if condition_dict has been modified since last resolution
-        condition_dict_signature = (
+        cache_signature = (
             id(self.condition_dict),
             tuple(sorted(self.condition_dict.items())),
+            id(self.form_list),
+            tuple(self.form_list.items()),
         )
         if (hasattr(self, '_resolved_form_list') and
-            self._condition_dict_signature == condition_dict_signature):
+            self._cache_signature == cache_signature):
             return self._resolved_form_list.copy()
 
         form_list = OrderedDict()
@@ -238,7 +239,7 @@ class WizardView(TemplateView):
                 form_list[form_key] = form_class
         del self._check_cond_started
         self._resolved_form_list = form_list
-        self._condition_dict_signature = condition_dict_signature
+        self._cache_signature = cache_signature
         return form_list
 
     def dispatch(self, request, *args, **kwargs):
@@ -314,7 +315,7 @@ class WizardView(TemplateView):
             self.storage.set_step_files(self.steps.current, self.process_step_files(form))
             # Clear caches as changed step data could affect conditions
             del self._resolved_form_list
-            del self._condition_dict_signature
+            del self._cache_signature
             for attr_name in list(self.__dict__.keys()):
                 if attr_name.startswith('_cleaned_data_cache_'):
                     delattr(self, attr_name)
