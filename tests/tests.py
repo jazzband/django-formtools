@@ -13,7 +13,8 @@ from django.test import TestCase, override_settings
 from formtools import preview, utils
 
 from .forms import (
-    HashTestBlankForm, HashTestForm, HashTestFormWithFile, TestForm,
+    HashTestBlankForm, HashTestForm, HashTestFormWithFile, ManyModel,
+    OtherModelForm, TestForm,
 )
 
 success_string = "Done was called!"
@@ -214,3 +215,28 @@ class FormHmacTests(unittest.TestCase):
             hash1 = utils.form_hmac(f1)
             hash2 = utils.form_hmac(f2)
         self.assertNotEqual(hash1, hash2)
+
+
+class PicklingTests(unittest.TestCase):
+
+    def setUp(self):
+        super().setUp()
+        ManyModel.objects.create(name="jane")
+
+    def test_queryset_hash(self):
+        """
+        Regression test for #10034: the hash generation function should ignore
+        leading/trailing whitespace so as to be friendly to broken browsers that
+        submit it (usually in textareas).
+        """
+
+        qs1 = ManyModel.objects.all()
+        qs2 = ManyModel.objects.all()
+
+        qs1._prefetch_done = True
+        qs2._prefetch_done = False
+        f1 = OtherModelForm({'name': 'joe', 'manymodels': qs1})
+        f2 = OtherModelForm({'name': 'joe', 'manymodels': qs2})
+        hash1 = utils.form_hmac(f1)
+        hash2 = utils.form_hmac(f2)
+        self.assertEqual(hash1, hash2)
