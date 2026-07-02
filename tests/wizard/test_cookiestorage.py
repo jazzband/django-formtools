@@ -35,14 +35,16 @@ class TestCookieStorage(TestStorage, TestCase):
         response = HttpResponse()
         storage.update_response(response)
 
-        cookie_signer = signing.get_cookie_signer(storage.prefix)
-        signed_cookie_data = cookie_signer.sign(storage.encoder.encode(storage.data))
-        self.assertEqual(response.cookies[storage.prefix].value, signed_cookie_data)
+        request.COOKIES[storage.prefix] = response.cookies[storage.prefix].value
+        self.assertEqual(
+            request.get_signed_cookie(storage.prefix),
+            storage.encoder.encode(storage.data),
+        )
 
         storage.init_data()
         storage.update_response(response)
-        unsigned_cookie_data = cookie_signer.unsign(response.cookies[storage.prefix].value)
+        request.COOKIES[storage.prefix] = response.cookies[storage.prefix].value
         self.assertJSONEqual(
-            unsigned_cookie_data,
+            request.get_signed_cookie(storage.prefix),
             {"step_files": {}, "step": None, "extra_data": {}, "step_data": {}}
         )
