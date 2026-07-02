@@ -3,6 +3,14 @@ Changelog
 
 This page details the changes in the various ``django-formtools`` releases.
 
+2.7.0 (2026-07-09)
+------------------
+
+- Fixed a regression in 2.6.x with ``get_form_list()`` caching not allowing
+  ``form_list`` mutations.
+
+- Dropped support for Python < 3.10 and Django < 5.2
+
 2.6.1 (2026-05-16)
 ------------------
 
