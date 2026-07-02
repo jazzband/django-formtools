@@ -212,10 +212,10 @@ class WizardView(TemplateView):
         The form_list is generated once per wizard instance to avoid repeated
         expensive condition evaluations (e.g., database queries).
         """
+        # Sort condition_dict since its key order doesn't affect the result.
+        # Leave form_list unsorted so that reordering steps invalidates the cache.
         cache_signature = (
-            id(self.condition_dict),
             tuple(sorted(self.condition_dict.items())),
-            id(self.form_list),
             tuple(self.form_list.items()),
         )
         if (hasattr(self, '_resolved_form_list') and
