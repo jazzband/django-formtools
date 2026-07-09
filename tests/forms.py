@@ -1,4 +1,32 @@
 from django import forms
+from django.db import models
+
+
+class ManyModel(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        app_label = 'formtools'
+
+    def __str__(self):
+        return self.name
+
+
+class OtherModel(models.Model):
+    name = models.CharField(max_length=100)
+    manymodels = models.ManyToManyField(ManyModel)
+
+    class Meta:
+        app_label = 'formtools'
+
+    def __str__(self):
+        return self.name + " with " + ", ".join(map(str, self.manymodels.all()))
+
+
+class OtherModelForm(forms.ModelForm):
+    class Meta:
+        model = OtherModel
+        fields = ["name", "manymodels"]
 
 
 class TestForm(forms.Form):
