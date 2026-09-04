@@ -1,4 +1,3 @@
-from django.core import signing
 from django.http import HttpResponse
 from django.test import TestCase
 
@@ -15,11 +14,11 @@ class TestCookieStorage(TestStorage, TestCase):
         request = get_request()
         storage = self.get_storage()('wizard1', request, None)
 
-        cookie_signer = signing.get_cookie_signer(storage.prefix)
+        storage.data = {'key1': 'value1'}
+        response = HttpResponse()
+        storage.update_response(response)
 
-        storage.request.COOKIES[storage.prefix] = cookie_signer.sign(
-            storage.encoder.encode({'key1': 'value1'})
-        )
+        storage.request.COOKIES[storage.prefix] = response.cookies[storage.prefix].value
 
         self.assertEqual(storage.load_data(), {'key1': 'value1'})
 
