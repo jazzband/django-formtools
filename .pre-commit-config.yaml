@@ -16,11 +16,11 @@ repos:
       - id: requirements-txt-fixer
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.12
+    rev: v0.16.6
     hooks:
       - id: ruff  # See pyproject.toml for args
 
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.25
+    rev: '0.26'
     hooks:
       - id: validate-pyproject
