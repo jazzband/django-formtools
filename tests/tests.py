@@ -32,6 +32,9 @@ class TestFormPreview(preview.FormPreview):
     def get_initial(self, request):
         return {'field1': 'Works!'}
 
+    def form_extra_params(self, request):
+        return {'request': request}
+
     def done(self, request, cleaned_data):
         return http.HttpResponse(success_string)
 
@@ -64,7 +67,7 @@ class PreviewTests(TestCase):
 
     def test_unused_name(self):
         """
-        Verifies name mangling to get uniue field name.
+        Verifies name mangling to get unique field name.
         """
         self.assertEqual(self.preview.unused_name('field1'), 'field1__')
 

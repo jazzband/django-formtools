@@ -7,6 +7,10 @@ class TestForm(forms.Form):
     bool1 = forms.BooleanField(required=False)
     date1 = forms.DateField(required=False)
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(TestForm, self).__init__(*args, **kwargs)
+
 
 class HashTestForm(forms.Form):
     name = forms.CharField()
