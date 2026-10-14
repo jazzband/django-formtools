@@ -24,4 +24,4 @@ def form_hmac(form):
 
     pickled = pickle.dumps(data, pickle.HIGHEST_PROTOCOL)
     key_salt = 'django.contrib.formtools'
-    return salted_hmac(key_salt, pickled).hexdigest()
+    return salted_hmac(key_salt, pickled, algorithm='sha1').hexdigest()

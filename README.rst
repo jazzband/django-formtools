@@ -60,11 +60,11 @@ the ``-l`` option::
 
     $ tox -l
     ...
-    py310-djangoAB
-    py310-djangomain
+    py312-djangoAB
+    py312-djangomain
 
 You can run each environment with the ``-e`` option::
 
-    $ tox -e py310-djangoAB  # runs the tests only on Python 3.10 and Django A.B.x
+    $ tox -e py312-djangoAB  # runs the tests only on Python 3.12 and Django A.B.x
 
 __ https://tox.readthedocs.io/en/latest/install.html

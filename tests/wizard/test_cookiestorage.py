@@ -14,10 +14,8 @@ class TestCookieStorage(TestStorage, TestCase):
         request = get_request()
         storage = self.get_storage()('wizard1', request, None)
 
-        storage.data = {'key1': 'value1'}
         response = HttpResponse()
-        storage.update_response(response)
-
+        response.set_signed_cookie(storage.prefix, storage.encoder.encode({'key1': 'value1'}))
         storage.request.COOKIES[storage.prefix] = response.cookies[storage.prefix].value
 
         self.assertEqual(storage.load_data(), {'key1': 'value1'})
@@ -36,8 +34,7 @@ class TestCookieStorage(TestStorage, TestCase):
 
         request.COOKIES[storage.prefix] = response.cookies[storage.prefix].value
         self.assertEqual(
-            request.get_signed_cookie(storage.prefix),
-            storage.encoder.encode(storage.data),
+            request.get_signed_cookie(storage.prefix), storage.encoder.encode(storage.data)
         )
 
         storage.init_data()
