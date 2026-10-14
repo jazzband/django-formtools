@@ -10,13 +10,14 @@ name = "django-formtools"
 description = "A set of high-level abstractions for Django forms"
 license = {text = "BSD"}
 authors = [{name = "Django Software Foundation", email = "foundation@djangoproject.com"}]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
   "Framework :: Django",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
+  "Framework :: Django :: 6.1",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: BSD License",
   "Operating System :: OS Independent",
