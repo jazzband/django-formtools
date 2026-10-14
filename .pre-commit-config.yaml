@@ -21,6 +21,6 @@ repos:
       - id: ruff-check  # See pyproject.toml for args
 
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.25
+    rev: '0.26'
     hooks:
       - id: validate-pyproject
