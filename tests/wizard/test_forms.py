@@ -382,6 +382,18 @@ class FormTests(TestCase):
         self.assertEqual(form_list, {'start': Step1, 'step2': Step2})
         self.assertIsInstance(instance.get_form('step2'), Step2)
 
+    def test_get_form_list_custom_post(self):
+        # Posting a valid step to a wizard that overrides get_form_list()
+        # without calling super() must advance the wizard, not crash.
+        request = get_request({
+            'test_wizard_with_custom_get_form_list-current_step': 'start',
+            'start-name': 'data1',
+        })
+        testform = TestWizardWithCustomGetFormList.as_view([('start', Step1)])
+        response, instance = testform(request)
+
+        self.assertEqual(response.status_code, 200)
+
 
 class SessionFormTests(TestCase):
     def test_init(self):
