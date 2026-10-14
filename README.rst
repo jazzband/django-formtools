@@ -41,30 +41,6 @@ https://forum.djangoproject.com/
 Contributing to django-formtools
 --------------------------------
 
-See ``CONTRIBUTING.rst`` for information about contributing patches to
+See ``CONTRIBUTING.rst`` for information about setting up a development
+environment, running the tests and contributing patches to
 ``django-formtools``.
-
-Running tests is as simple as `installing Tox`__ and running it in the root
-Git clone directory::
-
-    $ git clone https://github.com/jazzband/django-formtools
-    [..]
-    $ cd django-formtools
-    $ tox
-    [..]
-      congratulations :)
-
-The previous command will run the tests in different combinations of Python
-(if available) and Django versions. To see the full list of combinations use
-the ``-l`` option::
-
-    $ tox -l
-    ...
-    py312-djangoAB
-    py312-djangomain
-
-You can run each environment with the ``-e`` option::
-
-    $ tox -e py312-djangoAB  # runs the tests only on Python 3.12 and Django A.B.x
-
-__ https://tox.readthedocs.io/en/latest/install.html
