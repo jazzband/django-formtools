@@ -139,3 +139,5 @@ Optional methods
 .. automethod:: FormPreview.security_hash
 
 .. automethod:: FormPreview.failed_hash
+
+.. automethod:: FormPreview.form_extra_params
