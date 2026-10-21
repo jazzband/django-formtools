@@ -6,6 +6,8 @@ This page details the changes in the various ``django-formtools`` releases.
 Unreleased
 ----------
 
+- Preserve entered form data when navigating back from an incomplete wizard step.
+
 - Added support for Django 6.1
 
 - Removed support for Python < 3.11
