@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    if: github.repository == 'jazzband/django-formtools'
     runs-on: ubuntu-latest
 
     steps:
