@@ -43,7 +43,7 @@ content-type = "text/x-rst"
 
 [project.urls]
 Homepage = "https://django-formtools.readthedocs.io/en/latest/"
-Source = "https://github.com/jazzband/django-formtools"
+Source = "https://github.com/django-commons/django-formtools"
 
 [tool.setuptools]
 include-package-data = true

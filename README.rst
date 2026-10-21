@@ -2,10 +2,6 @@
 django-formtools
 ================
 
-.. image:: https://jazzband.co/static/img/badge.svg
-    :alt: Jazzband
-    :target: https://jazzband.co/
-
 .. image:: https://img.shields.io/pypi/v/django-formtools.svg
     :alt: PyPI version
     :target: https://pypi.org/project/django-formtools/
@@ -14,12 +10,12 @@ django-formtools
     :alt: Supported Python versions
     :target: https://pypi.org/project/django-formtools/
 
-.. image:: https://github.com/jazzband/django-formtools/workflows/Test/badge.svg
-   :target: https://github.com/jazzband/django-formtools/actions
+.. image:: https://github.com/django-commons/django-formtools/workflows/Test/badge.svg
+   :target: https://github.com/django-commons/django-formtools/actions
    :alt: GitHub Actions
 
-.. image:: https://codecov.io/gh/jazzband/django-formtools/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/jazzband/django-formtools
+.. image:: https://codecov.io/gh/django-commons/django-formtools/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/django-commons/django-formtools
    :alt: Test Coverage
 
 Django's "formtools" is a set of high-level abstractions for Django forms.
