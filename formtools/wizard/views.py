@@ -279,6 +279,14 @@ class WizardView(TemplateView):
         self.storage.current_step = self.steps.first
         return self.render(self.get_form())
 
+    def _clear_step_data_caches(self):
+        """Clear caches that depend on the stored step data."""
+        del self._resolved_form_list
+        del self._cache_signature
+        for attr_name in list(self.__dict__.keys()):
+            if attr_name.startswith('_cleaned_data_cache_'):
+                delattr(self, attr_name)
+
     def post(self, *args, **kwargs):
         """
         This method handles POST requests.
@@ -287,11 +295,19 @@ class WizardView(TemplateView):
         wasn't successful), the next step (if the current step was stored
         successful) or the done view (if no more steps are available)
         """
-        # Look for a wizard_goto_step element in the posted data which
-        # contains a valid step name. If one was found, render the requested
-        # form. (This makes stepping back a lot easier).
         wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
         if wizard_goto_step and wizard_goto_step in self.get_form_list():
+            management_form = ManagementForm(self.request.POST, prefix=self.prefix)
+            submitted_data = self.request.POST.copy()
+            for field_name in management_form.fields:
+                submitted_data.pop(management_form.add_prefix(field_name), None)
+            submitted_data.pop('wizard_goto_step', None)
+            submitted_data.pop('csrfmiddlewaretoken', None)
+            if submitted_data or self.request.FILES:
+                form = self.get_form(data=self.request.POST, files=self.request.FILES)
+                self.storage.set_step_data(self.steps.current, self.get_form_step_data(form))
+                self.storage.set_step_files(self.steps.current, self.get_form_step_files(form))
+                self._clear_step_data_caches()
             return self.render_goto_step(wizard_goto_step)
 
         # Check if form was refreshed
@@ -314,11 +330,7 @@ class WizardView(TemplateView):
             self.storage.set_step_data(self.steps.current, self.process_step(form))
             self.storage.set_step_files(self.steps.current, self.process_step_files(form))
             # Clear caches as changed step data could affect conditions
-            del self._resolved_form_list
-            del self._cache_signature
-            for attr_name in list(self.__dict__.keys()):
-                if attr_name.startswith('_cleaned_data_cache_'):
-                    delattr(self, attr_name)
+            self._clear_step_data_caches()
 
             # check if the current step is the last step
             if self.steps.current == self.steps.last:

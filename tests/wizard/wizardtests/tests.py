@@ -96,6 +96,23 @@ class WizardTests:
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['wizard']['steps'].current, 'form1')
 
+    def test_form_stepback_preserves_incomplete_data(self):
+        response = self.client.post(self.wizard_url, self.wizard_step_data[0])
+        self.assertEqual(response.context['wizard']['steps'].current, 'form2')
+
+        incomplete_data = self.wizard_step_data[1].copy()
+        incomplete_data['form2-address1'] = 'Partially entered address'
+        del incomplete_data['form2-address2']
+        incomplete_data['wizard_goto_step'] = response.context['wizard']['steps'].prev
+
+        response = self.client.post(self.wizard_url, incomplete_data)
+        self.assertEqual(response.context['wizard']['steps'].current, 'form1')
+
+        response = self.client.post(self.wizard_url, self.wizard_step_data[0])
+        self.assertEqual(response.context['wizard']['steps'].current, 'form2')
+        self.assertEqual(response.context['wizard']['form']['address1'].value(),
+                         'Partially entered address')
+
     def test_template_context(self):
         response = self.client.get(self.wizard_url)
         self.assertEqual(response.status_code, 200)
