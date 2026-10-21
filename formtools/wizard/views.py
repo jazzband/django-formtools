@@ -332,7 +332,7 @@ class WizardView(TemplateView):
     def form_invalid(self, form):
         """
         This method can be overridden by subclasses to modify the form when it is invalid.
-        
+
         Subclasses should always call super().render(form) after modifications.
         """
         return self.render(form)
