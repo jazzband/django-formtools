@@ -313,9 +313,11 @@ class WizardView(TemplateView):
             # if the form is valid, store the cleaned data and files.
             self.storage.set_step_data(self.steps.current, self.process_step(form))
             self.storage.set_step_files(self.steps.current, self.process_step_files(form))
-            # Clear caches as changed step data could affect conditions
-            del self._resolved_form_list
-            del self._cache_signature
+            # Clear caches as changed step data could affect conditions.
+            # A subclass may override get_form_list() without calling super(),
+            # in which case these caches were never set.
+            self.__dict__.pop('_resolved_form_list', None)
+            self.__dict__.pop('_cache_signature', None)
             for attr_name in list(self.__dict__.keys()):
                 if attr_name.startswith('_cleaned_data_cache_'):
                     delattr(self, attr_name)
