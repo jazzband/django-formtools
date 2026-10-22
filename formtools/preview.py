@@ -51,7 +51,8 @@ class FormPreview:
     def preview_get(self, request):
         "Displays the form"
         f = self.form(auto_id=self.get_auto_id(),
-                      initial=self.get_initial(request))
+                      initial=self.get_initial(request),
+                      **self.form_extra_params(request))
         return render(request, self.form_template, self.get_context(request, f))
 
     def preview_post(self, request):
@@ -61,7 +62,10 @@ class FormPreview:
         """
         # Even if files are not supported in preview, we still initialize files
         # to give a chance to process_preview to access files content.
-        f = self.form(data=request.POST, files=request.FILES, auto_id=self.get_auto_id())
+        f = self.form(data=request.POST,
+                      files=request.FILES,
+                      auto_id=self.get_auto_id(),
+                      **self.form_extra_params(request))
         context = self.get_context(request, f)
         if f.is_valid():
             self.process_preview(request, f, context)
@@ -79,7 +83,7 @@ class FormPreview:
         """
         Validates the POST data. If valid, calls done(). Else, redisplays form.
         """
-        form = self.form(request.POST, auto_id=self.get_auto_id())
+        form = self.form(request.POST, auto_id=self.get_auto_id(), **self.form_extra_params(request))
         if form.is_valid():
             if not self._check_security_hash(
                     request.POST.get(self.unused_name('hash'), ''),
@@ -157,6 +161,14 @@ class FormPreview:
         an invalid security hash.
         """
         return self.preview_post(request)
+
+    def form_extra_params(self, request):
+        """
+        Extra parameters to pass to the form constructor.
+        Returns a dictionary.
+        By default, returns an empty dictionary.
+        """
+        return {}
 
     # METHODS SUBCLASSES MUST OVERRIDE ########################################
 
